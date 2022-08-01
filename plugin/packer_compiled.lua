@@ -69,11 +69,6 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
-  ["fzf-lua"] = {
-    loaded = true,
-    path = "/home/juha/.local/share/nvim/site/pack/packer/start/fzf-lua",
-    url = "https://github.com/ibhagwan/fzf-lua"
-  },
   ["gitsigns.nvim"] = {
     loaded = true,
     path = "/home/juha/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
@@ -83,11 +78,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/juha/.local/share/nvim/site/pack/packer/start/lualine.nvim",
     url = "https://github.com/nvim-lualine/lualine.nvim"
-  },
-  ["nord.nvim"] = {
-    loaded = true,
-    path = "/home/juha/.local/share/nvim/site/pack/packer/start/nord.nvim",
-    url = "https://github.com/shaunsingh/nord.nvim"
   },
   ["nvim-autopairs"] = {
     loaded = true,
@@ -144,15 +134,20 @@ _G.packer_plugins = {
     path = "/home/juha/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
   },
-  ["rust-tools.nvim"] = {
+  ["popui.nvim"] = {
     loaded = true,
-    path = "/home/juha/.local/share/nvim/site/pack/packer/start/rust-tools.nvim",
-    url = "https://github.com/simrat39/rust-tools.nvim"
+    path = "/home/juha/.local/share/nvim/site/pack/packer/start/popui.nvim",
+    url = "https://github.com/hood/popui.nvim"
   },
   ["telescope.nvim"] = {
     loaded = true,
     path = "/home/juha/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
+  },
+  ["tokyodark.nvim"] = {
+    loaded = true,
+    path = "/home/juha/.local/share/nvim/site/pack/packer/start/tokyodark.nvim",
+    url = "https://github.com/tiagovla/tokyodark.nvim"
   },
   ["vim-commentary"] = {
     loaded = true,
