@@ -19,21 +19,30 @@ require('packer').startup(function()
     use 'windwp/nvim-autopairs'
     use 'lewis6991/gitsigns.nvim'
 
+    -- cmp plugins
     use 'hrsh7th/cmp-nvim-lsp'
     use 'hrsh7th/cmp-buffer'
     use 'hrsh7th/cmp-path'
     use 'hrsh7th/cmp-cmdline'
     use 'hrsh7th/nvim-cmp'
     use 'hrsh7th/cmp-nvim-lua'
+    use 'onsails/lspkind.nvim'
+
+    -- lua snippets
+    use 'L3MON4D3/LuaSnip'
+    use 'saadparwaiz1/cmp_luasnip'
 
     use 'williamboman/mason.nvim'
+    use 'williamboman/mason-lspconfig.nvim'
     use 'neovim/nvim-lspconfig'
     use 'simrat39/rust-tools.nvim'
+
     use 'nvim-lua/plenary.nvim'
     use 'mfussenegger/nvim-dap'
 end)
 
 require('mason').setup()
+require('mason-lspconfig').setup()
 require('nvim-autopairs').setup{}
 require'nvim-treesitter.configs'.setup {
   autotag = {

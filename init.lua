@@ -68,6 +68,7 @@ require('plugins.treesitter-config')
 require('plugins.gitsigns-config')
 require('plugins.rust-analyzer-config')
 require('plugins.cmp-config')
+require('plugins.lsp-config')
 
 -- -- cmds
 -- vim.cmd[[colorscheme nord]]
