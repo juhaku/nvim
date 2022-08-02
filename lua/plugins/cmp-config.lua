@@ -36,7 +36,6 @@ cmp.setup({
           vim_item.menu = ({
             nvim_lsp = "[LSP]",
             luasnip = "[LuaSnip]",
-            nvim_lua = "[Lua]",
             buffer = "[Buffer]",
             path = "[Path]",
           })[entry.source.name]
@@ -45,7 +44,7 @@ cmp.setup({
     },
     snippet = {
       expand = function(args)
-        require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+        require('luasnip').lsp_expand(args.body)
       end,
     },
     window = {
@@ -61,8 +60,7 @@ cmp.setup({
     }),
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
-        { name = 'luasnip' }, -- For luasnip users.
-        { name = 'nvim_lua' },
+        { name = 'luasnip' }
     }, {
       { name = 'buffer' },
     })

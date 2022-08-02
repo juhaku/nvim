@@ -5,7 +5,10 @@ require('packer').startup(function()
 
     use 'kyazdani42/nvim-web-devicons'
     use 'kyazdani42/nvim-tree.lua'
-    -- use 'hood/popui.nvim'
+
+    -- popui
+    use 'RishabhRD/popfix'
+    use 'hood/popui.nvim'
 
     use 'tpope/vim-commentary'
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
@@ -13,7 +16,7 @@ require('packer').startup(function()
     use 'nvim-lualine/lualine.nvim'
     use 'p00f/nvim-ts-rainbow'
     use 'nvim-telescope/telescope.nvim'
-    use 'nvim-telescope/telescope-ui-select.nvim'
+    -- use 'nvim-telescope/telescope-ui-select.nvim'
     -- use 'ibhagwan/fzf-lua'
     use 'windwp/nvim-ts-autotag'
     use 'windwp/nvim-autopairs'
@@ -25,7 +28,6 @@ require('packer').startup(function()
     use 'hrsh7th/cmp-path'
     use 'hrsh7th/cmp-cmdline'
     use 'hrsh7th/nvim-cmp'
-    use 'hrsh7th/cmp-nvim-lua'
     use 'onsails/lspkind.nvim'
 
     -- lua snippets

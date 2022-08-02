@@ -1,7 +1,2 @@
-require('telescope').setup{
-    extensions = {
-        ["ui-select"] = {}
-    }
-}
+require('telescope').setup{}
 
-require('telescope').load_extension('ui-select')
