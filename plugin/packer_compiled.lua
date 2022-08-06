@@ -124,6 +124,11 @@ _G.packer_plugins = {
     path = "/home/juha/.local/share/nvim/site/pack/packer/start/mason.nvim",
     url = "https://github.com/williamboman/mason.nvim"
   },
+  ["null-ls.nvim"] = {
+    loaded = true,
+    path = "/home/juha/.local/share/nvim/site/pack/packer/start/null-ls.nvim",
+    url = "https://github.com/jose-elias-alvarez/null-ls.nvim"
+  },
   ["nvim-autopairs"] = {
     loaded = true,
     path = "/home/juha/.local/share/nvim/site/pack/packer/start/nvim-autopairs",
@@ -139,10 +144,25 @@ _G.packer_plugins = {
     path = "/home/juha/.local/share/nvim/site/pack/packer/start/nvim-dap",
     url = "https://github.com/mfussenegger/nvim-dap"
   },
+  ["nvim-dap-ui"] = {
+    loaded = true,
+    path = "/home/juha/.local/share/nvim/site/pack/packer/start/nvim-dap-ui",
+    url = "https://github.com/rcarriga/nvim-dap-ui"
+  },
+  ["nvim-dap-virtual-text"] = {
+    loaded = true,
+    path = "/home/juha/.local/share/nvim/site/pack/packer/start/nvim-dap-virtual-text",
+    url = "https://github.com/theHamsta/nvim-dap-virtual-text"
+  },
   ["nvim-lspconfig"] = {
     loaded = true,
     path = "/home/juha/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
+  },
+  ["nvim-surround"] = {
+    loaded = true,
+    path = "/home/juha/.local/share/nvim/site/pack/packer/start/nvim-surround",
+    url = "https://github.com/kylechui/nvim-surround"
   },
   ["nvim-tree.lua"] = {
     loaded = true,
@@ -184,16 +204,6 @@ _G.packer_plugins = {
     path = "/home/juha/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
   },
-  popfix = {
-    loaded = true,
-    path = "/home/juha/.local/share/nvim/site/pack/packer/start/popfix",
-    url = "https://github.com/RishabhRD/popfix"
-  },
-  ["popui.nvim"] = {
-    loaded = true,
-    path = "/home/juha/.local/share/nvim/site/pack/packer/start/popui.nvim",
-    url = "https://github.com/hood/popui.nvim"
-  },
   ["rust-tools.nvim"] = {
     loaded = true,
     path = "/home/juha/.local/share/nvim/site/pack/packer/start/rust-tools.nvim",
@@ -204,15 +214,20 @@ _G.packer_plugins = {
     path = "/home/juha/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
   },
-  ["tokyodark.nvim"] = {
+  ["tokyonight.nvim"] = {
     loaded = true,
-    path = "/home/juha/.local/share/nvim/site/pack/packer/start/tokyodark.nvim",
-    url = "https://github.com/tiagovla/tokyodark.nvim"
+    path = "/home/juha/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
+    url = "https://github.com/folke/tokyonight.nvim"
   },
   ["vim-commentary"] = {
     loaded = true,
     path = "/home/juha/.local/share/nvim/site/pack/packer/start/vim-commentary",
     url = "https://github.com/tpope/vim-commentary"
+  },
+  ["vim-illuminate"] = {
+    loaded = true,
+    path = "/home/juha/.local/share/nvim/site/pack/packer/start/vim-illuminate",
+    url = "https://github.com/RRethy/vim-illuminate"
   }
 }
 
