@@ -104,11 +104,6 @@ _G.packer_plugins = {
     path = "/home/juha/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
     url = "https://github.com/lewis6991/gitsigns.nvim"
   },
-  jester = {
-    loaded = true,
-    path = "/home/juha/.local/share/nvim/site/pack/packer/start/jester",
-    url = "https://github.com/David-Kunz/jester"
-  },
   ["lspkind.nvim"] = {
     loaded = true,
     path = "/home/juha/.local/share/nvim/site/pack/packer/start/lspkind.nvim",

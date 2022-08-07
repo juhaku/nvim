@@ -2,12 +2,12 @@ local dap = require("dap")
 local dapui = require("dapui")
 require("nvim-dap-virtual-text").setup()
 require("dap-go").setup()
-require("jester").setup({
-	cmd = "yarn jest -t '$result' -- $file",
-	dap = {
-		console = "externalTerminal",
-	},
-})
+-- require("jester").setup({
+-- 	cmd = "yarn jest -t '$result' -- $file",
+-- 	dap = {
+-- 		console = "externalTerminal",
+-- 	},
+-- })
 
 dapui.setup()
 -- dapui.setup({
