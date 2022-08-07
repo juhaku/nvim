@@ -5,6 +5,20 @@ keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
 keymap.set("n", "<leader>n", ":nohl<CR>", opts)
 keymap.set("n", "<leader>w", ":w<CR>", opts)
 
+-- resize splits
+keymap.set("n", "<C-Left>", "<C-w>>", opts)
+keymap.set("n", "<C-Right>", "<C-w><", opts)
+keymap.set("n", "<C-Up>", "<C-w>-", opts)
+keymap.set("n", "<C-Down>", "<C-w>+", opts)
+
+-- alt move selected lines
+keymap.set("n", "<A-j>", ":m .+1<CR>==", opts)
+keymap.set("n", "<A-k>", ":m .-2<CR>==", opts)
+keymap.set("i", "<A-j>", "<Esc>:m .+1<CR>==gi", opts)
+keymap.set("i", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
+keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", opts)
+keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", opts)
+
 --- tabs
 keymap.set({ "n", "i", "v", "c" }, "<C-S-tab>", ":tabprev<CR>", opts)
 keymap.set({ "n", "i", "v", "c" }, "<C-tab>", ":tabnext<CR>", opts)

@@ -12,7 +12,7 @@ require("nvim-tree").setup({
 	update_cwd = false,
 	reload_on_bufenter = false,
 	view = {
-		width = 30,
+		width = 40,
 		height = 30,
 		hide_root_folder = false,
 		side = "left",
