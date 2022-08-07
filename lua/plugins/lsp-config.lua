@@ -5,6 +5,17 @@ for type, icon in pairs(signs) do
 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
+local border = {
+	{ "╭", "FloatBorder" },
+	{ "─", "FloatBorder" },
+	{ "╮", "FloatBorder" },
+	{ "│", "FloatBorder" },
+	{ "╯", "FloatBorder" },
+	{ "─", "FloatBorder" },
+	{ "╰", "FloatBorder" },
+	{ "│", "FloatBorder" },
+}
+
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap = true, silent = true }
@@ -20,22 +31,22 @@ local config = {
 	update_in_insert = true,
 	underline = true,
 	severity_sort = true,
-	-- float = {
-	-- 	focusable = false,
-	-- 	style = "minimal",
-	-- 	border = "rounded",
-	-- 	source = "always",
-	-- 	header = "",
-	-- 	prefix = "",
-	-- },
+	float = {
+		focusable = false,
+		style = "minimal",
+		border = border,
+		-- source = "always",
+		-- header = "",
+		-- prefix = "",
+	},
 }
 
 vim.diagnostic.config(config)
 
--- local handlers = {
--- 	["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
--- 	["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
--- }
+local handlers = {
+	["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+	["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+}
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -79,7 +90,7 @@ local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protoco
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
 require("lspconfig")["sumneko_lua"].setup({
 	on_attach = on_attach,
-	-- handlers = handlers,
+	handlers = handlers,
 	settings = {
 		Lua = {
 			runtime = {
@@ -101,9 +112,13 @@ require("lspconfig")["sumneko_lua"].setup({
 	},
 })
 
+require("go").setup({
+	lint_prompt_style = "vt",
+})
 require("lspconfig").gopls.setup({
 	capabilities = capabilities,
 	on_attach = on_attach,
+	handlers = handlers,
 	-- cmd = { "gopls" },
 	-- cmd = { "gopls", "serve" },
 	-- filetypes = { "go", "gomod" },
@@ -120,12 +135,33 @@ require("lspconfig").gopls.setup({
 
 require("lspconfig").bashls.setup({
 	on_attach = on_attach,
+	handlers = handlers,
 })
 
 require("typescript").setup({
 	server = {
 		capabilities = capabilities,
-		on_attach = on_attach,
+		on_attach = function(client, bufnr)
+			on_attach(client, bufnr)
+			-- add command to perform code actions on write
+			vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+				pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+				command = ":TypescriptFixAll",
+			})
+			vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+				pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+				command = ":TypescriptAddMissingImports",
+			})
+			vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+				pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+				command = ":TypescriptOrganizeImports",
+			})
+			-- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+			-- 	pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+			-- 	command = ":TypescriptRemoveUnused",
+			-- })
+		end,
+		handlers = handlers,
 	},
 })
 
@@ -194,13 +230,16 @@ require("typescript").setup({
 require("lspconfig").vuels.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
+	handlers = handlers,
 })
 
 require("lspconfig").html.setup({
 	on_attach = on_attach,
+	handlers = handlers,
 })
 require("lspconfig").cssls.setup({
 	on_attach = on_attach,
+	handlers = handlers,
 })
 
 -- Setup lspconfig.
@@ -209,10 +248,12 @@ json_capabilities.textDocument.completion.completionItem.snippetSupport = true
 require("lspconfig").jsonls.setup({
 	capabilities = json_capabilities,
 	on_attach = on_attach,
+	handlers = handlers,
 })
 
 require("lspconfig").yamlls.setup({
 	on_attach = on_attach,
+	handlers = handlers,
 	settings = {
 		redhat = {
 			telemetry = {
@@ -225,6 +266,7 @@ require("lspconfig").yamlls.setup({
 require("lspconfig").dockerls.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
+	handlers = handlers,
 })
 
 local extension_path = vim.env.HOME .. "/.local/share/nvim/mason/packages/codellb/extension/"
@@ -297,20 +339,8 @@ local rust_analyer_opts = {
 		hover_actions = {
 			-- 	-- the border that is used for the hover window
 			-- 	-- see vim.api.nvim_open_win()
-			-- 	border = {
-			-- 		{ "╭", "FloatBorder" },
-			-- 		{ "─", "FloatBorder" },
-			-- 		{ "╮", "FloatBorder" },
-			-- 		{ "│", "FloatBorder" },
-			-- 		{ "╯", "FloatBorder" },
-			-- 		{ "─", "FloatBorder" },
-			-- 		{ "╰", "FloatBorder" },
-			-- 		{ "│", "FloatBorder" },
-			-- 	},
-
-			-- 	-- whether the hover action window gets automatically focused
-			-- 	-- default: false
-			-- 	auto_focus = false,
+			border = border,
+			auto_focus = false,
 		},
 	},
 
@@ -320,6 +350,7 @@ local rust_analyer_opts = {
 	server = {
 		capabilities = capabilities,
 		on_attach = on_attach,
+		handlers = handlers,
 		-- standalone file support
 		-- setting it to false may improve startup time
 		standalone = false,

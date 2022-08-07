@@ -12,7 +12,7 @@ require("nvim-tree").setup({
 	update_cwd = false,
 	reload_on_bufenter = false,
 	view = {
-		width = 40,
+		width = 50,
 		height = 30,
 		hide_root_folder = false,
 		side = "left",
@@ -46,7 +46,7 @@ require("nvim-tree").setup({
 		auto_open = false,
 	},
 	update_focused_file = {
-		enable = false,
+		enable = true,
 		update_cwd = false,
 		ignore_list = {},
 	},

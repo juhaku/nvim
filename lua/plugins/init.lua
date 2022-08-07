@@ -48,11 +48,26 @@ require("packer").startup(function()
 	use("theHamsta/nvim-dap-virtual-text")
 	use("rcarriga/nvim-dap-ui")
 	use("leoluz/nvim-dap-go")
+	-- use("David-Kunz/jester")
 	--
 	use("jose-elias-alvarez/typescript.nvim")
+	use("crispgm/nvim-go")
 end)
 
-require("mason").setup()
+require("mason").setup({
+	ui = {
+		border = {
+			{ "╭", "FloatBorder" },
+			{ "─", "FloatBorder" },
+			{ "╮", "FloatBorder" },
+			{ "│", "FloatBorder" },
+			{ "╯", "FloatBorder" },
+			{ "─", "FloatBorder" },
+			{ "╰", "FloatBorder" },
+			{ "│", "FloatBorder" },
+		},
+	},
+})
 require("mason-lspconfig").setup()
 require("nvim-autopairs").setup({})
 require("nvim-treesitter.configs").setup({

@@ -11,6 +11,10 @@ vim.g.tokyonight_dark_float = false
 
 -- cmds
 vim.cmd([[colorscheme tokyonight]])
+vim.cmd([[
+    highlight FloatBorder guibg=NONE
+    highlight NormalFloat guibg=NONE
+]])
 
 -- vim ui options
 -- vim.ui.select = require"popui.ui-overrider"
