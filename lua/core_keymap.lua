@@ -35,9 +35,12 @@ keymap.set("n", "<leader>tq", ":bdelete<CR> :bprevious<CR>")
 
 -- Dap keybindings
 keymap.set("n", "<leader>b", ":DapToggleBreakpoint<CR>")
+keymap.set("n", "<leader>B", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
 keymap.set("n", "<F9>", ":DapContinue<CR>")
 keymap.set("n", "<F8>", ":DapStepOver<CR>")
 keymap.set("n", "<F10>", ":DapTerminate<CR>")
 keymap.set("n", "<F6>", ":DapStepInto<CR>")
 keymap.set("n", "<F7>", ":DapStepOut<CR>")
 keymap.set("n", "<leader>dr", ":DapToggleRepl<CR>")
+keymap.set("n", "<leader>lp", ":lua require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>")
+keymap.set("n", "<leader>dl", ":lua lua require('dap').run_last()<CR>")

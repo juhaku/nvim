@@ -1,5 +1,7 @@
 local dap = require("dap")
 local dapui = require("dapui")
+require("nvim-dap-virtual-text").setup()
+require("dap-go").setup()
 
 dapui.setup()
 -- dapui.setup({
@@ -32,7 +34,3 @@ end
 dap.listeners.before.event_exited["dapui_config"] = function()
 	dapui.close()
 end
-
-require("nvim-dap-virtual-text").setup()
-
--- require("dap-go").setup()

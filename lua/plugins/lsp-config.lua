@@ -40,7 +40,7 @@ vim.diagnostic.config(config)
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-	if client.name == "sumneko_lua" then
+	if client.name == "sumneko_lua" or client.name == "tsserver" or client.name == "gopls" then
 		client.resolved_capabilities.document_formatting = false
 	end
 	require("illuminate").on_attach(client)
@@ -67,12 +67,6 @@ local on_attach = function(client, bufnr)
 	vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, bufopts)
 	vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
 	vim.keymap.set("n", "<space>f", vim.lsp.buf.formatting, bufopts)
-
-	-- vim.api.nvim_create_autocmd(
-	--     { "BufRead", "BufNewFile" },
-	--     { pattern = { "*.txt", "*.md", "*.tex" }, command = "setlocal spell" }
-	-- )
-	-- vim.cmd [[command! Format execute 'lua vim.lsp.buf.formatting()']]
 
 	vim.api.nvim_create_autocmd(
 		{ "BufWritePre" },
@@ -128,41 +122,74 @@ require("lspconfig").bashls.setup({
 	on_attach = on_attach,
 })
 
-require("lspconfig").eslint.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-	settings = {
-		codeAction = {
-			disableRuleComment = {
-				enable = true,
-				location = "separateLine",
-			},
-			showDocumentation = {
-				enable = true,
-			},
-		},
-		codeActionOnSave = {
-			enable = false,
-			mode = "all",
-			source = {
-				fixAll = true,
-				organizeImports = true,
-			},
-		},
-		format = true,
-		-- nodePath = "",
-		-- onIgnoredFiles = "off",
-		-- packageManager = "npm",
-		-- quiet = false,
-		-- rulesCustomizations = {},
-		run = "onType",
-		-- useESLintClass = false,
-		validate = "on",
-		-- workingDirectory = {
-		-- 	mode = "location",
-		-- },
+require("typescript").setup({
+	server = {
+		capabilities = capabilities,
+		on_attach = on_attach,
 	},
 })
+
+-- require("lspconfig").tsserver.setup({
+-- 	capabilities = capabilities,
+-- 	on_attach = on_attach,
+-- 	settings = {
+-- 		typescript = {
+-- 			inlayHints = {
+-- 				includeInlayEnumMemberValueHints = true,
+-- 				includeInlayFunctionLikeReturnTypeHints = true,
+-- 				includeInlayFunctionParameterTypeHints = true,
+-- 				includeInlayParameterNameHints = "all",
+-- 				includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+-- 				includeInlayPropertyDeclarationTypeHints = true,
+-- 				includeInlayVariableTypeHints = true,
+-- 			},
+-- 		},
+-- 		codeActionsOnSave = {
+-- 			source = {
+-- 				addMissingImports = true,
+-- 				fixAll = true,
+-- 				removeUnused = true,
+-- 				organizeImports = true,
+-- 			},
+-- 		},
+-- 	},
+-- })
+
+-- require("lspconfig").eslint.setup({
+-- 	capabilities = capabilities,
+-- 	on_attach = on_attach,
+-- 	settings = {
+-- 		codeAction = {
+-- 			disableRuleComment = {
+-- 				enable = true,
+-- 				location = "separateLine",
+-- 			},
+-- 			showDocumentation = {
+-- 				enable = true,
+-- 			},
+-- 		},
+-- 		codeActionOnSave = {
+-- 			enable = false,
+-- 			mode = "all",
+-- 			source = {
+-- 				fixAll = true,
+-- 				organizeImports = true,
+-- 			},
+-- 		},
+-- 		format = true,
+-- 		-- nodePath = "",
+-- 		-- onIgnoredFiles = "off",
+-- 		-- packageManager = "npm",
+-- 		-- quiet = false,
+-- 		-- rulesCustomizations = {},
+-- 		run = "onType",
+-- 		-- useESLintClass = false,
+-- 		validate = "on",
+-- 		-- workingDirectory = {
+-- 		-- 	mode = "location",
+-- 		-- },
+-- 	},
+-- })
 
 require("lspconfig").vuels.setup({
 	on_attach = on_attach,
