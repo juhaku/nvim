@@ -251,8 +251,17 @@ require("lspconfig").jsonls.setup({
 	handlers = handlers,
 })
 
+local util = require("lspconfig.util")
 require("lspconfig").yamlls.setup({
-	on_attach = on_attach,
+	on_attach = function(client, bufnr)
+		local chart_path = util.root_pattern("Chart.yaml", "Chart.yml")
+		if chart_path ~= nil then
+			print("disabling diagnostics for helm chart")
+			vim.diagnostic.disable(bufnr)
+		end
+
+		return on_attach(client, bufnr)
+	end,
 	handlers = handlers,
 	settings = {
 		redhat = {
