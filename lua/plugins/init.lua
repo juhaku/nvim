@@ -33,6 +33,7 @@ require("packer").startup(function()
 	use("windwp/nvim-autopairs")
 	use("lewis6991/gitsigns.nvim")
 	use("SmiteshP/nvim-navic")
+	use("stevearc/dressing.nvim")
 
 	-- cmp plugins
 	use("hrsh7th/cmp-nvim-lsp")
@@ -87,3 +88,11 @@ require("nvim-treesitter.configs").setup({
 	},
 })
 require("nvim-surround").setup({})
+require("dressing").setup({
+	input = {
+		-- Window transparency (0-100)
+		-- winblend = 50,
+		-- Change default highlight groups (see :help winhl)
+		-- winhighlight = "NormalFloat guibg=NONE",
+	},
+})
