@@ -26,6 +26,8 @@ keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", opts)
 keymap.set({ "n", "i", "v", "c" }, "<C-S-tab>", ":tabprev<CR>", opts)
 keymap.set({ "n", "i", "v", "c" }, "<C-tab>", ":tabnext<CR>", opts)
 keymap.set("n", "tn", ":tabnew<CR>", opts)
+keymap.set("n", "to", ":tabonly<CR>", opts)
+keymap.set("n", "tc", ":tabonly<CR>", opts)
 
 -- Telescope
 keymap.set("n", "tf", ":Telescope find_files<CR>", opts)
@@ -42,6 +44,7 @@ keymap.set("n", "<leader>tq", ":bdelete<CR> :bprevious<CR>", opts)
 -- Dap keybindings
 keymap.set("n", "<leader>b", ":DapToggleBreakpoint<CR>", opts)
 keymap.set("n", "<leader>B", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", opts)
+keymap.set("n", "<leader>bh", ":lua require'dap'.set_breakpoint(nil, vim.fn.input('Hit count: '), nil)<CR>", opts)
 keymap.set("n", "<F9>", ":DapContinue<CR>", opts)
 keymap.set("n", "<F8>", ":DapStepOver<CR>", opts)
 keymap.set("n", "<F10>", ":DapTerminate<CR>", opts)
