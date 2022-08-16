@@ -1,12 +1,22 @@
 require("packer").startup(function()
 	use("wbthomason/packer.nvim")
+
+	use("lewis6991/impatient.nvim")
 	-- use 'shaunsingh/nord.nvim'
 	-- use 'tiagovla/tokyodark.nvim'
 	use("folke/tokyonight.nvim")
 
 	use("kyazdani42/nvim-web-devicons")
-	use("kyazdani42/nvim-tree.lua")
-
+	-- use("kyazdani42/nvim-tree.lua")
+	use({
+		"nvim-neo-tree/neo-tree.nvim",
+		branch = "v2.x",
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
+			"MunifTanjim/nui.nvim",
+		},
+	})
 	-- popui
 	-- use 'RishabhRD/popfix'
 	-- use 'hood/popui.nvim'
@@ -22,6 +32,7 @@ require("packer").startup(function()
 	use("windwp/nvim-ts-autotag")
 	use("windwp/nvim-autopairs")
 	use("lewis6991/gitsigns.nvim")
+	use("SmiteshP/nvim-navic")
 
 	-- cmp plugins
 	use("hrsh7th/cmp-nvim-lsp")

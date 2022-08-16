@@ -48,7 +48,24 @@ require("nvim-treesitter.configs").setup({
 		-- Instead of true it can also be a list of languages
 		additional_vim_regex_highlighting = false,
 	},
+	incremental_selection = {
+		enable = true,
+		keymaps = {
+			init_selection = "gnn",
+			node_incremental = "grn",
+			scope_incremental = "grc",
+			node_decremental = "grm",
+		},
+	},
 	refactor = {
+		-- highlight_definitions = {
+		-- 	enable = true,
+		-- 	-- Set to false if you have an `updatetime` of ~100.
+		-- 	clear_on_cursor_move = true,
+		-- },
+		indent = {
+			enable = true,
+		},
 		-- highlight_current_scope = { enable = true },
 		smart_rename = {
 			enable = true,
@@ -67,4 +84,5 @@ require("nvim-treesitter.configs").setup({
 		--   },
 		-- }
 	},
+	textobjects = { enable = true },
 })

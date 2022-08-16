@@ -1,9 +1,12 @@
 local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
 
-keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
+-- core
+keymap.set("n", "<leader>e", ":Neotree filesystem toggle left<CR>")
+-- keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
 keymap.set("n", "<leader>n", ":nohl<CR>", opts)
 keymap.set("n", "<leader>w", ":w<CR>", opts)
+keymap.set("n", "vae", "gg<S-v>G", opts) -- visual select all
 
 -- resize splits
 keymap.set("n", "<C-Left>", "<C-w>>", opts)
@@ -22,6 +25,7 @@ keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", opts)
 --- tabs
 keymap.set({ "n", "i", "v", "c" }, "<C-S-tab>", ":tabprev<CR>", opts)
 keymap.set({ "n", "i", "v", "c" }, "<C-tab>", ":tabnext<CR>", opts)
+keymap.set("n", "tn", ":tabnew<CR>", opts)
 
 -- Telescope
 keymap.set("n", "tf", ":Telescope find_files<CR>", opts)

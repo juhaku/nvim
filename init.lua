@@ -1,10 +1,13 @@
+-- cache for faster startup
+require("impatient")
 -- core
 require("core_options")
 require("core_keymap")
 
 -- plugins
 require("plugins")
-require("plugins.nvim-tree-config")
+require("plugins.neo-tree-config")
+-- require("plugins.nvim-tree-config")
 require("plugins.lualine-config")
 require("plugins.telescope-config")
 -- require('plugins.fzf-lua-config')

@@ -27,18 +27,45 @@ require("lualine").setup({
 		lualine_z = {},
 	},
 	-- tabline = {
-	--   lualine_a = {
-	--       {
-	--           -- 'buffers',
-	--           -- show_filename_only = false
-	--       }
-	--   },
-	--   lualine_b = {},
-	--   lualine_c = {},
-	--   lualine_x = {},
-	--   lualine_y = {},
-	--   -- lualine_z = {'tabs'}
-	--   lualine_z = {}
+	-- 	-- lualine_a = {
+	-- 	-- 	{
+	-- 	-- 		"tabs",
+	-- 	-- 		max_length = vim.o.columns / 3, -- Maximum width of tabs component.
+	-- 	-- 		-- Note:
+	-- 	-- 		-- It can also be a function that returns
+	-- 	-- 		-- the value of `max_length` dynamically.
+	-- 	-- 		mode = 1, -- 0: Shows tab_nr
+	-- 	-- 		-- 1: Shows tab_name
+	-- 	-- 		-- 2: Shows tab_nr + tab_name
+
+	-- 	-- 		-- tabs_color = {
+	-- 	-- 		-- 	-- Same values as the general color option can be used here.
+	-- 	-- 		-- 	active = "lualine_{section}_normal", -- Color for active tab.
+	-- 	-- 		-- 	inactive = "lualine_{section}_inactive", -- Color for inactive tab.
+	-- 	-- 		-- },
+	-- 	-- 	},
+	-- 	-- },
+	-- 	-- lualine_a = {
+	-- 	-- 	{
+	-- 	-- 		"filename",
+	-- 	-- 		file_status = true,
+	-- 	-- 		newfile_status = true,
+	-- 	-- 		path = 1,
+	-- 	-- 		shorting_target = 40,
+	-- 	-- 		symbols = {
+	-- 	-- 			modified = "[+]",
+	-- 	-- 			readonly = "[-]",
+	-- 	-- 			unnamed = "[No Name]",
+	-- 	-- 			newfile = "[New]",
+	-- 	-- 		},
+	-- 	-- 	},
+	-- 	-- },
+	-- 	lualine_b = {},
+	-- 	lualine_c = {},
+	-- 	lualine_x = {},
+	-- 	lualine_y = {},
+	-- 	-- lualine_z = { "tabs" },
+	-- 	-- lualine_z = {},
 	-- },
 	extensions = {},
 })

@@ -48,10 +48,13 @@ local handlers = {
 	["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
 }
 
+local navic = require("nvim-navic")
+
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-	if client.name == "sumneko_lua" or client.name == "tsserver" or client.name == "gopls" then
+	navic.attach(client, bufnr)
+	if client.name == "sumneko_lua" or client.name == "gopls" then
 		client.resolved_capabilities.document_formatting = false
 	end
 	require("illuminate").on_attach(client)
@@ -63,9 +66,21 @@ local on_attach = function(client, bufnr)
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
 	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-	vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+	-- vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+	vim.keymap.set(
+		"n",
+		"gd",
+		":lua require('telescope.builtin').lsp_definitions({layout_config = {height = 50}}) <cr>",
+		bufopts
+	)
 	vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
+	-- vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
+	vim.keymap.set(
+		"n",
+		"gi",
+		":lua require('telescope.builtin').lsp_implementations({layout_config = {height = 50}}) <cr>",
+		bufopts
+	)
 	vim.keymap.set({ "n", "i" }, "<C-k>", vim.lsp.buf.signature_help, bufopts)
 	-- vim.keymap.set('n', '<C-p>', vim.lsp.buf.signature_help, bufopts)
 	vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, bufopts)
@@ -73,10 +88,28 @@ local on_attach = function(client, bufnr)
 	vim.keymap.set("n", "<space>wl", function()
 		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 	end, bufopts)
-	vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, bufopts)
+	-- vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, bufopts)
+	vim.keymap.set(
+		"n",
+		"td",
+		":lua require('telescope.builtin').lsp_type_definitions({layout_config = {height = 50}}) <cr>",
+		bufopts
+	)
+	vim.keymap.set(
+		"n",
+		"bs",
+		":lua require('telescope.builtin').lsp_document_symbols({layout_config = {height = 50}}) <cr>",
+		bufopts
+	)
 	vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, bufopts)
 	vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, bufopts)
-	vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
+	-- vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
+	vim.keymap.set(
+		"n",
+		"gr",
+		":lua require('telescope.builtin').lsp_references({layout_config = {height = 50}}) <cr>",
+		bufopts
+	)
 	vim.keymap.set("n", "<space>f", vim.lsp.buf.formatting, bufopts)
 
 	vim.api.nvim_create_autocmd(
@@ -156,10 +189,6 @@ require("typescript").setup({
 				pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
 				command = ":TypescriptOrganizeImports",
 			})
-			-- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-			-- 	pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
-			-- 	command = ":TypescriptRemoveUnused",
-			-- })
 		end,
 		handlers = handlers,
 	},
