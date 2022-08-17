@@ -30,5 +30,6 @@ require("neo-tree").setup({
 				"node_modules",
 			},
 		},
+		hijack_netrw_behavior = "disabled",
 	},
 })

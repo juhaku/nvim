@@ -66,21 +66,23 @@ local on_attach = function(client, bufnr)
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
 	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-	-- vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-	vim.keymap.set(
-		"n",
-		"gd",
-		":lua require('telescope.builtin').lsp_definitions({layout_config = {height = 50}}) <cr>",
-		bufopts
-	)
+	vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+	-- vim.keymap.set("n", "gd", ":Trouble lsp_definitions<CR>", bufopts)
+	-- vim.keymap.set(
+	-- 	"n",
+	-- 	"gd",
+	-- 	":lua require('telescope.builtin').lsp_definitions({layout_config = {height = 50}}) <cr>",
+	-- 	bufopts
+	-- )
 	vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
 	-- vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-	vim.keymap.set(
-		"n",
-		"gi",
-		":lua require('telescope.builtin').lsp_implementations({layout_config = {height = 50}}) <cr>",
-		bufopts
-	)
+	vim.keymap.set("n", "gi", ":Trouble lsp_implementations<CR>", bufopts)
+	-- vim.keymap.set(
+	-- 	"n",
+	-- 	"gi",
+	-- 	":lua require('telescope.builtin').lsp_implementations({layout_config = {height = 50}}) <cr>",
+	-- 	bufopts
+	-- )
 	vim.keymap.set({ "n", "i" }, "<C-k>", vim.lsp.buf.signature_help, bufopts)
 	-- vim.keymap.set('n', '<C-p>', vim.lsp.buf.signature_help, bufopts)
 	vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, bufopts)
@@ -88,28 +90,31 @@ local on_attach = function(client, bufnr)
 	vim.keymap.set("n", "<space>wl", function()
 		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 	end, bufopts)
-	-- vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, bufopts)
-	vim.keymap.set(
-		"n",
-		"td",
-		":lua require('telescope.builtin').lsp_type_definitions({layout_config = {height = 50}}) <cr>",
-		bufopts
-	)
-	vim.keymap.set(
-		"n",
-		"bs",
-		":lua require('telescope.builtin').lsp_document_symbols({layout_config = {height = 50}}) <cr>",
-		bufopts
-	)
+	-- vim.keymap.set("n", "td", vim.lsp.buf.type_definition, bufopts)
+	vim.keymap.set("n", "td", ":Trouble lsp_type_definitions<CR>", bufopts)
+	-- vim.keymap.set(
+	-- 	"n",
+	-- 	"td",
+	-- 	":lua require('telescope.builtin').lsp_type_definitions({layout_config = {height = 50}}) <cr>",
+	-- 	bufopts
+	-- )
+	vim.keymap.set("n", "ds", vim.lsp.buf.document_symbol, bufopts)
+	-- vim.keymap.set(
+	-- 	"n",
+	-- 	"bs",
+	-- 	":lua require('telescope.builtin').lsp_document_symbols({layout_config = {height = 50}}) <cr>",
+	-- 	bufopts
+	-- )
 	vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, bufopts)
 	vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, bufopts)
 	-- vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-	vim.keymap.set(
-		"n",
-		"gr",
-		":lua require('telescope.builtin').lsp_references({layout_config = {height = 50}}) <cr>",
-		bufopts
-	)
+	vim.keymap.set("n", "gr", ":Trouble lsp_references<CR>", bufopts)
+	-- vim.keymap.set(
+	-- 	"n",
+	-- 	"gr",
+	-- 	":lua require('telescope.builtin').lsp_references({layout_config = {height = 50}}) <cr>",
+	-- 	bufopts
+	-- )
 	vim.keymap.set("n", "<space>f", vim.lsp.buf.formatting, bufopts)
 
 	vim.api.nvim_create_autocmd(
@@ -311,6 +316,9 @@ local extension_path = vim.env.HOME .. "/.local/share/nvim/mason/packages/codell
 local codelldb_path = extension_path .. "adapter/codelldb"
 local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
 
+-- load local file as string,
+-- print(vim.inspect(vim.fn.eval('{"foo": "bar"}')))
+-- update the settings from local file with deep merge
 local rust_analyer_opts = {
 	tools = { -- rust-tools options
 		autoSetHints = true,

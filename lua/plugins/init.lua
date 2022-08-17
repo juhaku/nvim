@@ -34,6 +34,7 @@ require("packer").startup(function()
 	use("lewis6991/gitsigns.nvim")
 	use("SmiteshP/nvim-navic")
 	use("stevearc/dressing.nvim")
+	use("folke/trouble.nvim")
 
 	-- cmp plugins
 	use("hrsh7th/cmp-nvim-lsp")
@@ -64,6 +65,10 @@ require("packer").startup(function()
 	--
 	use("jose-elias-alvarez/typescript.nvim")
 	use("crispgm/nvim-go")
+
+	-- dashboard & sessions
+	use("goolord/alpha-nvim")
+	use("Shatur/neovim-session-manager")
 end)
 
 require("mason").setup({
@@ -96,3 +101,47 @@ require("dressing").setup({
 		-- winhighlight = "NormalFloat guibg=NONE",
 	},
 })
+require("trouble").setup({})
+
+require("alpha").setup(require("alpha.themes.dashboard").config)
+
+local alpha = require("alpha")
+local dashboard = require("alpha.themes.dashboard")
+
+dashboard.section.buttons.val = {
+	dashboard.button("e", "  New file", ":ene <BAR> startinsert<CR>"),
+	dashboard.button("tf", "  Find file", ":Telescope find_files<CR>"),
+	-- dashboard.button("p", "  Find project", ":Telescope projects<CR>"),
+	dashboard.button("tg", "  Find text", ":Telescope live_grep<CR>"),
+	dashboard.button("tr", "  Recently used files", ":Telescope oldfiles<CR>"),
+	dashboard.button("c", "  Configuration", ":e ~/.config/nvim/init.lua<CR>"),
+	dashboard.button("os", "  Open session", ":SessionManager load_session<CR>"),
+	dashboard.button("ol", "  Open last session", ":SessionManager load_last_session<CR>"),
+	dashboard.button("q", "  Quit NVIM", ":qa<CR>"),
+}
+
+require("session_manager").setup({
+	autoload_mode = require("session_manager.config").AutoloadMode.Disabled,
+})
+-- dashboard.section.header.val = {
+--     [[                               __                ]],
+--     [[  ___     ___    ___   __  __ /\_\    ___ ___    ]],
+--     [[ / _ `\  / __`\ / __`\/\ \/\ \\/\ \  / __` __`\  ]],
+--     [[/\ \/\ \/\  __//\ \_\ \ \ \_/ |\ \ \/\ \/\ \/\ \ ]],
+--     [[\ \_\ \_\ \____\ \____/\ \___/  \ \_\ \_\ \_\ \_\]],
+--     [[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
+-- }
+-- dashboard.section.buttons.val = {
+--     dashboard.button( "e", "  New file" , ":ene <BAR> startinsert <CR>"),
+--     dashboard.button( "q", "  Quit NVIM" , ":qa<CR>"),
+-- }
+-- local handle = io.popen('fortune')
+-- local fortune = handle:read("*a")
+-- handle:close()
+-- dashboard.section.footer.val = fortune
+
+-- dashboard.config.opts.noautocmd = true
+
+-- vim.cmd[[autocmd User AlphaReady echo 'ready']]
+
+-- alpha.setup(dashboard.config)
