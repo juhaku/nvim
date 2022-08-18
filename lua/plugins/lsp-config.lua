@@ -316,17 +316,10 @@ local extension_path = vim.env.HOME .. "/.local/share/nvim/mason/packages/codell
 local codelldb_path = extension_path .. "adapter/codelldb"
 local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
 
--- load local file as string,
--- print(vim.inspect(vim.fn.eval('{"foo": "bar"}')))
--- update the settings from local file with deep merge
+local rust_tools = require("rust-tools")
 local rust_analyer_opts = {
 	tools = { -- rust-tools options
 		autoSetHints = true,
-
-		-- whether to show hover actions inside the hover window
-		-- this overrides the default hover handler so something like lspsaga.nvim's hover would be overriden by this
-		-- default: true
-		hover_with_actions = true,
 
 		-- how to execute terminal commands
 		-- options right now: termopen / quickfix
@@ -390,12 +383,31 @@ local rust_analyer_opts = {
 		},
 	},
 
-	-- all the opts to send to nvim-lspconfig
-	-- these override the defaults set by rust-tools.nvim
 	-- see https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rust_analyzer
 	server = {
+		on_init = function(client)
+			local cwd = vim.fn.getcwd()
+			local local_config_path = cwd .. "/.nvim/rust-analyzer.json"
+
+			local local_config = vim.fn.system("cat " .. local_config_path)
+
+			if string.find(local_config, "No such file or directory") ~= nil then
+				return true
+			end
+
+			local cfg =
+				vim.tbl_deep_extend("force", client.config.settings["rust-analyzer"], vim.fn.json_decode(local_config))
+			client.config.settings["rust-analyzer"] = cfg
+
+			client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+			return true
+		end,
 		capabilities = capabilities,
-		on_attach = on_attach,
+		on_attach = function(client, bufnr)
+			on_attach(client, bufnr)
+			vim.keymap.set("n", "<A-k>", rust_tools.hover_actions.hover_actions, { buffer = bufnr })
+			vim.keymap.set("n", "<leader>a", rust_tools.code_action_group.code_action_group, { buffer = bufnr })
+		end,
 		handlers = handlers,
 		-- standalone file support
 		-- setting it to false may improve startup time
@@ -412,6 +424,9 @@ local rust_analyer_opts = {
 					buildScripts = {
 						enable = true,
 					},
+					features = {},
+					noDefaultFeatures = false,
+					allFeatures = false,
 				},
 				procMacro = {
 					enable = true,
@@ -437,61 +452,5 @@ local rust_analyer_opts = {
 	},
 }
 
--- Normal setup
--- TODO find a way to load project local rust analyzer config to the rust tools setup fn
-require("rust-tools").setup(rust_analyer_opts)
-require("rust-tools.inlay_hints").setup_autocmd()
--- require("lspconfig")["rust_analyzer"].setup({})
-
--- TODO find a way to setup rust project features
---  "rust-analyzer.cargo.allFeatures": false,
--- "rust-analyzer.cargo.noDefaultFeatures": true,
--- "rust-analyzer.cargo.features": [
---   "json",
---   // "actix_extras",
---   // "actix-web",
---   "rocket",
---   "rocket_extras",
---   // "axum",
---   // "axum_extras",
---   "debug",
---   "uuid",
---   // "time",
---   "smallvec",
---   "yaml",
--- ]
-
--- require("plugins.rust-analyzer-config").setup({
--- 	capabilities = capabilities,
--- 	on_attach = on_attach,
--- })
--- require("lspconfig")["rust_analyzer"].setup({})
--- require("lspconfig")["rust_analyzer"].setup({
--- 	capabilities = capabilities,
--- 	on_attach = on_attach,
--- 	-- handlers = handlers,
--- 	-- settings = {
--- 	-- 	["rust-analyzer"] = {
--- 	-- 		imports = {
--- 	-- 			granularity = {
--- 	-- 				group = "module",
--- 	-- 			},
--- 	-- 			prefix = "self",
--- 	-- 		},
--- 	-- 		cargo = {
--- 	-- 			buildScripts = {
--- 	-- 				enable = true,
--- 	-- 			},
--- 	-- 		},
--- 	-- 		procMacro = {
--- 	-- 			enable = true,
--- 	-- 			attributes = {
--- 	-- 				enable = true,
--- 	-- 			},
--- 	-- 		},
--- 	-- 		checkOnSave = {
--- 	-- 			command = "clippy",
--- 	-- 		},
--- 	-- 	},
--- 	-- },
--- })
+rust_tools.setup(rust_analyer_opts)
+rust_tools.inlay_hints.enable()

@@ -27,6 +27,7 @@ require("packer").startup(function()
 	use("nvim-lualine/lualine.nvim")
 	use("p00f/nvim-ts-rainbow")
 	use("nvim-telescope/telescope.nvim")
+	use("nvim-telescope/telescope-file-browser.nvim")
 	-- use 'nvim-telescope/telescope-ui-select.nvim'
 	-- use 'ibhagwan/fzf-lua'
 	use("windwp/nvim-ts-autotag")
@@ -96,9 +97,26 @@ require("nvim-surround").setup({})
 require("dressing").setup({
 	input = {
 		-- Window transparency (0-100)
-		-- winblend = 50,
+		winblend = 20,
 		-- Change default highlight groups (see :help winhl)
 		-- winhighlight = "NormalFloat guibg=NONE",
+	},
+	select = {
+		enabled = true,
+		winblend = 20,
+		backend = { "telescope", "fzf_lua", "fzf", "builtin", "nui" },
+
+		get_config = function(opts)
+			if opts.kind == "codeaction" then
+				return {
+					backend = "builtin",
+					builtin = {
+						min_height = { 0., 0. },
+						relative = "cursor",
+					},
+				}
+			end
+		end,
 	},
 })
 require("trouble").setup({})
@@ -111,37 +129,17 @@ local dashboard = require("alpha.themes.dashboard")
 dashboard.section.buttons.val = {
 	dashboard.button("e", "  New file", ":ene <BAR> startinsert<CR>"),
 	dashboard.button("tf", "  Find file", ":Telescope find_files<CR>"),
-	-- dashboard.button("p", "  Find project", ":Telescope projects<CR>"),
 	dashboard.button("tg", "  Find text", ":Telescope live_grep<CR>"),
 	dashboard.button("tr", "  Recently used files", ":Telescope oldfiles<CR>"),
-	dashboard.button("c", "  Configuration", ":e ~/.config/nvim/init.lua<CR>"),
+	dashboard.button("fb", "  Open file browser", ":Telescope file_browser<CR>"),
 	dashboard.button("os", "  Open session", ":SessionManager load_session<CR>"),
 	dashboard.button("ol", "  Open last session", ":SessionManager load_last_session<CR>"),
+	dashboard.button("c", "  Configuration", ":e ~/.config/nvim/init.lua<CR>"),
 	dashboard.button("q", "  Quit NVIM", ":qa<CR>"),
 }
 
 require("session_manager").setup({
 	autoload_mode = require("session_manager.config").AutoloadMode.Disabled,
 })
--- dashboard.section.header.val = {
---     [[                               __                ]],
---     [[  ___     ___    ___   __  __ /\_\    ___ ___    ]],
---     [[ / _ `\  / __`\ / __`\/\ \/\ \\/\ \  / __` __`\  ]],
---     [[/\ \/\ \/\  __//\ \_\ \ \ \_/ |\ \ \/\ \/\ \/\ \ ]],
---     [[\ \_\ \_\ \____\ \____/\ \___/  \ \_\ \_\ \_\ \_\]],
---     [[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
--- }
--- dashboard.section.buttons.val = {
---     dashboard.button( "e", "  New file" , ":ene <BAR> startinsert <CR>"),
---     dashboard.button( "q", "  Quit NVIM" , ":qa<CR>"),
--- }
--- local handle = io.popen('fortune')
--- local fortune = handle:read("*a")
--- handle:close()
--- dashboard.section.footer.val = fortune
 
--- dashboard.config.opts.noautocmd = true
-
--- vim.cmd[[autocmd User AlphaReady echo 'ready']]
-
--- alpha.setup(dashboard.config)
+alpha.setup(dashboard.config)
