@@ -5,6 +5,12 @@ local file_browser_actions = telescope.extensions.file_browser.actions
 telescope.setup({
 	defaults = {
 		winblend = 20,
+		mappings = {
+			["n"] = {
+				["<C-c>"] = telescope_actions.close,
+				["q"] = telescope_actions.close,
+			},
+		},
 	},
 	extensions = {
 		file_browser = {

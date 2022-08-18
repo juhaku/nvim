@@ -7,6 +7,7 @@ keymap.set("n", "<leader>e", ":Neotree filesystem toggle left<CR>")
 keymap.set("n", "<leader>n", ":nohl<CR>", opts)
 keymap.set("n", "<leader>w", ":w<CR>", opts)
 keymap.set("n", "vae", "gg<S-v>G", opts) -- visual select all
+keymap.set("n", "QQ", ":qa<CR>", opts)
 
 -- resize splits
 keymap.set("n", "<C-Left>", "<C-w>>", opts)
