@@ -1,7 +1,21 @@
 -- global options
 vim.g.mapleader = " "
-vim.g.tokyonight_transparent = true
-vim.g.tokyonight_transparent_sidebar = true
+
+if vim.g.neovide == false then
+	vim.g.tokyonight_transparent = true
+	vim.g.tokyonight_transparent_sidebar = true
+else
+	-- neovide options
+	-- TODO blur not working
+	vim.g.neovide_transparency = 0.8
+	vim.g.neovide_remember_window_size = true
+	vim.g.neovide_floating_blur_amount_x = 7.0
+	vim.g.neovide_floating_blur_amount_y = 7.0
+	vim.g.floating_opacity = 0.8
+	vim.g.neovide_cursor_vfx_mode = "railgun"
+	vim.g.neovide_cursor_vfx_particle_density = 8.0
+end
+
 vim.g.tokyonight_style = "night"
 vim.g.tokyonight_dark_float = false
 
@@ -19,6 +33,8 @@ vim.cmd([[colorscheme tokyonight]])
 -- options
 local options = vim.opt
 
+options.winblend = 20
+options.pumblend = 20
 options.completeopt = "menu,menuone,preview,noselect"
 options.syntax = "on"
 options.scrolloff = 8
