@@ -27,6 +27,7 @@ telescope.setup({
 				["n"] = {
 					["x"] = telescope_actions.toggle_selection,
 					["<C-c>"] = telescope_actions.close,
+					["q"] = telescope_actions.close,
 					["a"] = file_browser_actions.create,
 					["/"] = { "i", type = "command" },
 				},
