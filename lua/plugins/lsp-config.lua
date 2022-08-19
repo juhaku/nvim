@@ -66,8 +66,8 @@ local on_attach = function(client, bufnr)
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
 	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-	vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-	-- vim.keymap.set("n", "gd", ":Trouble lsp_definitions<CR>", bufopts)
+	-- vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+	vim.keymap.set("n", "gd", ":Trouble lsp_definitions<CR>", bufopts)
 	-- vim.keymap.set(
 	-- 	"n",
 	-- 	"gd",
@@ -180,7 +180,6 @@ require("typescript").setup({
 	server = {
 		capabilities = capabilities,
 		on_attach = function(client, bufnr)
-			on_attach(client, bufnr)
 			-- add command to perform code actions on write
 			vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 				pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
@@ -194,6 +193,8 @@ require("typescript").setup({
 				pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
 				command = ":TypescriptOrganizeImports",
 			})
+
+			on_attach(client, bufnr)
 		end,
 		handlers = handlers,
 	},
