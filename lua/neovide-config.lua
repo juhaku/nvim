@@ -1,6 +1,6 @@
 -- neovide options
 -- TODO blur not working
-vim.g.neovide_transparency = 0.8
+vim.g.neovide_transparency = 0.9
 vim.g.neovide_remember_window_size = true
 vim.g.neovide_floating_blur_amount_x = 7.0
 vim.g.neovide_floating_blur_amount_y = 7.0
