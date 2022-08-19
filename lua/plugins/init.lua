@@ -74,21 +74,6 @@ require("packer").startup(function()
 	use("Shatur/neovim-session-manager")
 end)
 
-require("mason").setup({
-	ui = {
-		border = {
-			{ "╭", "FloatBorder" },
-			{ "─", "FloatBorder" },
-			{ "╮", "FloatBorder" },
-			{ "│", "FloatBorder" },
-			{ "╯", "FloatBorder" },
-			{ "─", "FloatBorder" },
-			{ "╰", "FloatBorder" },
-			{ "│", "FloatBorder" },
-		},
-	},
-})
-require("mason-lspconfig").setup()
 require("nvim-autopairs").setup({})
 require("nvim-treesitter.configs").setup({
 	autotag = {

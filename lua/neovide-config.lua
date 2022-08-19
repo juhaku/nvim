@@ -1,12 +1,18 @@
 -- neovide options
--- TODO blur not working
 vim.g.neovide_transparency = 0.9
 vim.g.neovide_remember_window_size = true
-vim.g.neovide_floating_blur_amount_x = 7.0
-vim.g.neovide_floating_blur_amount_y = 7.0
-vim.g.floating_opacity = 0.8
+vim.g.neovide_floating_blur_amount_x = 2.0
+vim.g.neovide_floating_blur_amount_y = 2.0
 vim.g.neovide_cursor_vfx_mode = "railgun"
-vim.g.neovide_cursor_vfx_particle_density = 8.0
+vim.g.neovide_cursor_vfx_particle_density = 12.0
+vim.g.neovide_cursor_antialiasing = true
+vim.g.neovide_cursor_vfx_opacity = 180.0
+vim.g.neovide_cursor_vfx_particle_lifetime = 1.5
+vim.g.neovide_cursor_vfx_particle_speed = 12.0
+
+-- railgun only
+vim.g.neovide_cursor_vfx_particle_phase = 5.0
+vim.g.neovide_cursor_vfx_particle_curl = 1.5
 
 vim.opt.guifont = "Hack Nerd Font:h8"
 vim.g.gui_font_default_size = 8
@@ -29,8 +35,6 @@ end
 
 -- Call function on startup to set default value
 resetGuiFont()
-
--- Keymaps
 
 local opts = { noremap = true, silent = true }
 
