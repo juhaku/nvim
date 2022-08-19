@@ -48,3 +48,9 @@ telescope.setup({
 	},
 })
 telescope.load_extension("file_browser")
+
+vim.keymap.set("n", "fb", function()
+	telescope.extensions.file_browser.file_browser({
+		path = telescope_buffer_dir(),
+	})
+end, { noremap = true, silent = true })

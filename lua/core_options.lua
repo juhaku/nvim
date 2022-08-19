@@ -1,7 +1,7 @@
 -- global options
 vim.g.mapleader = " "
 
-if vim.g.neovide == false then
+if vim.g.neovide == nil then
 	vim.g.tokyonight_transparent = true
 	vim.g.tokyonight_transparent_sidebar = true
 else
@@ -25,8 +25,8 @@ vim.cmd([[colorscheme tokyonight]])
 -- options
 local options = vim.opt
 
-options.winblend = 15
-options.pumblend = 15
+options.winblend = 20
+options.pumblend = 20
 options.completeopt = "menu,menuone,preview,noselect"
 options.syntax = "on"
 options.scrolloff = 8
