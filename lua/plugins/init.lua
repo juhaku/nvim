@@ -72,6 +72,9 @@ require("packer").startup(function()
 	-- dashboard & sessions
 	use("goolord/alpha-nvim")
 	use("Shatur/neovim-session-manager")
+
+	-- git
+	use("sindrets/diffview.nvim")
 end)
 
 require("nvim-autopairs").setup({})

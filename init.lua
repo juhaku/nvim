@@ -7,6 +7,7 @@ require("core_keymap")
 -- plugins
 require("plugins")
 require("plugins.mason_config")
+require("plugins.diffview-config")
 require("plugins.neo-tree-config")
 -- require("plugins.nvim-tree-config")
 require("plugins.lualine-config")
