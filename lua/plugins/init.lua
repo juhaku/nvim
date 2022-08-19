@@ -53,6 +53,7 @@ require("packer").startup(function()
 	use("williamboman/mason-lspconfig.nvim")
 	use("neovim/nvim-lspconfig")
 	use("simrat39/rust-tools.nvim")
+	use("b0o/schemastore.nvim")
 
 	use("RRethy/vim-illuminate")
 	use("jose-elias-alvarez/null-ls.nvim")

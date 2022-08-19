@@ -284,6 +284,12 @@ require("lspconfig").jsonls.setup({
 	capabilities = json_capabilities,
 	on_attach = on_attach,
 	handlers = handlers,
+	settings = {
+		json = {
+			schemas = require("schemastore").json.schemas(),
+			validate = { enable = true },
+		},
+	},
 })
 
 local util = require("lspconfig.util")
