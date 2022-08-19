@@ -53,6 +53,7 @@ require("packer").startup(function()
 	use("williamboman/mason-lspconfig.nvim")
 	use("neovim/nvim-lspconfig")
 	use("simrat39/rust-tools.nvim")
+	use("saecki/crates.nvim")
 	use("b0o/schemastore.nvim")
 
 	use("RRethy/vim-illuminate")
@@ -142,3 +143,9 @@ require("session_manager").setup({
 })
 
 alpha.setup(dashboard.config)
+
+require("crates").setup({
+	null_ls = {
+		enabled = true,
+	},
+})
