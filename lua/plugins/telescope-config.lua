@@ -2,6 +2,10 @@ local telescope = require("telescope")
 local telescope_actions = require("telescope.actions")
 local file_browser_actions = telescope.extensions.file_browser.actions
 
+local function telescope_buffer_dir()
+	return vim.fn.expand("%:p:h")
+end
+
 telescope.setup({
 	defaults = {
 		winblend = 20,
@@ -18,6 +22,8 @@ telescope.setup({
 			hijack_netrw = true,
 			initial_mode = "normal",
 			previewer = false,
+			path = telescope_buffer_dir(),
+			cwd_to_path = true,
 			layout_config = {
 				center = {
 					height = 40,

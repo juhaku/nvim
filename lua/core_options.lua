@@ -5,15 +5,7 @@ if vim.g.neovide == false then
 	vim.g.tokyonight_transparent = true
 	vim.g.tokyonight_transparent_sidebar = true
 else
-	-- neovide options
-	-- TODO blur not working
-	vim.g.neovide_transparency = 0.8
-	vim.g.neovide_remember_window_size = true
-	vim.g.neovide_floating_blur_amount_x = 7.0
-	vim.g.neovide_floating_blur_amount_y = 7.0
-	vim.g.floating_opacity = 0.8
-	vim.g.neovide_cursor_vfx_mode = "railgun"
-	vim.g.neovide_cursor_vfx_particle_density = 8.0
+	require("neovide-config")
 end
 
 vim.g.tokyonight_style = "night"
@@ -33,8 +25,8 @@ vim.cmd([[colorscheme tokyonight]])
 -- options
 local options = vim.opt
 
-options.winblend = 20
-options.pumblend = 20
+options.winblend = 15
+options.pumblend = 15
 options.completeopt = "menu,menuone,preview,noselect"
 options.syntax = "on"
 options.scrolloff = 8
@@ -64,5 +56,5 @@ options.hidden = true
 options.autoindent = true
 --options.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
 options.virtualedit = "block"
-options.guifont = "Hack Nerd Font:h10"
+options.guifont = "Hack Nerd Font:h8"
 options.wrap = false
