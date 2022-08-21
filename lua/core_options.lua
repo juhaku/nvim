@@ -18,10 +18,6 @@ vim.cmd([[colorscheme tokyonight]])
 --     highlight NormalFloat guibg=NONE
 -- ]])
 
--- vim ui options
--- vim.ui.select = require"popui.ui-overrider"
--- vim.ui.input = require"popui.input-overrider"
-
 -- options
 local options = vim.opt
 
@@ -58,3 +54,4 @@ options.autoindent = true
 options.virtualedit = "block"
 options.guifont = "Hack Nerd Font:h8"
 options.wrap = false
+options.mouse = "nv"
