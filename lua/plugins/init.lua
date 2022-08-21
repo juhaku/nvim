@@ -75,6 +75,7 @@ require("packer").startup(function()
 
 	-- git
 	use("sindrets/diffview.nvim")
+	-- use("tpope/vim-fugitive")
 end)
 
 require("nvim-autopairs").setup({})

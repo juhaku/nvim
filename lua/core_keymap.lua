@@ -60,3 +60,45 @@ keymap.set(
 	opts
 )
 keymap.set("n", "<leader>dl", ":lua lua require('dap').run_last()<CR>", opts)
+
+-- terminal
+keymap.set("n", "<leader>tx", ":split | terminal<CR>", opts)
+keymap.set("n", "<leader>tv", ":vsplit | terminal<CR>", opts)
+keymap.set("n", "<leader>tt", ":tabnew | terminal<CR>", opts)
+keymap.set("n", "<leader>te", ":te | terminal<CR>", opts)
+
+keymap.set("t", "<Esc>", "<C-\\><C-n>", opts)
+keymap.set("t", "<C-w>q", "<C-\\><C-N><C-w>q", opts)
+
+keymap.set("t", "<C-w>k", "<C-\\><C-n><C-w>k", opts)
+keymap.set("t", "<C-w>j", "<C-\\><C-n><C-w>j", opts)
+keymap.set("t", "<C-w>l", "<C-\\><C-n><C-w>l", opts)
+keymap.set("t", "<C-w>h", "<C-\\><C-n><C-w>h", opts)
+
+vim.api.nvim_create_autocmd({ "TermOpen" }, {
+	pattern = { "*" },
+	command = ":startinsert",
+})
+
+vim.api.nvim_create_user_command("Tig", function(o)
+	local cmd = "split | terminal tig " .. o.args
+	vim.cmd(cmd)
+end, {
+	nargs = "?",
+	complete = function()
+		return { "--all" }
+	end,
+})
+
+vim.api.nvim_create_user_command("Fgl", function(o)
+	local zshrc = os.getenv("HOME") .. "/.zshrc"
+	local filename = vim.fn.expand("%")
+
+	if o.bang == true then
+		vim.cmd("tabnew | terminal source " .. zshrc .. "; fgl --follow -- " .. filename)
+	else
+		vim.cmd("tabnew | terminal source " .. zshrc .. "; fgl")
+	end
+end, {
+	bang = true,
+})

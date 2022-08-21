@@ -14,6 +14,7 @@ diffview.setup({
 			["<C-w>gf"] = actions.goto_file_tab, -- Open the file in a new tabpage
 			["<leader>de"] = actions.focus_files, -- Bring focus to the files panel
 			["<leader>dE"] = actions.toggle_files, -- Toggle the files panel.
+			["q"] = actions.close,
 		},
 		file_panel = {
 			["j"] = actions.next_entry, -- Bring the cursor to the next file entry
@@ -40,6 +41,7 @@ diffview.setup({
 			["f"] = actions.toggle_flatten_dirs, -- Flatten empty subdirectories in tree listing style.
 			["<leader>de"] = actions.focus_files,
 			["<leader>dE"] = actions.toggle_files,
+			["q"] = actions.close,
 		},
 		file_history_panel = {
 			["g!"] = actions.options, -- Open the option panel
@@ -64,6 +66,7 @@ diffview.setup({
 			["<C-w>gf"] = actions.goto_file_tab,
 			["<leader>de"] = actions.focus_files,
 			["<leader>dE"] = actions.toggle_files,
+			["q"] = actions.close,
 		},
 		option_panel = {
 			["<tab>"] = actions.select_entry,
