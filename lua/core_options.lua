@@ -54,4 +54,4 @@ options.autoindent = true
 options.virtualedit = "block"
 options.guifont = "Hack Nerd Font:h8"
 options.wrap = false
-options.mouse = "nv"
+options.mouse = "a"

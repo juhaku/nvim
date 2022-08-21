@@ -2,12 +2,9 @@ require("packer").startup(function()
 	use("wbthomason/packer.nvim")
 
 	use("lewis6991/impatient.nvim")
-	-- use 'shaunsingh/nord.nvim'
-	-- use 'tiagovla/tokyodark.nvim'
 	use("folke/tokyonight.nvim")
 
 	use("kyazdani42/nvim-web-devicons")
-	-- use("kyazdani42/nvim-tree.lua")
 	use({
 		"nvim-neo-tree/neo-tree.nvim",
 		branch = "v2.x",
@@ -17,9 +14,6 @@ require("packer").startup(function()
 			"MunifTanjim/nui.nvim",
 		},
 	})
-	-- popui
-	-- use 'RishabhRD/popfix'
-	-- use 'hood/popui.nvim'
 
 	use("tpope/vim-commentary")
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
@@ -28,14 +22,13 @@ require("packer").startup(function()
 	use("p00f/nvim-ts-rainbow")
 	use("nvim-telescope/telescope.nvim")
 	use("nvim-telescope/telescope-file-browser.nvim")
-	-- use 'nvim-telescope/telescope-ui-select.nvim'
-	-- use 'ibhagwan/fzf-lua'
 	use("windwp/nvim-ts-autotag")
 	use("windwp/nvim-autopairs")
 	use("lewis6991/gitsigns.nvim")
 	use("SmiteshP/nvim-navic")
 	use("stevearc/dressing.nvim")
 	use("folke/trouble.nvim")
+	use("lukas-reineke/indent-blankline.nvim")
 
 	-- cmp plugins
 	use("hrsh7th/cmp-nvim-lsp")
@@ -137,4 +130,9 @@ require("crates").setup({
 	null_ls = {
 		enabled = true,
 	},
+})
+
+require("indent_blankline").setup({
+	show_current_context = true,
+	show_current_context_start = false,
 })
