@@ -11,8 +11,8 @@ keymap.set("n", "QQ", ":qa<CR>", opts)
 keymap.set("c", "<C-S-v>", "<MiddleMouse>", opts) -- paste in command mode via middle click
 
 -- resize splits
-keymap.set("n", "<C-Left>", "<C-w>>", opts)
-keymap.set("n", "<C-Right>", "<C-w><", opts)
+keymap.set("n", "<C-Left>", "<C-w><", opts)
+keymap.set("n", "<C-Right>", "<C-w>>", opts)
 keymap.set("n", "<C-Up>", "<C-w>+", opts)
 keymap.set("n", "<C-Down>", "<C-w>-", opts)
 
@@ -69,7 +69,7 @@ keymap.set("n", "<leader>tt", ":tabnew | terminal<CR>", opts)
 keymap.set("n", "<leader>te", ":te | terminal<CR>", opts)
 
 keymap.set("t", "<Esc>", "<C-\\><C-n>", opts)
-keymap.set("t", "<C-w>q", "<C-\\><C-N><C-w>q", opts)
+keymap.set("t", "tq", "<C-\\><C-N><C-w>q", opts)
 
 keymap.set("t", "<C-w>k", "<C-\\><C-n><C-w>k", opts)
 keymap.set("t", "<C-w>j", "<C-\\><C-n><C-w>j", opts)
