@@ -61,13 +61,24 @@ end, {
 	nargs = 1,
 })
 
-vim.api.nvim_create_user_command("Gl", function(_)
-	vim.cmd("G pull")
-end, {})
+vim.api.nvim_create_user_command("Gl", function(opts)
+	vim.cmd("G pull" .. opts.args)
+end, {
+	nargs = 1,
+	complete = function()
+		return { "-r" }
+	end,
+})
 
-vim.api.nvim_create_user_command("Gp", function(_)
-	vim.cmd("G push")
-end, {})
+vim.api.nvim_create_user_command("Gp", function(opts)
+	if opts.bang == true then
+		vim.cmd("G push --force-with-lease")
+	else
+		vim.cmd("G push")
+	end
+end, {
+	bang = true,
+})
 
 vim.api.nvim_create_user_command("Gpsup", function(_)
 	local origin = get_origin()
