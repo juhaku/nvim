@@ -27,7 +27,7 @@ end
 
 -- shorter command git commit
 vim.api.nvim_create_user_command("Gc", function(opts)
-	vim.cmd("G commit" .. opts.args)
+	vim.cmd("G commit " .. opts.args)
 end, {
 	nargs = 1,
 	complete = function()
@@ -67,7 +67,7 @@ end, {
 })
 
 vim.api.nvim_create_user_command("Gl", function(opts)
-	vim.cmd("G pull" .. opts.args)
+	vim.cmd("G pull " .. opts.args)
 end, {
 	nargs = 1,
 	complete = function()
