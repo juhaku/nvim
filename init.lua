@@ -3,6 +3,7 @@ require("impatient")
 -- core
 require("core_options")
 require("core_keymap")
+require("git_commands")
 
 -- plugins
 require("plugins")
