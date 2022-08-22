@@ -69,12 +69,12 @@ keymap.set("n", "<leader>tt", ":tabnew | terminal<CR>", opts)
 keymap.set("n", "<leader>te", ":te | terminal<CR>", opts)
 
 keymap.set("t", "<Esc>", "<C-\\><C-n>", opts)
-keymap.set("t", "<A-w>q", "<C-\\><C-n><C-w>q", opts)
+-- keymap.set("t", "<A-w>q", "<C-\\><C-n><C-w>q", opts)
 
-keymap.set("t", "<A-w>k", "<C-\\><C-n><C-w>k", opts)
-keymap.set("t", "<A-w>j", "<C-\\><C-n><C-w>j", opts)
-keymap.set("t", "<A-w>l", "<C-\\><C-n><C-w>l", opts)
-keymap.set("t", "<A-w>h", "<C-\\><C-n><C-w>h", opts)
+-- keymap.set("t", "<A-w>k", "<C-\\><C-n><C-w>k", opts)
+-- keymap.set("t", "<A-w>j", "<C-\\><C-n><C-w>j", opts)
+-- keymap.set("t", "<A-w>l", "<C-\\><C-n><C-w>l", opts)
+-- keymap.set("t", "<A-w>h", "<C-\\><C-n><C-w>h", opts)
 
 vim.api.nvim_create_autocmd({ "TermOpen" }, {
 	pattern = { "*" },
