@@ -26,9 +26,14 @@ local get_origin = function()
 end
 
 -- shorter command git commit
-vim.api.nvim_create_user_command("Gc", function(_)
-	vim.cmd("G commit")
-end, {})
+vim.api.nvim_create_user_command("Gc", function(opts)
+	vim.cmd("G commit" .. opts.args)
+end, {
+	nargs = 1,
+	complete = function()
+		return { "--amend" }
+	end,
+})
 
 vim.api.nvim_create_user_command("Gcam", function(opts)
 	vim.cmd("G commit -a -m '" .. opts.args .. "'")
