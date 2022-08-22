@@ -4,7 +4,6 @@ vim.api.nvim_create_user_command("Gc", function(_)
 end, {})
 
 vim.api.nvim_create_user_command("Gcam", function(opts)
-	print(vim.inspect(opts))
 	vim.cmd("G commit -a -m '" .. opts.args .. "'")
 	if opts.bang == true then
 		vim.cmd("G push")
@@ -20,8 +19,8 @@ vim.api.nvim_create_user_command("Gcmsg", function(opts)
 		vim.cmd("G push")
 	end
 end, {
+	nargs = "?",
 	bang = true,
-	nargs = "*",
 })
 
 vim.api.nvim_create_user_command("Gaa", function(_)
