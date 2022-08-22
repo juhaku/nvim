@@ -24,6 +24,7 @@ telescope.setup({
 			previewer = false,
 			path = telescope_buffer_dir(),
 			cwd_to_path = true,
+			respect_gitignore = false,
 			layout_config = {
 				center = {
 					height = 40,
