@@ -69,7 +69,7 @@ end, {
 vim.api.nvim_create_user_command("Gl", function(opts)
 	vim.cmd("G pull " .. opts.args)
 end, {
-	nargs = 1,
+	nargs = "?",
 	complete = function()
 		return { "-r" }
 	end,
