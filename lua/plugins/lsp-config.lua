@@ -85,9 +85,9 @@ local on_attach = function(client, bufnr)
 	-- )
 	vim.keymap.set({ "n", "i" }, "<C-k>", vim.lsp.buf.signature_help, bufopts)
 	-- vim.keymap.set('n', '<C-p>', vim.lsp.buf.signature_help, bufopts)
-	vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, bufopts)
-	vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
-	vim.keymap.set("n", "<space>wl", function()
+	vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, bufopts)
+	vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
+	vim.keymap.set("n", "<leader>wl", function()
 		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 	end, bufopts)
 	-- vim.keymap.set("n", "td", vim.lsp.buf.type_definition, bufopts)
@@ -105,9 +105,9 @@ local on_attach = function(client, bufnr)
 	-- 	":lua require('telescope.builtin').lsp_document_symbols({layout_config = {height = 50}}) <cr>",
 	-- 	bufopts
 	-- )
-	vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, bufopts)
-	vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, bufopts)
-	vim.keymap.set("x", "<space>ca", vim.lsp.buf.range_code_action, bufopts)
+	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
+	vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
+	vim.keymap.set("x", "<leader>ca", vim.lsp.buf.range_code_action, bufopts)
 	-- vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
 	vim.keymap.set("n", "gr", ":Trouble lsp_references<CR>", bufopts)
 	-- vim.keymap.set(
@@ -116,7 +116,7 @@ local on_attach = function(client, bufnr)
 	-- 	":lua require('telescope.builtin').lsp_references({layout_config = {height = 50}}) <cr>",
 	-- 	bufopts
 	-- )
-	vim.keymap.set("n", "<space>f", vim.lsp.buf.formatting, bufopts)
+	vim.keymap.set("n", "<leader>f", vim.lsp.buf.formatting, bufopts)
 
 	vim.api.nvim_create_autocmd(
 		{ "BufWritePre" },
