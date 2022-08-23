@@ -54,7 +54,7 @@ local navic = require("nvim-navic")
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
 	navic.attach(client, bufnr)
-	if client.name == "sumneko_lua" or client.name == "gopls" then
+	if client.name == "sumneko_lua" or client.name == "gopls" or client.name == "tsserver" then
 		client.resolved_capabilities.document_formatting = false
 	end
 	require("illuminate").on_attach(client)
