@@ -8,7 +8,12 @@ keymap.set("n", "<leader>n", ":nohl<CR>", opts)
 keymap.set("n", "<leader>w", ":w<CR>", opts)
 keymap.set("n", "vae", "gg<S-v>G", opts) -- visual select all
 keymap.set("n", "QQ", ":qa<CR>", opts)
-keymap.set("c", "<C-S-v>", "<MiddleMouse>", opts) -- paste in command mode via middle click
+
+-- neovide paste
+if vim.g.neovide ~= nil then
+	keymap.set({ "c", "i" }, "<C-S-v>", '<C-r>"', {})
+	keymap.set("n", "<C-S-v>", '"+p', {})
+end
 
 -- resize splits
 keymap.set("n", "<C-Left>", "<C-w><", opts)
