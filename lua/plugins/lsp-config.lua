@@ -184,15 +184,15 @@ require("typescript").setup({
 			-- add command to perform code actions on write
 			vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 				pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
-				command = ":TypescriptFixAll",
+				command = ":TypescriptAddMissingImports!",
 			})
 			vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 				pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
-				command = ":TypescriptAddMissingImports",
+				command = ":TypescriptOrganizeImports!",
 			})
 			vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 				pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
-				command = ":TypescriptOrganizeImports",
+				command = ":TypescriptFixAll!",
 			})
 
 			on_attach(client, bufnr)
