@@ -38,6 +38,7 @@ keymap.set("n", "tc", ":tabclose<CR>", opts)
 
 -- Telescope
 keymap.set("n", "tf", ":Telescope find_files<CR>", opts)
+keymap.set("n", "tF", ":lua require('telescope.builtin').find_files({hidden=true, no_ignore=true})<CR>", opts)
 keymap.set("n", "tg", ":Telescope live_grep<CR>", opts)
 keymap.set("n", "tb", ":Telescope buffers<CR>", opts)
 -- keymap.set("n", "fb", ":Telescope file_browser<CR>")
