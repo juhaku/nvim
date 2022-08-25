@@ -31,7 +31,7 @@ vim.api.nvim_create_user_command("Gc", function(opts)
 end, {
 	nargs = "?",
 	complete = function()
-		return { "--amend" }
+		return { "--amend", "--fixup=" }
 	end,
 })
 
