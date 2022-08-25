@@ -13,6 +13,10 @@ telescope.setup({
 			["n"] = {
 				["<C-c>"] = telescope_actions.close,
 				["q"] = telescope_actions.close,
+				["bd"] = telescope_actions.delete_buffer,
+			},
+			["i"] = {
+				["<C-b>d"] = telescope_actions.delete_buffer,
 			},
 		},
 	},

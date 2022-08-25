@@ -34,7 +34,7 @@ keymap.set({ "n", "i", "v", "c" }, "<C-S-tab>", ":tabprev<CR>", opts)
 keymap.set({ "n", "i", "v", "c" }, "<C-tab>", ":tabnext<CR>", opts)
 keymap.set("n", "tn", ":tabnew<CR>", opts)
 keymap.set("n", "to", ":tabonly<CR>", opts)
-keymap.set("n", "tc", ":tabonly<CR>", opts)
+keymap.set("n", "tc", ":tabclose<CR>", opts)
 
 -- Telescope
 keymap.set("n", "tf", ":Telescope find_files<CR>", opts)
