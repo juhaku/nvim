@@ -23,7 +23,7 @@ local options = vim.opt
 
 options.winblend = 20
 options.pumblend = 20
-options.completeopt = "menu,menuone,preview,noselect"
+options.completeopt = "menu,menuone,preview,noinsert,noselect"
 options.syntax = "on"
 options.scrolloff = 8
 options.scrolloff = 8
