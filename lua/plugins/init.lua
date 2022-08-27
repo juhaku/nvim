@@ -71,7 +71,14 @@ require("packer").startup(function()
 	use("tpope/vim-fugitive")
 end)
 
-require("nvim-autopairs").setup({})
+local autopairs = require("nvim-autopairs")
+autopairs.setup({})
+local Rule = require("nvim-autopairs.rule")
+
+autopairs.add_rules({
+	Rule("%<%>$", "</>", { "typescript", "typescriptreact", "javascript", "javascriptreact" }):use_regex(true),
+})
+
 require("nvim-treesitter.configs").setup({
 	autotag = {
 		enable = true,
