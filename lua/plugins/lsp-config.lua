@@ -294,14 +294,20 @@ require("lspconfig").jsonls.setup({
 	},
 })
 
-local util = require("lspconfig.util")
+-- toml lsp server
+require("lspconfig").taplo.setup({
+	on_attach = on_attach,
+	handlers = handlers,
+})
+
+-- local util = require("lspconfig.util")
 require("lspconfig").yamlls.setup({
 	on_attach = function(client, bufnr)
-		local chart_path = util.root_pattern("Chart.yaml", "Chart.yml")
-		if chart_path ~= nil then
-			print("disabling diagnostics for helm chart")
-			vim.diagnostic.disable(bufnr)
-		end
+		-- local chart_path = util.root_pattern("Chart.yaml", "Chart.yml")
+		-- if chart_path ~= nil then
+		-- 	print("disabling diagnostics for helm chart")
+		-- 	vim.diagnostic.disable(bufnr)
+		-- end
 
 		return on_attach(client, bufnr)
 	end,
