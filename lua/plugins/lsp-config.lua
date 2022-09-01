@@ -23,6 +23,7 @@ vim.keymap.set("n", "<F2>", vim.diagnostic.open_float, opts)
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
+vim.keymap.set("n", "<leader>Q", vim.diagnostic.setqflist, opts)
 
 local config = {
 	virtual_text = true,
@@ -75,8 +76,8 @@ local on_attach = function(client, bufnr)
 	-- 	bufopts
 	-- )
 	vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-	-- vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-	vim.keymap.set("n", "gi", ":Trouble lsp_implementations<CR>", bufopts)
+	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
+	-- vim.keymap.set("n", "gi", ":Trouble lsp_implementations<CR>", bufopts)
 	-- vim.keymap.set(
 	-- 	"n",
 	-- 	"gi",
@@ -90,8 +91,8 @@ local on_attach = function(client, bufnr)
 	vim.keymap.set("n", "<leader>wl", function()
 		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 	end, bufopts)
-	-- vim.keymap.set("n", "td", vim.lsp.buf.type_definition, bufopts)
-	vim.keymap.set("n", "td", ":Trouble lsp_type_definitions<CR>", bufopts)
+	vim.keymap.set("n", "td", vim.lsp.buf.type_definition, bufopts)
+	-- vim.keymap.set("n", "td", ":Trouble lsp_type_definitions<CR>", bufopts)
 	-- vim.keymap.set(
 	-- 	"n",
 	-- 	"td",
@@ -108,8 +109,8 @@ local on_attach = function(client, bufnr)
 	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
 	vim.keymap.set("n", "<A-CR>", vim.lsp.buf.code_action, bufopts)
 	vim.keymap.set("x", "<A-CR>", vim.lsp.buf.range_code_action, bufopts)
-	-- vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-	vim.keymap.set("n", "gr", ":Trouble lsp_references<CR>", bufopts)
+	vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
+	-- vim.keymap.set("n", "gr", ":Trouble lsp_references<CR>", bufopts)
 	-- vim.keymap.set(
 	-- 	"n",
 	-- 	"gr",

@@ -18,6 +18,7 @@ require("packer").startup(function()
 	use("tpope/vim-commentary")
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
 	use("nvim-treesitter/nvim-treesitter-refactor")
+	use("nvim-treesitter/nvim-treesitter-context")
 	use("nvim-lualine/lualine.nvim")
 	use("p00f/nvim-ts-rainbow")
 	use("nvim-telescope/telescope.nvim")
@@ -29,6 +30,8 @@ require("packer").startup(function()
 	use("stevearc/dressing.nvim")
 	use("folke/trouble.nvim")
 	use("lukas-reineke/indent-blankline.nvim")
+	use("https://gitlab.com/yorickpeterse/nvim-pqf")
+	use("phaazon/hop.nvim")
 
 	-- cmp plugins
 	use("hrsh7th/cmp-nvim-lsp")
@@ -79,11 +82,6 @@ autopairs.add_rules({
 	Rule("%<%>$", "</>", { "typescript", "typescriptreact", "javascript", "javascriptreact" }):use_regex(true),
 })
 
-require("nvim-treesitter.configs").setup({
-	autotag = {
-		enable = true,
-	},
-})
 require("nvim-surround").setup({})
 require("dressing").setup({
 	input = {
@@ -144,3 +142,9 @@ require("indent_blankline").setup({
 	show_current_context_start = false,
 	indent_blankline_use_treesitter_scope = true,
 })
+
+require("pqf").setup({
+	signs = { Error = "", Warn = "", Hint = "", Info = "" },
+})
+
+require("hop").setup()

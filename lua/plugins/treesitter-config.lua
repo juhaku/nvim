@@ -85,4 +85,9 @@ require("nvim-treesitter.configs").setup({
 		-- }
 	},
 	textobjects = { enable = true },
+
+	autotag = {
+		enable = true,
+	},
 })
+require("treesitter-context").setup()
