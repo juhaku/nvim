@@ -11,6 +11,11 @@ keymap.set("n", "QQ", ":qa<CR>", opts)
 keymap.set("n", "<leader>wf", ":HopPattern<CR>", opts)
 keymap.set({ "n", "i", "v", "x", "c" }, "<Bslash><Bslash>", "<Esc>", opts)
 keymap.set("i", "<C-c>", "<Esc>", opts)
+-- TODO filter quicfix list based on ignored files
+keymap.set("n", "<C-n>", ":cnext<CR>zz", opts)
+keymap.set("n", "<C-p>", ":cprev<CR>zz", opts)
+-- keymap.set("n", "<C-n>", ":lnext<CR>zz", opts)
+-- keymap.set("n", "<C-p>", ":lprev<CR>zz", opts)
 
 -- neovide paste
 if vim.g.neovide ~= nil then
