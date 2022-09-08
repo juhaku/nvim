@@ -14,8 +14,8 @@ keymap.set("i", "<C-c>", "<Esc>", opts)
 -- TODO filter quicfix list based on ignored files
 keymap.set("n", "<C-n>", ":cnext<CR>zz", opts)
 keymap.set("n", "<C-p>", ":cprev<CR>zz", opts)
--- keymap.set("n", "<C-n>", ":lnext<CR>zz", opts)
--- keymap.set("n", "<C-p>", ":lprev<CR>zz", opts)
+keymap.set("n", "<C-S-n>", ":lnext<CR>zz", opts)
+keymap.set("n", "<C-S-p>", ":lprev<CR>zz", opts)
 
 -- neovide paste
 if vim.g.neovide ~= nil then
