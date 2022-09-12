@@ -433,3 +433,10 @@ require("flutter-tools").setup({
 		capabilities = capabilities,
 	},
 })
+
+local M = {}
+
+M.on_attach = on_attach
+M.capabilities = capabilities
+
+return M

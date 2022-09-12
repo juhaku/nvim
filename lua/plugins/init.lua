@@ -10,7 +10,8 @@ require("packer").startup(function()
 		branch = "v2.x",
 		requires = {
 			"nvim-lua/plenary.nvim",
-			"kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
+			"kyazdani42/nvim-web-devicons",
+			"MunifTanjim/nui.nvim",
 		},
 	})
 
@@ -61,10 +62,11 @@ require("packer").startup(function()
 	-- languages
 	use("simrat39/rust-tools.nvim")
 	use("saecki/crates.nvim")
+	use("crispgm/nvim-go")
+	use("mfussenegger/nvim-jdtls")
+	use("akinsho/flutter-tools.nvim")
 	use("b0o/schemastore.nvim")
 	use("jose-elias-alvarez/typescript.nvim")
-	use("crispgm/nvim-go")
-	use("akinsho/flutter-tools.nvim")
 
 	-- dashboard & sessions
 	use("goolord/alpha-nvim")

@@ -1,6 +1,7 @@
 -- cache for faster startup
 require("impatient")
 -- core
+require("colors")
 require("core_options")
 require("core_keymap")
 require("git_commands")

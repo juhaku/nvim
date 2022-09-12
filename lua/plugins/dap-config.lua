@@ -8,6 +8,50 @@ require("dap-go").setup()
 -- 		console = "externalTerminal",
 -- 	},
 -- })
+dap.adapters.node2 = {
+	type = "executable",
+	command = "node",
+	args = { os.getenv("HOME") .. "/.local/share/nvim/mason/packages/node-debug2-adapter/out/src/nodeDebug.js" },
+}
+
+-- for _, language in ipairs({ "typescript", "javascript" }) do
+-- 	dap.configurations[language] = {
+-- 		{
+-- 			type = "node2",
+-- 			request = "launch",
+-- 			name = "Launch file",
+-- 			program = "${file}",
+-- 			cwd = "${workspaceFolder}",
+-- 			sourceMaps = true,
+-- 			protocol = "inspector",
+-- 			console = "integratedTerminal",
+-- 		},
+-- 		{
+-- 			type = "node2",
+-- 			request = "attach",
+-- 			name = "Attach",
+-- 			processId = require("dap.utils").pick_process,
+-- 			cwd = "${workspaceFolder}",
+-- 		},
+-- 		{
+-- 			type = "node2",
+-- 			request = "launch",
+-- 			name = "Debug Jest Tests",
+-- 			-- trace = true, -- include debugger info
+-- 			runtimeExecutable = "node",
+-- 			runtimeArgs = {
+-- 				"${workspaceFolder}/node_modules/.bin/jest",
+-- 				"--runInBand",
+-- 			},
+-- 			rootPath = "${workspaceFolder}",
+-- 			sourceMaps = true,
+-- 			cwd = "${workspaceFolder}",
+-- 			-- console = "integratedTerminal",
+-- 			-- internalConsoleOptions = "neverOpen",
+-- 			skipFiles = { "<node_internals>/**", "node_modules/**" },
+-- 		},
+-- 	}
+-- end
 
 dapui.setup()
 -- dapui.setup({

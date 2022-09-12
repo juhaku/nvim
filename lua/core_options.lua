@@ -1,22 +1,9 @@
 -- global options
 vim.g.mapleader = " "
 
-if vim.g.neovide == nil then
-	vim.g.tokyonight_transparent = true
-	vim.g.tokyonight_transparent_sidebar = true
-else
+if vim.g.neovide then
 	require("neovide-config")
 end
-
-vim.g.tokyonight_style = "night"
-vim.g.tokyonight_dark_float = false
-
--- cmds
-vim.cmd([[colorscheme tokyonight]])
--- vim.cmd([[
---     highlight FloatBorder guibg=NONE
---     highlight NormalFloat guibg=NONE
--- ]])
 
 -- options
 local options = vim.opt

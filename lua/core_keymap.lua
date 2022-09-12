@@ -75,6 +75,7 @@ keymap.set(
 	opts
 )
 keymap.set("n", "<leader>dl", ":lua lua require('dap').run_last()<CR>", opts)
+keymap.set("n", "<F12>", ":lua require('dapui').close()<CR>", opts)
 
 -- terminal
 keymap.set("n", "<leader>tx", ":split | terminal<CR>", opts)
