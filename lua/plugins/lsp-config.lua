@@ -202,41 +202,16 @@ require("typescript").setup({
 	},
 })
 
--- require("lspconfig").eslint.setup({
--- 	capabilities = capabilities,
--- 	on_attach = on_attach,
--- 	settings = {
--- 		codeAction = {
--- 			disableRuleComment = {
--- 				enable = true,
--- 				location = "separateLine",
--- 			},
--- 			showDocumentation = {
--- 				enable = true,
--- 			},
--- 		},
--- 		codeActionOnSave = {
--- 			enable = false,
--- 			mode = "all",
--- 			source = {
--- 				fixAll = true,
--- 				organizeImports = true,
--- 			},
--- 		},
--- 		format = true,
--- 		-- nodePath = "",
--- 		-- onIgnoredFiles = "off",
--- 		-- packageManager = "npm",
--- 		-- quiet = false,
--- 		-- rulesCustomizations = {},
--- 		run = "onType",
--- 		-- useESLintClass = false,
--- 		validate = "on",
--- 		-- workingDirectory = {
--- 		-- 	mode = "location",
--- 		-- },
--- 	},
--- })
+require("lspconfig").eslint.setup({
+	capabilities = capabilities,
+	on_attach = function(client, bufnr)
+		vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+			pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+			command = ":EslintFixAll",
+		})
+		on_attach(client, bufnr)
+	end,
+})
 
 require("lspconfig").vuels.setup({
 	on_attach = on_attach,
