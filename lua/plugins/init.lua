@@ -11,7 +11,6 @@ require("packer").startup(function()
 		requires = {
 			"nvim-lua/plenary.nvim",
 			"kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
-			"MunifTanjim/nui.nvim",
 		},
 	})
 
@@ -32,6 +31,10 @@ require("packer").startup(function()
 	use("lukas-reineke/indent-blankline.nvim")
 	use("https://gitlab.com/yorickpeterse/nvim-pqf")
 	use("phaazon/hop.nvim")
+	use("RRethy/vim-illuminate")
+	use("jose-elias-alvarez/null-ls.nvim")
+	use("kylechui/nvim-surround")
+	use("nvim-lua/plenary.nvim")
 
 	-- cmp plugins
 	use("hrsh7th/cmp-nvim-lsp")
@@ -48,22 +51,20 @@ require("packer").startup(function()
 	use("williamboman/mason.nvim")
 	use("williamboman/mason-lspconfig.nvim")
 	use("neovim/nvim-lspconfig")
-	use("simrat39/rust-tools.nvim")
-	use("saecki/crates.nvim")
-	use("b0o/schemastore.nvim")
 
-	use("RRethy/vim-illuminate")
-	use("jose-elias-alvarez/null-ls.nvim")
-	use("kylechui/nvim-surround")
-	use("nvim-lua/plenary.nvim")
+	-- dap
 	use("mfussenegger/nvim-dap")
 	use("theHamsta/nvim-dap-virtual-text")
 	use("rcarriga/nvim-dap-ui")
 	use("leoluz/nvim-dap-go")
-	-- use("David-Kunz/jester")
-	--
+
+	-- languages
+	use("simrat39/rust-tools.nvim")
+	use("saecki/crates.nvim")
+	use("b0o/schemastore.nvim")
 	use("jose-elias-alvarez/typescript.nvim")
 	use("crispgm/nvim-go")
+	use("akinsho/flutter-tools.nvim")
 
 	-- dashboard & sessions
 	use("goolord/alpha-nvim")

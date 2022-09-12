@@ -22,8 +22,8 @@ local opts = { noremap = true, silent = true }
 vim.keymap.set("n", "<F2>", vim.diagnostic.open_float, opts)
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
-vim.keymap.set("n", "<leader>Q", vim.diagnostic.setqflist, opts)
+vim.keymap.set("n", "<leader>Q", vim.diagnostic.setloclist, opts)
+vim.keymap.set("n", "<leader>q", vim.diagnostic.setqflist, opts)
 
 local config = {
 	virtual_text = true,
@@ -127,7 +127,7 @@ end
 
 -- Setup lspconfig.
 local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
--- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+
 require("lspconfig")["sumneko_lua"].setup({
 	on_attach = on_attach,
 	handlers = handlers,
@@ -202,32 +202,6 @@ require("typescript").setup({
 	},
 })
 
--- require("lspconfig").tsserver.setup({
--- 	capabilities = capabilities,
--- 	on_attach = on_attach,
--- 	settings = {
--- 		typescript = {
--- 			inlayHints = {
--- 				includeInlayEnumMemberValueHints = true,
--- 				includeInlayFunctionLikeReturnTypeHints = true,
--- 				includeInlayFunctionParameterTypeHints = true,
--- 				includeInlayParameterNameHints = "all",
--- 				includeInlayParameterNameHintsWhenArgumentMatchesName = true,
--- 				includeInlayPropertyDeclarationTypeHints = true,
--- 				includeInlayVariableTypeHints = true,
--- 			},
--- 		},
--- 		codeActionsOnSave = {
--- 			source = {
--- 				addMissingImports = true,
--- 				fixAll = true,
--- 				removeUnused = true,
--- 				organizeImports = true,
--- 			},
--- 		},
--- 	},
--- })
-
 -- require("lspconfig").eslint.setup({
 -- 	capabilities = capabilities,
 -- 	on_attach = on_attach,
@@ -274,6 +248,7 @@ require("lspconfig").html.setup({
 	on_attach = on_attach,
 	handlers = handlers,
 })
+
 require("lspconfig").cssls.setup({
 	on_attach = on_attach,
 	handlers = handlers,
@@ -469,3 +444,17 @@ local rust_analyer_opts = {
 
 rust_tools.setup(rust_analyer_opts)
 rust_tools.inlay_hints.enable()
+
+require("flutter-tools").setup({
+	debugger = {
+		enabled = true,
+		register_configurations = function(_)
+			require("dap.ext.vscode").load_launchjs()
+		end,
+	},
+	lsp = {
+		handlers = handlers,
+		on_attach = on_attach,
+		capabilities = capabilities,
+	},
+})
