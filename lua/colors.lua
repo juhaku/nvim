@@ -1,13 +1,14 @@
 local tokyonight = require("tokyonight")
-local opts = {}
+local opts = {
+	style = "night",
+	styles = {
+		sidebars = "transparent",
+	},
+}
 
 if vim.g.neovide == nil then
 	opts = vim.tbl_deep_extend("force", opts, {
-		style = "night",
 		transparent = true,
-		styles = {
-			sidebars = "transparent",
-		},
 	})
 end
 
