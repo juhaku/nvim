@@ -54,7 +54,9 @@ local navic = require("nvim-navic")
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-	navic.attach(client, bufnr)
+	if client.name ~= "eslint" then
+		navic.attach(client, bufnr)
+	end
 	if client.name == "sumneko_lua" or client.name == "gopls" or client.name == "tsserver" then
 		client.resolved_capabilities.document_formatting = false
 	end
