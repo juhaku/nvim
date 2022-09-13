@@ -103,8 +103,8 @@ local opts = { noremap = true, silent = true }
 
 keymap.set("n", "<C-S-o>", ":lua require('jdtls').organize_imports()<CR>", opts)
 
-keymap.set("n", "jtm", ":lua require('jdtls').test_nearest_method()<CR>", opts)
-keymap.set("n", "jtc", ":lua require('jdtls').test_class()<CR>", opts)
+keymap.set("n", "<leader>tm", ":lua require('jdtls').test_nearest_method()<CR>", opts)
+keymap.set("n", "<leader>tc", ":lua require('jdtls').test_class()<CR>", opts)
 
 -- nnoremap <A-o> <Cmd>lua require'jdtls'.organize_imports()<CR>
 -- nnoremap crv <Cmd>lua require('jdtls').extract_variable()<CR>
