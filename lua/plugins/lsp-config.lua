@@ -57,7 +57,12 @@ local on_attach = function(client, bufnr)
 	if client.name ~= "eslint" then
 		navic.attach(client, bufnr)
 	end
-	if client.name == "sumneko_lua" or client.name == "gopls" or client.name == "tsserver" then
+	if
+		client.name == "sumneko_lua"
+		or client.name == "gopls"
+		or client.name == "tsserver"
+		or client.name == "eslint"
+	then
 		client.resolved_capabilities.document_formatting = false
 	end
 	require("illuminate").on_attach(client)
@@ -180,23 +185,54 @@ require("lspconfig").bashls.setup({
 	handlers = handlers,
 })
 
-require("typescript").setup({
+local typescript = require("typescript")
+
+local function ts_on_save()
+	local lsp_config_util = require("lspconfig.util")
+	local ts_save_group = vim.api.nvim_create_augroup("TsOnSave", {})
+
+	vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+		pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+		group = ts_save_group,
+		callback = function(options)
+			local eslint_lsp_client = lsp_config_util.get_active_client_by_name(options.buf, "eslint")
+			if eslint_lsp_client ~= nil then
+				vim.cmd("EslintFixAll")
+				vim.cmd("redraw")
+			end
+
+			local tsserver_lsp_client = lsp_config_util.get_active_client_by_name(options.buf, "tsserver")
+			if tsserver_lsp_client ~= nil then
+				local typescript_acions = typescript.actions
+				typescript_acions.addMissingImports({ sync = true })
+				vim.cmd("redraw")
+				typescript_acions.fixAll({ sync = true })
+				vim.cmd("redraw")
+				typescript_acions.organizeImports({ sync = true })
+				vim.cmd("redraw")
+			end
+		end,
+	})
+end
+
+typescript.setup({
 	server = {
 		capabilities = capabilities,
 		on_attach = function(client, bufnr)
+			ts_on_save()
 			-- add command to perform code actions on write
-			vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-				pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
-				command = ":TypescriptAddMissingImports!",
-			})
-			vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-				pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
-				command = ":TypescriptOrganizeImports!",
-			})
-			vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-				pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
-				command = ":TypescriptFixAll!",
-			})
+			-- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+			-- 	pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+			-- 	command = ":TypescriptAddMissingImports!",
+			-- })
+			-- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+			-- 	pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+			-- 	command = ":TypescriptOrganizeImports!",
+			-- })
+			-- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+			-- 	pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+			-- 	command = ":TypescriptFixAll!",
+			-- })
 
 			on_attach(client, bufnr)
 		end,
@@ -207,10 +243,11 @@ require("typescript").setup({
 require("lspconfig").eslint.setup({
 	capabilities = capabilities,
 	on_attach = function(client, bufnr)
-		vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-			pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
-			command = ":EslintFixAll",
-		})
+		ts_on_save()
+		-- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+		-- 	pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+		-- 	command = ":EslintFixAll",
+		-- })
 		on_attach(client, bufnr)
 	end,
 })
