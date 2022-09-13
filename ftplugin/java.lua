@@ -21,6 +21,28 @@ local jdtls = require("jdtls")
 local extendedClientCapabilities = jdtls.extendedClientCapabilities
 extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
 
+local function get_jdks()
+	local jdk_paths = vim.fn.systemlist("fd java /usr/lib/jvm -d 1")
+	local jdks = {}
+
+	for _, path in ipairs(jdk_paths) do
+		local version = string.gsub(path, "[a-zA-Z/-]*", "")
+		if tonumber(version) < 9 and tonumber(version) > 5 then
+			version = "1." .. version
+		end
+		table.insert(jdks, {
+			name = "JavaSE-" .. version,
+			path = path,
+		})
+	end
+
+	table.sort(jdks, function(a, b)
+		return a.name < b.name
+	end)
+
+	return jdks
+end
+
 local config = {
 	cmd = {
 		-- use java 17 or never to run
@@ -74,6 +96,9 @@ local config = {
 			},
 			signatureHelp = {
 				enabled = true,
+			},
+			configuration = {
+				runtimes = get_jdks(),
 			},
 		},
 	},
