@@ -16,7 +16,10 @@ local bundles = {
 }
 vim.list_extend(bundles, vim.split(vim.fn.glob(home .. "/.config/nvim/lib/vscode-java-test/server/*.jar"), "\n"))
 
-print(vim.inspect(bundles))
+local jdtls = require("jdtls")
+
+local extendedClientCapabilities = jdtls.extendedClientCapabilities
+extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
 
 local config = {
 	cmd = {
@@ -69,12 +72,6 @@ local config = {
 			maven = {
 				downloadSources = true,
 			},
-			-- does not exists
-			-- inlayhints = {
-			-- 	parameterNames = {
-			-- 		enabled = true,
-			-- 	},
-			-- },
 			signatureHelp = {
 				enabled = true,
 			},
@@ -83,11 +80,12 @@ local config = {
 
 	init_options = {
 		bundles = bundles,
+		extendedClientCapabilities = extendedClientCapabilities,
 	},
 }
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
-require("jdtls").start_or_attach(config)
+jdtls.start_or_attach(config)
 
 vim.cmd([[
     command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_compile JdtCompile lua require('jdtls').compile(<f-args>)
@@ -102,7 +100,6 @@ local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
 
 keymap.set("n", "<C-S-o>", ":lua require('jdtls').organize_imports()<CR>", opts)
-
 keymap.set("n", "<leader>tm", ":lua require('jdtls').test_nearest_method()<CR>", opts)
 keymap.set("n", "<leader>tc", ":lua require('jdtls').test_class()<CR>", opts)
 
