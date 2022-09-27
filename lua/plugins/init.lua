@@ -36,6 +36,8 @@ require("packer").startup(function()
 	use("jose-elias-alvarez/null-ls.nvim")
 	use("kylechui/nvim-surround")
 	use("nvim-lua/plenary.nvim")
+	-- use("j-hui/fidget.nvim")
+	use("folke/lsp-colors.nvim")
 
 	-- cmp plugins
 	use("hrsh7th/cmp-nvim-lsp")
@@ -151,3 +153,6 @@ require("pqf").setup({
 })
 
 require("hop").setup()
+require("lsp-colors").setup()
+
+-- require("fidget").setup({})

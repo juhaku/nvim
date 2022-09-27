@@ -76,6 +76,17 @@ local config = {
 		require("jdtls").setup_dap({ hotcodereplace = "auto" })
 		require("jdtls.dap").setup_dap_main_class_configs()
 		require("jdtls.setup").add_commands()
+		-- local dap = require("dap")
+		-- -- add java debug attach config
+		-- vim.fn.list_extend(dap.configurations.java, {
+		-- 	{
+		-- 		type = "java",
+		-- 		request = "attach",
+		-- 		name = "Debug (Attach) - Remote",
+		-- 		hostName = "127.0.0.1",
+		-- 		port = 5005,
+		-- 	},
+		-- })
 
 		lsp_config.on_attach(client, bufnr)
 	end,
