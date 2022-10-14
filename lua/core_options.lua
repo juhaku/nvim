@@ -8,6 +8,8 @@ end
 -- options
 local options = vim.opt
 
+options.cmdheight = 1
+options.showmode = false
 options.winblend = 20
 options.pumblend = 20
 options.completeopt = "menu,menuone,preview,noinsert,noselect"
