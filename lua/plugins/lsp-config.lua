@@ -336,9 +336,7 @@ local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
 
 local rust_tools = require("rust-tools")
 local rust_analyer_opts = {
-	tools = { -- rust-tools options
-		autoSetHints = true,
-
+	tools = {
 		-- how to execute terminal commands
 		-- options right now: termopen / quickfix
 		executor = require("rust-tools/executors").termopen,
@@ -349,6 +347,7 @@ local rust_analyer_opts = {
 
 		-- These apply to the default RustSetInlayHints command
 		inlay_hints = {
+			auto = true,
 
 			-- Only show inlay hints for the current line
 			only_current_line = false,
@@ -469,9 +468,7 @@ local rust_analyer_opts = {
 		adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
 	},
 }
-
 rust_tools.setup(rust_analyer_opts)
-rust_tools.inlay_hints.enable()
 
 require("flutter-tools").setup({
 	debugger = {
