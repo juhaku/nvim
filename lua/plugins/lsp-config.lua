@@ -49,17 +49,17 @@ local handlers = {
 	["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
 }
 
-local navic = require("nvim-navic")
+-- local navic = require("nvim-navic")
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-	if client.server_capabilities.documentSymbolProvider then
-		local filename = vim.fn.expand("%")
-		-- local location = navic.get_location()
-		vim.o.winbar = filename .. " > " .. "%{%v:lua.require'nvim-navic'.get_location()%}"
-		navic.attach(client, bufnr)
-	end
+	-- if client.server_capabilities.documentSymbolProvider then
+	-- 	local filename = vim.fn.expand("%")
+	-- 	-- local location = navic.get_location()
+	-- 	vim.o.winbar = filename .. " > " .. "%{%v:lua.require'nvim-navic'.get_location()%}"
+	-- 	navic.attach(client, bufnr)
+	-- end
 	if
 		client.name == "sumneko_lua"
 		or client.name == "gopls"
@@ -202,6 +202,7 @@ local function ts_on_save()
 			if eslint_lsp_client ~= nil then
 				vim.cmd("EslintFixAll")
 				vim.cmd("redraw")
+				vim.cmd("write")
 			end
 
 			local tsserver_lsp_client = lsp_config_util.get_active_client_by_name(options.buf, "tsserver")
@@ -211,6 +212,7 @@ local function ts_on_save()
 				-- vim.cmd("redraw")
 				typescript_acions.fixAll({ sync = true })
 				vim.cmd("redraw")
+				vim.cmd("write")
 				-- typescript_acions.organizeImports({ sync = true })
 				-- vim.cmd("redraw")
 			end

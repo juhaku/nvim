@@ -1,18 +1,18 @@
 local lsp_config = require("plugins.lsp-config")
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
-local jdtls_path = "/home/juha/.local/share/nvim/mason/packages/jdtls"
-local jdtls_launcher = "org.eclipse.equinox.launcher_*.jar"
-
 local home = os.getenv("HOME")
+
+local jdtls_path = home .. "/.local/share/nvim/mason/packages/jdtls"
+local jdtls_launcher = "org.eclipse.equinox.launcher_*.jar"
 
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
 local workspace_dir = home .. "/.config/jdtls/" .. project_name
 
 local bundles = {
-    vim.fn.glob(
-        home
-        .. "/.config/nvim/lib/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"
-    ),
+	vim.fn.glob(
+		home
+			.. "/.config/nvim/lib/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"
+	),
 }
 vim.list_extend(bundles, vim.split(vim.fn.glob(home .. "/.config/nvim/lib/vscode-java-test/server/*.jar"), "\n"))
 
@@ -22,102 +22,102 @@ local extendedClientCapabilities = jdtls.extendedClientCapabilities
 extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
 
 local function get_jdks()
-    local jdk_paths = vim.fn.systemlist("fd java /usr/lib/jvm -d 1")
-    local jdks = {}
+	local jdk_paths = vim.fn.systemlist("fd java /usr/lib/jvm -d 1")
+	local jdks = {}
 
-    for _, path in ipairs(jdk_paths) do
-        local version = string.gsub(path, "[a-zA-Z/-]*", "")
-        if tonumber(version) < 9 and tonumber(version) > 5 then
-            version = "1." .. version
-        end
-        table.insert(jdks, {
-            name = "JavaSE-" .. version,
-            path = path,
-        })
-    end
+	for _, path in ipairs(jdk_paths) do
+		local version = string.gsub(path, "[a-zA-Z/-]*", "")
+		if tonumber(version) < 9 and tonumber(version) > 5 then
+			version = "1." .. version
+		end
+		table.insert(jdks, {
+			name = "JavaSE-" .. version,
+			path = path,
+		})
+	end
 
-    table.sort(jdks, function(a, b)
-        return a.name < b.name
-    end)
+	table.sort(jdks, function(a, b)
+		return a.name < b.name
+	end)
 
-    return jdks
+	return jdks
 end
 
 local config = {
-    cmd = {
-        -- use java 17 or never to run
-        "/usr/lib/jvm/java-18-openjdk/bin/java",
+	cmd = {
+		-- use java 17 or never to run
+		"/usr/lib/jvm/java-18-openjdk/bin/java",
 
-        "-Declipse.application=org.eclipse.jdt.ls.core.id1",
-        "-Dosgi.bundles.defaultStartLevel=4",
-        "-Declipse.product=org.eclipse.jdt.ls.core.product",
-        -- '-Dlog.protocol=true',
-        "-Dlog.level=ALL",
-        "-Xms4G",
-        "-javaagent:" .. home .. "/.config/nvim/lib/lombok.jar",
-        "--add-modules=ALL-SYSTEM",
-        "--add-opens",
-        "java.base/java.util=ALL-UNNAMED",
-        "--add-opens",
-        "java.base/java.lang=ALL-UNNAMED",
+		"-Declipse.application=org.eclipse.jdt.ls.core.id1",
+		"-Dosgi.bundles.defaultStartLevel=4",
+		"-Declipse.product=org.eclipse.jdt.ls.core.product",
+		-- '-Dlog.protocol=true',
+		"-Dlog.level=ALL",
+		"-Xms4G",
+		"-javaagent:" .. home .. "/.config/nvim/lib/lombok.jar",
+		"--add-modules=ALL-SYSTEM",
+		"--add-opens",
+		"java.base/java.util=ALL-UNNAMED",
+		"--add-opens",
+		"java.base/java.lang=ALL-UNNAMED",
 
-        "-jar",
-        vim.fn.glob(jdtls_path .. "/plugins/" .. jdtls_launcher),
+		"-jar",
+		vim.fn.glob(jdtls_path .. "/plugins/" .. jdtls_launcher),
 
-        "-configuration",
-        jdtls_path .. "/config_linux",
-        "-data",
-        workspace_dir,
-    },
+		"-configuration",
+		jdtls_path .. "/config_linux",
+		"-data",
+		workspace_dir,
+	},
 
-    root_dir = require("jdtls.setup").find_root({ "mvnw", "gradlew", "pom.xml", "build.gradle", "build.gradle.kts" }),
+	root_dir = require("jdtls.setup").find_root({ "mvnw", "gradlew", "pom.xml", "build.gradle", "build.gradle.kts" }),
 
-    on_attach = function(client, bufnr)
-        require("jdtls").setup_dap({ hotcodereplace = "auto" })
-        require("jdtls.dap").setup_dap_main_class_configs()
-        require("jdtls.setup").add_commands()
-        -- local dap = require("dap")
-        -- -- add java debug attach config
-        -- vim.fn.list_extend(dap.configurations.java, {
-        -- 	{
-        -- 		type = "java",
-        -- 		request = "attach",
-        -- 		name = "Debug (Attach) - Remote",
-        -- 		hostName = "127.0.0.1",
-        -- 		port = 5005,
-        -- 	},
-        -- })
+	on_attach = function(client, bufnr)
+		require("jdtls").setup_dap({ hotcodereplace = "auto" })
+		require("jdtls.dap").setup_dap_main_class_configs()
+		require("jdtls.setup").add_commands()
+		-- local dap = require("dap")
+		-- -- add java debug attach config
+		-- vim.fn.list_extend(dap.configurations.java, {
+		-- 	{
+		-- 		type = "java",
+		-- 		request = "attach",
+		-- 		name = "Debug (Attach) - Remote",
+		-- 		hostName = "127.0.0.1",
+		-- 		port = 5005,
+		-- 	},
+		-- })
 
-        lsp_config.on_attach(client, bufnr)
-    end,
-    capabilities = lsp_config.capabilities,
+		lsp_config.on_attach(client, bufnr)
+	end,
+	capabilities = lsp_config.capabilities,
 
-    -- Here you can configure eclipse.jdt.ls specific settings
-    -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
-    -- for a list of options
-    settings = {
-        java = {
-            import = {
-                saveActions = {
-                    organizeImports = true,
-                },
-            },
-            maven = {
-                downloadSources = true,
-            },
-            signatureHelp = {
-                enabled = true,
-            },
-            configuration = {
-                runtimes = get_jdks(),
-            },
-        },
-    },
+	-- Here you can configure eclipse.jdt.ls specific settings
+	-- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
+	-- for a list of options
+	settings = {
+		java = {
+			import = {
+				saveActions = {
+					organizeImports = true,
+				},
+			},
+			maven = {
+				downloadSources = true,
+			},
+			signatureHelp = {
+				enabled = true,
+			},
+			configuration = {
+				runtimes = get_jdks(),
+			},
+		},
+	},
 
-    init_options = {
-        bundles = bundles,
-        extendedClientCapabilities = extendedClientCapabilities,
-    },
+	init_options = {
+		bundles = bundles,
+		extendedClientCapabilities = extendedClientCapabilities,
+	},
 }
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.

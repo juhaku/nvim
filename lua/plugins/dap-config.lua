@@ -8,11 +8,44 @@ require("dap-go").setup()
 -- 		console = "externalTerminal",
 -- 	},
 -- })
+--
+local home = os.getenv("HOME")
+
 dap.adapters.node2 = {
 	type = "executable",
 	command = "node",
 	args = { os.getenv("HOME") .. "/.local/share/nvim/mason/packages/node-debug2-adapter/out/src/nodeDebug.js" },
 }
+
+local dap_vscode_path = home .. "/.local/share/nvim/mason/packages/js-debug-adapter"
+
+require("dap-vscode-js").setup({
+	-- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
+	-- debugger_path = "(runtimedir)/site/pack/packer/opt/vscode-js-debug", -- Path to vscode-js-debug installation.
+	debugger_path = dap_vscode_path,
+	-- debugger_cmd = { "js-debug-adapter" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
+	adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" }, -- which adapters to register in nvim-dap
+})
+
+for _, language in ipairs({ "typescript", "javascript" }) do
+	dap.configurations[language] = {
+		{
+			type = "pwa-node",
+			request = "launch",
+			name = "Debug Jest Tests",
+			-- trace = true, -- include debugger info
+			runtimeExecutable = "node",
+			runtimeArgs = {
+				"./node_modules/.bin/jest",
+				"--runInBand",
+			},
+			rootPath = "${workspaceFolder}",
+			cwd = "${workspaceFolder}",
+			console = "integratedTerminal",
+			internalConsoleOptions = "neverOpen",
+		},
+	}
+end
 
 -- for _, language in ipairs({ "typescript", "javascript" }) do
 -- 	dap.configurations[language] = {
