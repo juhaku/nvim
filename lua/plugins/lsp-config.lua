@@ -476,6 +476,14 @@ require("flutter-tools").setup({
 	debugger = {
 		enabled = true,
 		register_configurations = function(_)
+			require("dap").configurations.dart = {
+				{
+					name = "Flutter",
+					request = "launch",
+					type = "dart",
+					flutterMode = "debug",
+				},
+			}
 			require("dap.ext.vscode").load_launchjs()
 		end,
 	},
