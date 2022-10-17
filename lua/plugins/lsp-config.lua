@@ -127,7 +127,7 @@ local on_attach = function(client, bufnr)
 	-- 	":lua require('telescope.builtin').lsp_references({layout_config = {height = 50}}) <cr>",
 	-- 	bufopts
 	-- )
-	vim.keymap.set("n", "<leader>f", vim.lsp.buf.formatting, bufopts)
+	vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, bufopts)
 
 	vim.api.nvim_create_autocmd(
 		{ "BufWritePre" },
