@@ -24,7 +24,7 @@ telescope.setup({
 	extensions = {
 		file_browser = {
 			theme = "dropdown",
-			hijack_netrw = true,
+			-- hijack_netrw = true,
 			initial_mode = "normal",
 			previewer = false,
 			path = telescope_buffer_dir(),
