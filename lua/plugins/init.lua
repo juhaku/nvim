@@ -82,11 +82,11 @@ end)
 
 local autopairs = require("nvim-autopairs")
 autopairs.setup({})
-local Rule = require("nvim-autopairs.rule")
+-- local Rule = require("nvim-autopairs.rule")
 
-autopairs.add_rules({
-	Rule("%<%>$", "</>", { "typescript", "typescriptreact", "javascript", "javascriptreact" }):use_regex(true),
-})
+-- autopairs.add_rules({
+-- 	Rule("%<%>$", "</>", { "typescript", "typescriptreact", "javascript", "javascriptreact" }):use_regex(true),
+-- })
 
 require("nvim-surround").setup({})
 require("dressing").setup({
