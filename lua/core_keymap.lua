@@ -99,6 +99,16 @@ vim.api.nvim_create_autocmd({ "TermOpen" }, {
 })
 
 vim.api.nvim_create_user_command("Tig", function(o)
+	local cmd = "tabnew | terminal tig " .. o.args
+	vim.cmd(cmd)
+end, {
+	nargs = "?",
+	complete = function()
+		return { "--all" }
+	end,
+})
+
+vim.api.nvim_create_user_command("STig", function(o)
 	local cmd = "split | terminal tig " .. o.args
 	vim.cmd(cmd)
 end, {
