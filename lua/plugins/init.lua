@@ -38,6 +38,7 @@ require("packer").startup(function()
 	use("nvim-lua/plenary.nvim")
 	-- use("j-hui/fidget.nvim")
 	use("folke/lsp-colors.nvim")
+	use({ "akinsho/bufferline.nvim", tag = "v3.*" })
 
 	-- cmp plugins
 	use("hrsh7th/cmp-nvim-lsp")

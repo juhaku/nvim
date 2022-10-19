@@ -9,6 +9,7 @@ require("git_commands")
 -- plugins
 require("plugins")
 require("plugins.mason_config")
+require("plugins.bufferline-config")
 require("plugins.diffview-config")
 require("plugins.neo-tree-config")
 -- require("plugins.nvim-tree-config")
