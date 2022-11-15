@@ -139,6 +139,7 @@ local on_attach = function(client, bufnr)
     -- 	":lua require('telescope.builtin').lsp_references({layout_config = {height = 50}}) <cr>",
     -- 	bufopts
     -- )
+    --
 
     vim.keymap.set("n", "<leader>f", function()
         vim.lsp.buf.format({
@@ -152,6 +153,7 @@ local on_attach = function(client, bufnr)
         })
     end, bufopts)
 
+    local async = require("plenary.async")
     local _timer = nil
     vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
         pattern = { "*" },
@@ -161,18 +163,25 @@ local on_attach = function(client, bufnr)
                 is_file = vim.fn.system("test -f " .. change_opts.file .. "&& echo 1")
             end
             if tonumber(is_file) == 1 then
-                local save_file = function ()
+                local save_file = function (id)
+                    if id ~= nil then
+                        async.run(function ()
+                            vim.fn.timer_stop(id)
+                        end)
+                    end
                     vim.cmd("write")
                 end
                 if change_opts.event == "InsertLeave" then
                     save_file()
                 elseif change_opts.event == "TextChanged" then
                     if _timer ~= nil then
-                        vim.fn.timer_stop(_timer)
+                        async.run(function ()
+                            vim.fn.timer_stop(_timer)
+                        end)
                         _timer = nil
                     end
-                    _timer = vim.fn.timer_start(500, save_file)
 
+                    _timer = vim.fn.timer_start(2000, save_file)
                 end
             end
         end,
