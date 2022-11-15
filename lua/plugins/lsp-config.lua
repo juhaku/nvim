@@ -152,6 +152,7 @@ local on_attach = function(client, bufnr)
         })
     end, bufopts)
 
+    local _timer = nil
     vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
         pattern = { "*" },
         callback = function(change_opts)
@@ -160,10 +161,19 @@ local on_attach = function(client, bufnr)
                 is_file = vim.fn.system("test -f " .. change_opts.file .. "&& echo 1")
             end
             if tonumber(is_file) == 1 then
-                local a = require("plenary.async")
-                a.run(function ()
+                local save_file = function ()
                     vim.cmd("write")
-                end)
+                end
+                if change_opts.event == "InsertLeave" then
+                    save_file()
+                elseif change_opts.event == "TextChanged" then
+                    if _timer ~= nil then
+                        vim.fn.timer_stop(_timer)
+                        _timer = nil
+                    end
+                    _timer = vim.fn.timer_start(500, save_file)
+
+                end
             end
         end,
     })
