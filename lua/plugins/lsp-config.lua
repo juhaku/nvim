@@ -142,11 +142,11 @@ local on_attach = function(client, bufnr)
 
     vim.keymap.set("n", "<leader>f", function()
         vim.lsp.buf.format({
-            filter = function(client)
-                return client.name ~= "tsserver"
-                    or client.name ~= "gopls"
-                    or client.name ~= "sumneko_lua"
-                    or client.name ~= "eslint"
+            filter = function(c)
+                return c.name ~= "tsserver"
+                    or c.name ~= "gopls"
+                    or c.name ~= "sumneko_lua"
+                    or c.name ~= "eslint"
             end,
             async = true,
         })
@@ -160,7 +160,10 @@ local on_attach = function(client, bufnr)
                 is_file = vim.fn.system("test -f " .. change_opts.file .. "&& echo 1")
             end
             if tonumber(is_file) == 1 then
-                vim.cmd("write")
+                local a = require("plenary.async")
+                a.run(function ()
+                    vim.cmd("write")
+                end)
             end
         end,
     })
