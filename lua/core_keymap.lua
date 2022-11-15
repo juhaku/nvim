@@ -18,10 +18,10 @@ keymap.set("n", "<C-S-n>", ":lnext<CR>zz", opts)
 keymap.set("n", "<C-S-p>", ":lprev<CR>zz", opts)
 
 -- neovide paste in neovide below 10.3
--- if vim.g.neovide ~= nil then
--- 	keymap.set({ "c", "i" }, "<C-S-v>", '<C-r>"', {})
--- 	keymap.set("n", "<C-S-v>", '"+p', {})
--- end
+if vim.g.neovide ~= nil then
+	keymap.set({ "c", "i" }, "<C-S-v>", '<C-r>"', {})
+	keymap.set("n", "<C-S-v>", '"+p', {})
+end
 
 -- resize splits
 keymap.set("n", "<C-Left>", "<C-w><", opts)
@@ -57,6 +57,13 @@ keymap.set("n", "tF", function()
 	})
 end, opts)
 keymap.set("n", "tg", ":Telescope live_grep<CR>", opts)
+keymap.set("n", "tG", function()
+	require("telescope.builtin").live_grep({
+        additional_args = function ()
+            return { "--hidden" }
+        end,
+	})
+end, opts)
 keymap.set("n", "tb", ":Telescope buffers<CR>", opts)
 -- keymap.set("n", "fb", ":Telescope file_browser<CR>")
 -- keymap.set('n', '<C-S-n>', ':Telescope find_files<CR>')
