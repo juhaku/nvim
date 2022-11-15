@@ -17,11 +17,11 @@ keymap.set("n", "<C-p>", ":cprev<CR>zz", opts)
 keymap.set("n", "<C-S-n>", ":lnext<CR>zz", opts)
 keymap.set("n", "<C-S-p>", ":lprev<CR>zz", opts)
 
--- neovide paste
-if vim.g.neovide ~= nil then
-	keymap.set({ "c", "i" }, "<C-S-v>", '<C-r>"', {})
-	keymap.set("n", "<C-S-v>", '"+p', {})
-end
+-- neovide paste in neovide below 10.3
+-- if vim.g.neovide ~= nil then
+-- 	keymap.set({ "c", "i" }, "<C-S-v>", '<C-r>"', {})
+-- 	keymap.set("n", "<C-S-v>", '"+p', {})
+-- end
 
 -- resize splits
 keymap.set("n", "<C-Left>", "<C-w><", opts)
@@ -48,7 +48,14 @@ keymap.set("n", "tc", ":tabclose<CR>", opts)
 
 -- Telescope
 keymap.set("n", "tf", ":Telescope find_files<CR>", opts)
-keymap.set("n", "tF", ":lua require('telescope.builtin').find_files({hidden=true, no_ignore=true})<CR>", opts)
+keymap.set("n", "tA", ":lua require('telescope.builtin').find_files({hidden=true, no_ignore=true})<CR>", opts)
+keymap.set("n", "tF", function()
+	require("telescope.builtin").find_files({
+		find_command = function()
+			return { "fd", "--type", "f", "--color", "never", "--exclude", ".git", "--hidden", "--follow", "--no-ignore" }
+		end,
+	})
+end, opts)
 keymap.set("n", "tg", ":Telescope live_grep<CR>", opts)
 keymap.set("n", "tb", ":Telescope buffers<CR>", opts)
 -- keymap.set("n", "fb", ":Telescope file_browser<CR>")
