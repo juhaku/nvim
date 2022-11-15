@@ -181,7 +181,7 @@ local on_attach = function(client, bufnr)
                         _timer = nil
                     end
 
-                    _timer = vim.fn.timer_start(2000, save_file)
+                    _timer = vim.fn.timer_start(500, save_file)
                 end
             end
         end,
