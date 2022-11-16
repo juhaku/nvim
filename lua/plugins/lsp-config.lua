@@ -61,6 +61,16 @@ local handlers = {
     ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
 }
 
+local async = require("plenary.async")
+local _timer = nil
+local save_file = function(id)
+    if id ~= nil then
+        async.run(function()
+            vim.fn.timer_stop(id)
+        end)
+    end
+    vim.cmd("write")
+end
 -- local navic = require("nvim-navic")
 
 -- Use an on_attach function to only map the following keys
@@ -153,8 +163,6 @@ local on_attach = function(client, bufnr)
         })
     end, bufopts)
 
-    local async = require("plenary.async")
-    local _timer = nil
     vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
         pattern = { "*" },
         callback = function(change_opts)
@@ -163,26 +171,14 @@ local on_attach = function(client, bufnr)
                 is_file = vim.fn.system("test -f " .. change_opts.file .. "&& echo 1")
             end
             if tonumber(is_file) == 1 then
-                local save_file = function (id)
-                    if id ~= nil then
-                        async.run(function ()
-                            vim.fn.timer_stop(id)
-                        end)
-                    end
-                    vim.cmd("write")
+                if _timer ~= nil then
+                    async.run(function()
+                        vim.fn.timer_stop(_timer)
+                    end)
+                    _timer = nil
                 end
-                if change_opts.event == "InsertLeave" then
-                    save_file()
-                elseif change_opts.event == "TextChanged" then
-                    if _timer ~= nil then
-                        async.run(function ()
-                            vim.fn.timer_stop(_timer)
-                        end)
-                        _timer = nil
-                    end
 
-                    _timer = vim.fn.timer_start(500, save_file)
-                end
+                _timer = vim.fn.timer_start(500, save_file)
             end
         end,
     })
