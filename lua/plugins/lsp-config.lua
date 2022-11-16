@@ -71,6 +71,43 @@ local save_file = function(id)
     end
     vim.cmd("write")
 end
+
+vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
+    pattern = { "*" },
+    callback = function(change_opts)
+        local is_file = 0
+        if change_opts.file ~= "" then
+            is_file = vim.fn.system("test -f " .. change_opts.file .. "&& echo 1")
+        end
+        if tonumber(is_file) == 1 then
+            if _timer ~= nil then
+                async.run(function()
+                    vim.fn.timer_stop(_timer)
+                end)
+                _timer = nil
+            end
+
+            _timer = vim.fn.timer_start(300, save_file)
+        end
+    end,
+})
+
+-- vim.api.nvim_create_autocmd({ "BufWritePre" }, { pattern = { "*" }, command = "lua vim.lsp.buf.format()" })
+-- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+-- 	pattern = { "*" },
+-- 	callback = function()
+-- 		vim.lsp.buf.format({
+-- 			timeout_ms = 1000,
+-- 			filter = function(client)
+-- 				return client.name ~= "tsserver"
+-- 					or client.name ~= "gopls"
+-- 					or client.name ~= "sumneko_lua"
+-- 					or client.name ~= "eslint"
+-- 			end,
+-- 		})
+-- 	end,
+-- })
+
 -- local navic = require("nvim-navic")
 
 -- Use an on_attach function to only map the following keys
@@ -162,42 +199,6 @@ local on_attach = function(client, bufnr)
             async = true,
         })
     end, bufopts)
-
-    vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
-        pattern = { "*" },
-        callback = function(change_opts)
-            local is_file = 0
-            if change_opts.file ~= "" then
-                is_file = vim.fn.system("test -f " .. change_opts.file .. "&& echo 1")
-            end
-            if tonumber(is_file) == 1 then
-                if _timer ~= nil then
-                    async.run(function()
-                        vim.fn.timer_stop(_timer)
-                    end)
-                    _timer = nil
-                end
-
-                _timer = vim.fn.timer_start(500, save_file)
-            end
-        end,
-    })
-
-    -- vim.api.nvim_create_autocmd({ "BufWritePre" }, { pattern = { "*" }, command = "lua vim.lsp.buf.format()" })
-    -- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-    -- 	pattern = { "*" },
-    -- 	callback = function()
-    -- 		vim.lsp.buf.format({
-    -- 			timeout_ms = 1000,
-    -- 			filter = function(client)
-    -- 				return client.name ~= "tsserver"
-    -- 					or client.name ~= "gopls"
-    -- 					or client.name ~= "sumneko_lua"
-    -- 					or client.name ~= "eslint"
-    -- 			end,
-    -- 		})
-    -- 	end,
-    -- })
 end
 
 -- Setup lspconfig.
