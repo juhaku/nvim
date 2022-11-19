@@ -1,16 +1,4 @@
 -- setup signs
-vim.opt.termguicolors = true
-require("bufferline").setup({
-    options = {
-        mode = "tabs",
-        show_close_icon = false,
-        -- show_buffer_close_icons = false,
-        max_name_length = 50,
-        -- max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
-        -- truncate_names = true, -- whether or not tab names should be truncated
-        -- tab_size = 18,
-    },
-})
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do
     local hl = "DiagnosticSign" .. type
@@ -108,11 +96,15 @@ vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
 -- 	end,
 -- })
 
--- local navic = require("nvim-navic")
+local navic = require("nvim-navic")
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
+    if client.server_capabilities.documentSymbolProvider then
+        navic.attach(client, bufnr)
+    end
+
     -- if client.server_capabilities.documentSymbolProvider then
     -- 	local filename = vim.fn.expand("%")
     -- 	-- local location = navic.get_location()

@@ -5,7 +5,7 @@ require("bufferline").setup({
 		show_close_icon = false,
 		-- show_buffer_close_icons = false,
 		max_name_length = 50,
-		-- max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
+	    max_prefix_length = 25,
 		-- truncate_names = true, -- whether or not tab names should be truncated
 		-- tab_size = 18,
 	},
