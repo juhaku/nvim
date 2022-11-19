@@ -31,7 +31,7 @@ local border = {
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap = true, silent = true }
-vim.keymap.set("n", "<leader>do", vim.diagnostic.open_float, opts)
+vim.keymap.set("n", "<C-S-d>", vim.diagnostic.open_float, opts)
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
 vim.keymap.set("n", "<leader>dl", vim.diagnostic.setloclist, opts)
@@ -492,8 +492,12 @@ local rust_analyer_opts = {
         capabilities = capabilities,
         on_attach = function(client, bufnr)
             on_attach(client, bufnr)
-            vim.keymap.set("n", "<C-S-k>", rust_tools.hover_actions.hover_actions, { buffer = bufnr })
-            vim.keymap.set("n", "<leader>a", rust_tools.code_action_group.code_action_group, { buffer = bufnr })
+            local o = { buffer = bufnr }
+            vim.keymap.set("n", "K", rust_tools.hover_actions.hover_actions, o)
+            vim.keymap.set("x", "<S-CR>", rust_tools.code_action_group.code_action_group, o)
+            vim.keymap.set("n", "<S-CR>", rust_tools.code_action_group.code_action_group, o)
+            -- vim.keymap.set("n", "<C-S-k>", rust_tools.hover_actions.hover_actions, { buffer = bufnr })
+            -- vim.keymap.set("n", "<leader>a", rust_tools.code_action_group.code_action_group, { buffer = bufnr })
         end,
         handlers = handlers,
         -- standalone file support
