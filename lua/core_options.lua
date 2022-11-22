@@ -1,5 +1,6 @@
 -- global options
 vim.g.mapleader = " "
+vim.g.netrw_banner = 0
 
 if vim.g.neovide then
 	require("neovide-config")
