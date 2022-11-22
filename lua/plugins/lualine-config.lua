@@ -2,11 +2,13 @@ local navic = require("nvim-navic")
 
 local get_location = function()
     local file_name = vim.fn.expand("%")
-    local path = navic.get_location()
-
     local ret_val = file_name
-    if path ~= "" then
-        ret_val = ret_val .. " > " .. path
+
+    if navic.is_available() then
+        local path = navic.get_location()
+        if path ~= "" then
+            ret_val = ret_val .. " > " .. path
+        end
     end
 
     return ret_val
@@ -47,7 +49,7 @@ require("lualine").setup({
         lualine_a = {},
         lualine_b = {},
         lualine_c = {
-            { get_location, cond = navic.is_available },
+            { get_location },
         },
         -- lualine_c = {'filename'},
         lualine_x = {},
