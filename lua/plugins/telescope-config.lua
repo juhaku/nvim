@@ -30,6 +30,7 @@ telescope.setup({
 			path = telescope_buffer_dir(),
 			cwd_to_path = true,
 			respect_gitignore = false,
+			hidden = true,
 			layout_config = {
 				center = {
 					height = 40,
@@ -44,6 +45,7 @@ telescope.setup({
 					["<C-cr>"] = telescope_actions.file_tab,
 					["<C-t>"] = telescope_actions.file_tab,
 					["<C-S-w>"] = file_browser_actions.change_cwd,
+					["-"] = file_browser_actions.goto_parent_dir,
 				},
 				["n"] = {
 					["x"] = telescope_actions.toggle_selection,
@@ -53,6 +55,7 @@ telescope.setup({
 					["q"] = telescope_actions.close,
 					["%"] = file_browser_actions.create,
 					["W"] = file_browser_actions.change_cwd,
+					["-"] = file_browser_actions.goto_parent_dir,
 					-- ["/"] = { "i", type = "command" },
 				},
 			},
