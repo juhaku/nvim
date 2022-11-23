@@ -1,83 +1,24 @@
--- global options
-vim.g.mapleader = ' '
+-- cache for faster startup
+require("impatient")
+-- core
+require("colors")
+require("core_options")
+require("core_keymap")
+require("git_commands")
 
--- options
-local options = vim.opt
-
-options.syntax = "on"
-options.scrolloff = 8
-options.scrolloff = 8
-options.number = true
-options.relativenumber = true
-options.ignorecase = true
-options.hlsearch = true
-options.incsearch = true
-options.clipboard = "unnamedplus"
-options.laststatus = 3
-options.tabstop = 4
-options.expandtab = true
-options.shiftwidth = 4
--- options.showtabline = 1 -- default 1, show when there are at least one
-options.softtabstop = 4
-options.smarttab = true
-options.smartcase = true
-options.fileencoding = 'utf-8'
-options.termguicolors = true
-options.splitbelow = true
-options.splitright = true --options.cursorline = true -- highlight cursor line options.hidden = true options.autoindent = true
---options.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
-options.virtualedit = "block"
-options.guifont="Hack Nerd Font:h10"
-
--- keymaps
-local keymap = vim.keymap
-local opts = {noremap = true, silent = true}
-
-keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', opts)
-keymap.set('n', '<leader>n', ':nohl<CR>', opts)
-keymap.set('n', '<leader>w', ':w<CR>', opts)
-keymap.set({'n', 'i', 'v', 'c'}, '<C-S-tab>', ':bp<CR>', opts)
-keymap.set({'n', 'i', 'v', 'c'}, '<C-tab>', ':bn<CR>', opts)
-keymap.set('n', '<leader>ff', ':Telescope find_files<CR>')
-keymap.set('n', '<C-S-n>', ':Telescope find_files<CR>')
-keymap.set('n', '<leader>tq', ':bdelete<CR> :bprevious<CR>')
--- nnoremap <leader>ff <cmd>Telescope find_files<cr>
--- nnoremap <leader>fg <cmd>Telescope live_grep<cr>
--- nnoremap <leader>fb <cmd>Telescope buffers<cr>
--- nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-
--- require modules
-require('plugins')
-require('plugins.nvim-tree-config')
-require('plugins.lualine-config')
-require('plugins.telescope-config')
-require('plugins.fzf-lua-config')
-require('plugins.treesitter-config')
-require('plugins.gitsigns-config')
-require('plugins.rust-analyzer-config')
-
--- cmds
-vim.cmd[[colorscheme nord]]
-
--- old vim script style configurations
---syntax on
---set scrolloff=8
---" Do incremental searching.
---set incsearch
---set hlsearch
---set nu
---set rnu
---set ignorecase
---set clipboard=unnamedplus
---set laststatus=3
---set tabstop=4
---
---
---
---
---
---
---
---
---
---
+-- plugins
+require("plugins")
+require("plugins.mason_config")
+require("plugins.bufferline-config")
+require("plugins.diffview-config")
+require("plugins.neo-tree-config")
+-- require("plugins.nvim-tree-config")
+require("plugins.lualine-config")
+require("plugins.telescope-config")
+-- require('plugins.fzf-lua-config')
+require("plugins.treesitter-config")
+require("plugins.gitsigns-config")
+require("plugins.cmp-config")
+require("plugins.lsp-config")
+require("plugins.dap-config")
+require("plugins.null-ls-config")
