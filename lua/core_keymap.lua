@@ -48,20 +48,32 @@ keymap.set("n", "tc", ":tabclose<CR>", opts)
 
 -- Telescope
 keymap.set("n", "tf", ":Telescope find_files<CR>", opts)
+keymap.set("n", "te", ":Telescope file_browser<CR>", opts)
 keymap.set("n", "tA", ":lua require('telescope.builtin').find_files({hidden=true, no_ignore=true})<CR>", opts)
 keymap.set("n", "tF", function()
 	require("telescope.builtin").find_files({
 		find_command = function()
-			return { "fd", "--type", "f", "--color", "never", "--exclude", ".git", "--hidden", "--follow", "--no-ignore" }
+			return {
+				"fd",
+				"--type",
+				"f",
+				"--color",
+				"never",
+				"--exclude",
+				".git",
+				"--hidden",
+				"--follow",
+				"--no-ignore",
+			}
 		end,
 	})
 end, opts)
 keymap.set("n", "tg", ":Telescope live_grep<CR>", opts)
 keymap.set("n", "tG", function()
 	require("telescope.builtin").live_grep({
-        additional_args = function ()
-            return { "--hidden" }
-        end,
+		additional_args = function()
+			return { "--hidden" }
+		end,
 	})
 end, opts)
 keymap.set("n", "tb", ":Telescope buffers<CR>", opts)

@@ -23,7 +23,6 @@ telescope.setup({
 	},
 	extensions = {
 		file_browser = {
-			theme = "dropdown",
 			-- hijack_netrw = true,
 			initial_mode = "normal",
 			previewer = false,
@@ -31,10 +30,14 @@ telescope.setup({
 			cwd_to_path = true,
 			respect_gitignore = false,
 			hidden = true,
+			layout_strategy = "horizontal",
+            sorting_strategy = "ascending",
 			layout_config = {
-				center = {
-					height = 40,
+				horizontal = {
+                    mirror = true,
 					width = 120,
+					height = 40,
+                    prompt_position = "top"
 				},
 			},
 			mappings = {
