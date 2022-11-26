@@ -8,6 +8,9 @@ keymap.set("n", "<leader>n", ":nohl<CR>", opts)
 keymap.set("n", "<leader>w", ":w<CR>", opts)
 keymap.set("n", "vae", "gg<S-v>G", opts) -- visual select all
 keymap.set("n", "QQ", ":qa<CR>", opts)
+keymap.set("n", "<leader>qa", ":qa<CR>", opts)
+keymap.set("n", "<leader>qm", ":to<CR><CMD>Alpha<CR>", opts)
+
 keymap.set("n", "<leader>wf", ":HopPattern<CR>", opts)
 keymap.set({ "n", "i", "v", "x", "c" }, "<Bslash><Bslash>", "<Esc>", opts)
 keymap.set("i", "<C-c>", "<Esc>", opts)
