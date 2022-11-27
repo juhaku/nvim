@@ -124,3 +124,24 @@ end, {
         return completion
     end,
 })
+
+vim.api.nvim_create_user_command("Grb", function(opts)
+    vim.cmd("G rebase -i " .. opts.args)
+end, {
+    nargs = "?",
+    complete = function()
+        local completion = { "HEAD", "FETCH_HEAD", "ORIG_HEAD" }
+        local branches = vim.tbl_filter(function(item)
+            if item ~= "*" then
+                return true
+            end
+            return false
+        end, vim.tbl_flatten(get_branches()))
+        local remotes = vim.tbl_flatten(get_remote_branches())
+
+        vim.list_extend(completion, branches)
+        vim.list_extend(completion, remotes)
+
+        return completion
+    end,
+})
