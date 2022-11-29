@@ -6,6 +6,11 @@ local function telescope_buffer_dir()
 	return vim.fn.expand("%:p:h")
 end
 
+local function send_to_quickfix(promtbufnr)
+    telescope_actions.smart_send_to_qflist(promtbufnr)
+    vim.cmd([[botright copen]])
+end
+
 telescope.setup({
 	defaults = {
 		winblend = 20,
@@ -14,10 +19,12 @@ telescope.setup({
 				["<C-c>"] = telescope_actions.close,
 				["q"] = telescope_actions.close,
 				["bd"] = telescope_actions.delete_buffer,
+				["<C-q>"] = send_to_quickfix,
 			},
 			["i"] = {
 				["<C-b>d"] = telescope_actions.delete_buffer,
 				["<C-c>"] = { "<esc>", type = "command" },
+				["<C-q>"] = send_to_quickfix,
 			},
 		},
 	},
@@ -31,13 +38,13 @@ telescope.setup({
 			respect_gitignore = false,
 			hidden = true,
 			layout_strategy = "horizontal",
-            sorting_strategy = "ascending",
+			sorting_strategy = "ascending",
 			layout_config = {
 				horizontal = {
-                    mirror = true,
+					mirror = true,
 					width = 120,
 					height = 40,
-                    prompt_position = "top"
+					prompt_position = "top",
 				},
 			},
 			mappings = {
