@@ -45,3 +45,7 @@ options.virtualedit = "block"
 options.guifont = "Hack Nerd Font:h8"
 options.wrap = false
 options.mouse = "a"
+options.swapfile = false
+-- undodir
+options.undodir = os.getenv("HOME") .. "/.vim/undodir"
+options.undofile = true
