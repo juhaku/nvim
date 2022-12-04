@@ -160,7 +160,7 @@ local on_attach = function(client, bufnr)
     -- 	":lua require('telescope.builtin').lsp_type_definitions({layout_config = {height = 50}}) <cr>",
     -- 	bufopts
     -- )
-    vim.keymap.set("n", "ds", vim.lsp.buf.document_symbol, bufopts)
+    vim.keymap.set("n", "gs", vim.lsp.buf.document_symbol, bufopts)
     -- vim.keymap.set(
     -- 	"n",
     -- 	"bs",
