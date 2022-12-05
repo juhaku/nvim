@@ -92,10 +92,12 @@ autopairs.setup({})
 require("nvim-surround").setup({})
 require("dressing").setup({
 	input = {
-		-- Window transparency (0-100)
-		winblend = 20,
-		-- Change default highlight groups (see :help winhl)
-		-- winhighlight = "NormalFloat guibg=NONE",
+		win_options = {
+			-- Window transparency (0-100)
+			winblend = 20,
+			-- Change default highlight groups (see :help winhl)
+			-- winhighlight = "NormalFloat guibg=NONE",
+		},
 	},
 	select = {
 		enabled = true,
