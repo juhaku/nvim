@@ -26,6 +26,10 @@ if vim.g.neovide ~= nil then
 	keymap.set("n", "<C-S-v>", '"+p', {})
 end
 
+-- session manager
+keymap.set("n", "<leader>os", ":SessionManager load_session<CR>", opts)
+keymap.set("n", "<leader>ws", ":SessionManager save_current_session<CR>", opts)
+
 -- resize splits
 keymap.set("n", "<C-Left>", "<C-w><", opts)
 keymap.set("n", "<C-Right>", "<C-w>>", opts)
