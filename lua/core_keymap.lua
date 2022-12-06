@@ -116,7 +116,6 @@ keymap.set("n", "<F12>", ":lua require('dapui').close()<CR>", opts)
 keymap.set("n", "<leader>tx", ":split | terminal<CR>", opts)
 keymap.set("n", "<leader>tv", ":vsplit | terminal<CR>", opts)
 keymap.set("n", "<leader>tt", ":tabnew | terminal<CR>", opts)
-keymap.set("n", "<leader>te", ":te | terminal<CR>", opts)
 
 keymap.set("t", "<Esc>", "<C-\\><C-n>", opts)
 -- keymap.set("t", "<A-w>q", "<C-\\><C-n><C-w>q", opts)
