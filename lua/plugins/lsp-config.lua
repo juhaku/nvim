@@ -392,7 +392,7 @@ require("lspconfig").dockerls.setup({
     handlers = handlers,
 })
 
-local extension_path = vim.env.HOME .. "/.local/share/nvim/mason/packages/codellb/extension/"
+local extension_path = vim.env.HOME .. "/.local/share/nvim/mason/packages/codelldb/extension/"
 local codelldb_path = extension_path .. "adapter/codelldb"
 local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
 
