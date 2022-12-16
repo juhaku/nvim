@@ -49,3 +49,4 @@ options.swapfile = false
 -- undodir
 options.undodir = os.getenv("HOME") .. "/.vim/undodir"
 options.undofile = true
+options.updatetime = 40
