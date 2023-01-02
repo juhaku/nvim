@@ -392,6 +392,7 @@ require("lspconfig").dockerls.setup({
     handlers = handlers,
 })
 
+local lldb_port = 13456
 local extension_path = vim.env.HOME .. "/.local/share/nvim/mason/packages/codelldb/extension/"
 local codelldb_path = extension_path .. "adapter/codelldb"
 local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
@@ -520,6 +521,7 @@ local rust_analyer_opts = {
                 checkOnSave = {
                     command = "clippy",
                 },
+                inlayHints = { locationLinks = false }
             },
         },
     },
@@ -530,9 +532,20 @@ local rust_analyer_opts = {
     -- 		name = "rt_lldb",
     -- 	},
     -- },
+    -- dap = {
+    --     adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
+    -- },
     dap = {
-        adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
-    },
+        adapter = {
+            type = "server",
+            port = lldb_port,
+            host = "127.0.0.1",
+            executable = {
+                command = codelldb_path,
+                args = { "--liblldb", liblldb_path, "--port", lldb_port },
+            }
+        }
+    }
 }
 rust_tools.setup(rust_analyer_opts)
 
