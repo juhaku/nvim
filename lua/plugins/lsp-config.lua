@@ -521,7 +521,8 @@ local rust_analyer_opts = {
                 checkOnSave = {
                     command = "clippy",
                 },
-                inlayHints = { locationLinks = false }
+                -- new behavior in rust_analyzer, support coming soon?
+                -- inlayHints = { locationLinks = false }
             },
         },
     },
