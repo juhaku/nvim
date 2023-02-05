@@ -32,6 +32,7 @@ local function get_jdks()
 		end
 		table.insert(jdks, {
 			name = "JavaSE-" .. version,
+			version = version,
 			path = path,
 		})
 	end
@@ -43,10 +44,30 @@ local function get_jdks()
 	return jdks
 end
 
+local function get_runtimes()
+	local javas = get_jdks()
+
+	local jdks = {}
+	for _, jdk in ipairs(javas) do
+		table.insert(jdks, {
+			name = jdk.name,
+			path = jdk.path,
+		})
+	end
+
+	return jdks
+end
+
+local function find_latest_java()
+	local jdks = get_jdks()
+	return jdks[#jdks].path
+end
+
 local config = {
 	cmd = {
 		-- use java 17 or never to run
-		"/usr/lib/jvm/java-18-openjdk/bin/java",
+        -- "/usr/lib/jvm/java-18-openjdk/bin/java",
+        find_latest_java() .. "bin/java",
 
 		"-Declipse.application=org.eclipse.jdt.ls.core.id1",
 		"-Dosgi.bundles.defaultStartLevel=4",
@@ -109,7 +130,7 @@ local config = {
 				enabled = true,
 			},
 			configuration = {
-				runtimes = get_jdks(),
+				runtimes = get_runtimes(),
 			},
 		},
 	},
