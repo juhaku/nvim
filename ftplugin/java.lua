@@ -4,6 +4,7 @@ local home = os.getenv("HOME")
 
 local jdtls_path = home .. "/.local/share/nvim/mason/packages/jdtls"
 local jdtls_launcher = "org.eclipse.equinox.launcher_*.jar"
+local java_location = "/usr/lib/jvm"
 
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
 local workspace_dir = home .. "/.config/jdtls/" .. project_name
@@ -22,7 +23,7 @@ local extendedClientCapabilities = jdtls.extendedClientCapabilities
 extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
 
 local function get_jdks()
-	local jdk_paths = vim.fn.systemlist("fd java /usr/lib/jvm -d 1")
+	local jdk_paths = vim.fn.systemlist("fd java " .. java_location .. " -d 1")
 	local jdks = {}
 
 	for _, path in ipairs(jdk_paths) do
@@ -66,8 +67,8 @@ end
 local config = {
 	cmd = {
 		-- use java 17 or never to run
-        -- "/usr/lib/jvm/java-18-openjdk/bin/java",
-        find_latest_java() .. "bin/java",
+		-- "/usr/lib/jvm/java-18-openjdk/bin/java",
+		find_latest_java() .. "bin/java",
 
 		"-Declipse.application=org.eclipse.jdt.ls.core.id1",
 		"-Dosgi.bundles.defaultStartLevel=4",
