@@ -61,7 +61,7 @@ keymap.set("n", "tc", ":tabclose<CR>", opts)
 
 -- Telescope
 keymap.set("n", "tf", ":Telescope find_files<CR>", opts)
-keymap.set("n", "te", ":Telescope file_browser<CR>", opts)
+-- keymap.set("n", "te", ":Telescope file_browser<CR>", opts)
 keymap.set("n", "tA", ":lua require('telescope.builtin').find_files({hidden=true, no_ignore=true})<CR>", opts)
 keymap.set("n", "tF", function()
 	require("telescope.builtin").find_files({
@@ -126,6 +126,7 @@ keymap.set("n", "<leader>tt", ":tabnew | terminal<CR>", opts)
 
 keymap.set("t", "<Esc>", "<C-\\><C-n>", opts)
 keymap.set("t", "<C-S-c>", "<C-\\><C-n>", opts)
+keymap.set("t", "<C-A-c>", "<C-\\><C-n>", opts)
 -- keymap.set("t", "<A-w>q", "<C-\\><C-n><C-w>q", opts)
 
 -- keymap.set("t", "<A-w>k", "<C-\\><C-n><C-w>k", opts)

@@ -1,5 +1,3 @@
-print("loading typescript after setup")
-
 local options = vim.opt
 
 options.tabstop = 2
