@@ -16,7 +16,6 @@ options.pumblend = 20
 options.completeopt = "menu,menuone,preview,noinsert,noselect"
 options.syntax = "on"
 options.scrolloff = 8
-options.scrolloff = 8
 options.number = true
 options.relativenumber = true
 options.ignorecase = true
