@@ -322,14 +322,24 @@ require("lspconfig").vuels.setup({
 	handlers = handlers,
 })
 
+local html_capablities = require("cmp_nvim_lsp").default_capabilities()
+html_capablities.textDocument.completion.completionItem.snippetSupport = true
 require("lspconfig").html.setup({
 	on_attach = on_attach,
 	handlers = handlers,
+	capabilities = html_capablities,
 })
 
 require("lspconfig").cssls.setup({
 	on_attach = on_attach,
 	handlers = handlers,
+	capabilities = html_capablities,
+})
+
+require("lspconfig").lemminx.setup({
+	on_attach = on_attach,
+	handlers = handlers,
+	capabilities = capabilities,
 })
 
 -- Setup lspconfig.
@@ -450,7 +460,6 @@ local rust_analyer_opts = {
 			auto_focus = false,
 		},
 	},
-
 	-- see https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rust_analyzer
 	server = {
 		on_init = function(client)
