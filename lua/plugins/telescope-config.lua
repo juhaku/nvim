@@ -50,7 +50,7 @@ telescope.setup({
 			mappings = {
 				["i"] = {
 					["<C-c>"] = { "<esc>", type = "command" },
-					["<C-m>"] = telescope_actions.toggle_selection,
+					["<C-x>"] = telescope_actions.toggle_selection,
 					["<A-a>"] = file_browser_actions.create,
 					["<C-cr>"] = telescope_actions.file_tab,
 					["<C-t>"] = telescope_actions.file_tab,
@@ -58,7 +58,7 @@ telescope.setup({
 					["-"] = file_browser_actions.goto_parent_dir,
 				},
 				["n"] = {
-					["m"] = telescope_actions.toggle_selection,
+					["<C-x>"] = telescope_actions.toggle_selection,
 					["<C-cr>"] = telescope_actions.file_tab,
 					["t"] = telescope_actions.file_tab,
 					["<C-c>"] = telescope_actions.close,
