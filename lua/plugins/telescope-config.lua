@@ -18,11 +18,11 @@ telescope.setup({
 			["n"] = {
 				["<C-c>"] = telescope_actions.close,
 				["q"] = telescope_actions.close,
-				["bd"] = telescope_actions.delete_buffer,
+				["<C-d>"] = telescope_actions.delete_buffer,
 				["<C-q>"] = send_to_quickfix,
 			},
 			["i"] = {
-				["<C-b>d"] = telescope_actions.delete_buffer,
+				["<C-d>"] = telescope_actions.delete_buffer,
 				["<C-c>"] = { "<esc>", type = "command" },
 				["<C-q>"] = send_to_quickfix,
 			},

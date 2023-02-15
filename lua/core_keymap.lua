@@ -125,14 +125,23 @@ keymap.set("n", "<leader>tv", ":vsplit | terminal<CR>", opts)
 keymap.set("n", "<leader>tt", ":tabnew | terminal<CR>", opts)
 
 keymap.set("t", "<Esc>", "<C-\\><C-n>", opts)
-keymap.set("t", "<C-S-c>", "<C-\\><C-n>", opts)
-keymap.set("t", "<C-A-c>", "<C-\\><C-n>", opts)
+keymap.set("t", "<A-\\>", "<C-\\><C-n>", opts)
 -- keymap.set("t", "<A-w>q", "<C-\\><C-n><C-w>q", opts)
 
 -- keymap.set("t", "<A-w>k", "<C-\\><C-n><C-w>k", opts)
 -- keymap.set("t", "<A-w>j", "<C-\\><C-n><C-w>j", opts)
 -- keymap.set("t", "<A-w>l", "<C-\\><C-n><C-w>l", opts)
 -- keymap.set("t", "<A-w>h", "<C-\\><C-n><C-w>h", opts)
+
+-- excute checktime command to make vim auto reload file upon external change
+vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
+	pattern = { "*" },
+	callback = function()
+		if vim.mode ~= "c" then
+			vim.cmd("checktime")
+		end
+	end,
+})
 
 vim.api.nvim_create_autocmd({ "TermOpen" }, {
 	pattern = { "*" },
