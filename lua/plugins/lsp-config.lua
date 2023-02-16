@@ -340,6 +340,13 @@ require("lspconfig").lemminx.setup({
 	on_attach = on_attach,
 	handlers = handlers,
 	capabilities = capabilities,
+	settings = {
+		redhat = {
+			telemetry = {
+				enabled = false,
+			},
+		},
+	},
 })
 
 -- Setup lspconfig.
