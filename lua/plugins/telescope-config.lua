@@ -72,7 +72,9 @@ telescope.setup({
 		},
 	},
 })
+
 telescope.load_extension("file_browser")
+telescope.load_extension('fzf')
 
 vim.keymap.set("n", "te", function()
 	telescope.extensions.file_browser.file_browser({
