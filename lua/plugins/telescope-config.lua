@@ -18,16 +18,26 @@ telescope.setup({
 			["n"] = {
 				["<C-c>"] = telescope_actions.close,
 				["q"] = telescope_actions.close,
-				["<C-b>"] = telescope_actions.delete_buffer,
 				["<C-q>"] = send_to_quickfix,
 			},
 			["i"] = {
-				["<C-b>"] = telescope_actions.delete_buffer,
 				["<C-c>"] = { "<esc>", type = "command" },
 				["<C-q>"] = send_to_quickfix,
 			},
 		},
 	},
+    pickers = {
+        buffers = {
+            mappings = {
+                ["n"] = {
+                    ["<C-d>"] = telescope_actions.delete_buffer,
+                },
+                ["i"] = {
+                    ["<C-d>"] = telescope_actions.delete_buffer,
+                }
+            }
+        }
+    },
 	extensions = {
 		file_browser = {
 			-- hijack_netrw = true,
