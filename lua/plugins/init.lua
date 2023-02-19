@@ -61,8 +61,7 @@ require("packer").startup(function()
 	-- dap
 	use("mfussenegger/nvim-dap")
 	use("theHamsta/nvim-dap-virtual-text")
-	-- temporary "fix" the error: https://github.com/rcarriga/nvim-dap-ui/issues/224
-	use({ "rcarriga/nvim-dap-ui", commit = "b0612c9177c76a24da2a15feea6dbc3d742ec95c" })
+	use({ "rcarriga/nvim-dap-ui" })
 	use("leoluz/nvim-dap-go")
 	use("mxsdev/nvim-dap-vscode-js")
 
