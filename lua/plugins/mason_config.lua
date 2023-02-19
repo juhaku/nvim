@@ -17,7 +17,7 @@ require("mason-lspconfig").setup({
 		-- "shellcheck",
 		"tsserver",
 		-- "prettierd",
-		"sumneko_lua",
+		"lua_ls",
 		-- "stylua",
 		-- "markdownlint",
 		-- "css-lsp",

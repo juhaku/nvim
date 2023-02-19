@@ -80,7 +80,7 @@ vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
 -- 			filter = function(client)
 -- 				return client.name ~= "tsserver"
 -- 					or client.name ~= "gopls"
--- 					or client.name ~= "sumneko_lua"
+-- 					or client.name ~= "lua_ls"
 -- 					or client.name ~= "eslint"
 -- 			end,
 -- 		})
@@ -103,7 +103,7 @@ local on_attach = function(client, bufnr)
 	-- 	navic.attach(client, bufnr)
 	-- end
 	-- if
-	-- 	client.name == "sumneko_lua"
+	-- 	client.name == "lua_ls"
 	-- 	or client.name == "gopls"
 	-- 	or client.name == "tsserver"
 	-- 	or client.name == "eslint"
@@ -174,7 +174,7 @@ local on_attach = function(client, bufnr)
 	vim.keymap.set("n", "<leader>f", function()
 		vim.lsp.buf.format({
 			filter = function(c)
-				return c.name ~= "tsserver" or c.name ~= "gopls" or c.name ~= "sumneko_lua" or c.name ~= "eslint"
+				return c.name ~= "tsserver" or c.name ~= "gopls" or c.name ~= "lua_ls" or c.name ~= "eslint"
 			end,
 			async = true,
 		})
@@ -184,7 +184,7 @@ end
 -- Setup lspconfig.
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-require("lspconfig")["sumneko_lua"].setup({
+require("lspconfig")["lua_ls"].setup({
 	on_attach = on_attach,
 	handlers = handlers,
 	settings = {
