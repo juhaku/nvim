@@ -136,8 +136,9 @@ keymap.set("t", "<A-\\>", "<C-\\><C-n>", opts)
 -- excute checktime command to make vim auto reload file upon external change
 vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
 	pattern = { "*" },
-	callback = function()
-		if vim.mode ~= "c" then
+	callback = function(o)
+		local buf_name = string.match(vim.api.nvim_buf_get_name(o.buf), "%[Command Line%]")
+		if vim.mode ~= "c" and buf_name ~= "[Command Line]" then
 			vim.cmd("checktime")
 		end
 	end,
