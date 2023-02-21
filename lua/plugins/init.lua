@@ -57,6 +57,7 @@ require("packer").startup(function()
 	use("williamboman/mason.nvim")
 	use("williamboman/mason-lspconfig.nvim")
 	use("neovim/nvim-lspconfig")
+    use("lvimuser/lsp-inlayhints.nvim")
 
 	-- dap
 	use("mfussenegger/nvim-dap")

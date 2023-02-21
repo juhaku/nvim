@@ -46,20 +46,27 @@ local function get_jdks()
 end
 
 local function get_runtimes()
-	local javas = get_jdks()
+	local jdks = get_jdks()
+	local last_version = jdks[#jdks].version
 
-	local jdks = {}
-	for _, jdk in ipairs(javas) do
-		table.insert(jdks, {
+	local runtimes = {}
+	for _, jdk in ipairs(jdks) do
+		local default = false
+		if jdk.version == last_version then
+			default = true
+		end
+
+		table.insert(runtimes, {
 			name = jdk.name,
 			path = jdk.path,
+			default = default,
 		})
 	end
 
-	return jdks
+	return runtimes
 end
 
-local function find_latest_java()
+local function find_latest_java_path()
 	local jdks = get_jdks()
 	return jdks[#jdks].path
 end
@@ -68,7 +75,7 @@ local config = {
 	cmd = {
 		-- use java 17 or never to run
 		-- "/usr/lib/jvm/java-18-openjdk/bin/java",
-		find_latest_java() .. "/bin/java",
+		find_latest_java_path() .. "/bin/java",
 
 		"-Declipse.application=org.eclipse.jdt.ls.core.id1",
 		"-Dosgi.bundles.defaultStartLevel=4",
@@ -91,10 +98,9 @@ local config = {
 		"-data",
 		workspace_dir,
 	},
-
 	root_dir = require("jdtls.setup").find_root({ "mvnw", "gradlew", "pom.xml", "build.gradle", "build.gradle.kts" }),
-
 	on_attach = function(client, bufnr)
+		lsp_config.codelens_try_refresh()
 		require("jdtls").setup_dap({ hotcodereplace = "auto" })
 		require("jdtls.dap").setup_dap_main_class_configs()
 		require("jdtls.setup").add_commands()
@@ -112,9 +118,7 @@ local config = {
 
 		lsp_config.on_attach(client, bufnr)
 	end,
-
 	capabilities = lsp_config.capabilities,
-
 	handlers = lsp_config.handlers,
 	-- Here you can configure eclipse.jdt.ls specific settings
 	-- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
@@ -125,9 +129,26 @@ local config = {
 				saveActions = {
 					organizeImports = true,
 				},
+				maven = {
+					enabled = true,
+				},
+				gradle = {
+					enabled = true,
+				},
 			},
 			maven = {
 				downloadSources = true,
+			},
+			implementationsCodeLens = {
+				enabled = true,
+			},
+			referencesCodeLens = {
+				enabled = true,
+			},
+			inlayHints = {
+				parameterNames = {
+					enabled = "all",
+				},
 			},
 			signatureHelp = {
 				enabled = true,
@@ -135,18 +156,25 @@ local config = {
 			configuration = {
 				runtimes = get_runtimes(),
 			},
-            completion = {
-                matchCase = "off",
-                maxResults = 999,
-            }
+			completion = {
+				matchCase = "off",
+				maxResults = 999,
+			},
 		},
 	},
-
 	init_options = {
 		bundles = bundles,
 		extendedClientCapabilities = extendedClientCapabilities,
 	},
 }
+
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+	pattern = { "*.java" },
+	callback = function()
+		lsp_config.codelens_try_refresh()
+	end,
+})
+
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
 jdtls.start_or_attach(config)

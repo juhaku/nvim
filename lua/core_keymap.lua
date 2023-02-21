@@ -15,6 +15,7 @@ keymap.set("n", "<leader>ut", ":UndotreeToggle<CR>", opts)
 keymap.set("n", "<leader>wf", ":HopPattern<CR>", opts)
 -- keymap.set({ "n", "i", "v", "x", "c" }, "<Bslash><Bslash>", "<Esc>", opts)
 keymap.set("i", "<C-c>", "<Esc>", opts)
+keymap.set({"i", "n"}, "<C-\\>", "<Esc>", opts)
 -- TODO filter quicfix list based on ignored files
 keymap.set("n", "<C-n>", ":cnext<CR>zz", opts)
 keymap.set("n", "<C-p>", ":cprev<CR>zz", opts)
