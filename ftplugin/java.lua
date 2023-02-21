@@ -135,6 +135,10 @@ local config = {
 			configuration = {
 				runtimes = get_runtimes(),
 			},
+            completion = {
+                matchCase = "off",
+                maxResults = 999,
+            }
 		},
 	},
 
