@@ -15,6 +15,7 @@ require("packer").startup(function()
 		},
 	})
 
+    use("JoosepAlviste/nvim-ts-context-commentstring")
 	use("tpope/vim-commentary")
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
 	use("nvim-treesitter/nvim-treesitter-refactor")
