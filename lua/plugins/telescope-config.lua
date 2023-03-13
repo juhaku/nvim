@@ -1,5 +1,6 @@
 local telescope = require("telescope")
 local telescope_actions = require("telescope.actions")
+local telescope_actions_state = require("telescope.actions.state")
 local file_browser_actions = telescope.extensions.file_browser.actions
 
 local function telescope_buffer_dir()
@@ -7,8 +8,8 @@ local function telescope_buffer_dir()
 end
 
 local function send_to_quickfix(promtbufnr)
-    telescope_actions.smart_send_to_qflist(promtbufnr)
-    vim.cmd([[botright copen]])
+	telescope_actions.smart_send_to_qflist(promtbufnr)
+	vim.cmd([[botright copen]])
 end
 
 telescope.setup({
@@ -26,18 +27,18 @@ telescope.setup({
 			},
 		},
 	},
-    pickers = {
-        buffers = {
-            mappings = {
-                ["n"] = {
-                    ["<C-d>"] = telescope_actions.delete_buffer,
-                },
-                ["i"] = {
-                    ["<C-d>"] = telescope_actions.delete_buffer,
-                }
-            }
-        }
-    },
+	pickers = {
+		buffers = {
+			mappings = {
+				["n"] = {
+					["<C-d>"] = telescope_actions.delete_buffer,
+				},
+				["i"] = {
+					["<C-d>"] = telescope_actions.delete_buffer,
+				},
+			},
+		},
+	},
 	extensions = {
 		file_browser = {
 			-- hijack_netrw = true,
@@ -84,10 +85,127 @@ telescope.setup({
 })
 
 telescope.load_extension("file_browser")
-telescope.load_extension('fzf')
+telescope.load_extension("fzf")
 
-vim.keymap.set("n", "te", function()
+local opts = { noremap = true, silent = true }
+
+vim.keymap.set("n", "<leader>te", function()
 	telescope.extensions.file_browser.file_browser({
 		path = telescope_buffer_dir(),
 	})
-end, { noremap = true, silent = true })
+end, opts)
+
+local pickers = require("telescope.pickers")
+local finders = require("telescope.finders")
+local conf = require("telescope.config").values
+local themes = require("telescope.themes")
+
+local function get_active_buf_for_tab(tab_num)
+	local window = vim.api.nvim_tabpage_get_win(tab_num)
+	return vim.api.nvim_win_get_buf(window)
+end
+
+local function get_buf_name(bufnr)
+	return vim.api.nvim_buf_get_name(bufnr)
+end
+
+local function get_buffers_for_windows(windows)
+	windows = windows or {}
+	local buffers = {}
+	for _, window in ipairs(windows) do
+		local bufnr = vim.api.nvim_win_get_buf(window)
+		table.insert(buffers, {
+			bufnr = bufnr,
+			bufname = get_buf_name(bufnr),
+			window = window,
+		})
+	end
+
+	return buffers
+end
+
+local function get_tabs()
+	local tabs = vim.fn.gettabinfo() or {}
+
+	local pages = {}
+	for _, tabpage in ipairs(tabs) do
+		local current_bufnr = get_active_buf_for_tab(tabpage.tabnr)
+
+		table.insert(pages, {
+			tabnr = tabpage.tabnr,
+			current_page = current_bufnr,
+			current_page_name = get_buf_name(current_bufnr),
+			buffers = get_buffers_for_windows(tabpage.windows),
+		})
+	end
+
+	return pages
+end
+
+local function make_tab_results(opts, tabpages)
+	local results = {}
+	if opts.settings and opts.settings.all_buffers == true then
+		for _, tabpage in ipairs(tabpages) do
+			for _, tabbuffer in ipairs(tabpage.buffers) do
+				table.insert(results, {
+					tabnr = tabpage.tabnr,
+					bufnr = tabbuffer.bufnr,
+					bufname = tabbuffer.bufname,
+					window = tabbuffer.window,
+				})
+			end
+		end
+	else
+		for _, tabpage in ipairs(tabpages) do
+			table.insert(results, {
+				tabnr = tabpage.tabnr,
+				bufnr = tabpage.current_page,
+				bufname = tabpage.current_page_name,
+			})
+		end
+	end
+
+	return results
+end
+
+local function tab_files_picker(opts)
+	local tabpages = get_tabs()
+	opts = vim.tbl_deep_extend("force", {}, themes.get_dropdown(opts or {}))
+	local tabpage_results = make_tab_results(opts, tabpages)
+	local cwdlen = #vim.fn.getcwd()
+	pickers
+		.new(opts, {
+			prompt_title = "Tabs",
+			finder = finders.new_table({
+				results = tabpage_results,
+				entry_maker = function(tabpage)
+					local name = string.sub(tabpage.bufname, cwdlen + 1)
+
+					return {
+						value = tabpage,
+						display = "(" .. tabpage.tabnr .. ") ." .. name,
+						ordinal = tabpage.bufname,
+					}
+				end,
+			}),
+			sorter = conf.generic_sorter(opts),
+			attach_mappings = function(prompt_bufnr, _) -- map
+				telescope_actions.select_default:replace(function()
+					telescope_actions.close(prompt_bufnr)
+					local entry = telescope_actions_state.get_selected_entry()
+					local tab = entry.value.tabnr
+					vim.cmd("tabnext " .. tab)
+
+					if entry.value.window ~= nil then
+						vim.fn.win_gotoid(entry.value.window)
+					end
+				end)
+				return true
+			end,
+		})
+		:find()
+end
+
+vim.keymap.set("n", "<leader>tp", function()
+    tab_files_picker({ settings = { all_buffers = true } })
+end, opts)

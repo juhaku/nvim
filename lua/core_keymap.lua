@@ -61,10 +61,10 @@ keymap.set("n", "to", ":tabonly<CR>", opts)
 keymap.set("n", "tc", ":tabclose<CR>", opts)
 
 -- Telescope
-keymap.set("n", "tf", ":Telescope find_files<CR>", opts)
+keymap.set("n", "<leader>tf", ":Telescope find_files<CR>", opts)
 -- keymap.set("n", "te", ":Telescope file_browser<CR>", opts)
-keymap.set("n", "tA", ":lua require('telescope.builtin').find_files({hidden=true, no_ignore=true})<CR>", opts)
-keymap.set("n", "tF", function()
+keymap.set("n", "<leader>ta", ":lua require('telescope.builtin').find_files({hidden=true, no_ignore=true})<CR>", opts)
+keymap.set("n", "<leader>tF", function()
 	require("telescope.builtin").find_files({
 		find_command = function()
 			return {
@@ -82,15 +82,15 @@ keymap.set("n", "tF", function()
 		end,
 	})
 end, opts)
-keymap.set("n", "tg", ":Telescope live_grep<CR>", opts)
-keymap.set("n", "tG", function()
+keymap.set("n", "<leader>tg", ":Telescope live_grep<CR>", opts)
+keymap.set("n", "<leader>tG", function()
 	require("telescope.builtin").live_grep({
 		additional_args = function()
 			return { "--hidden" }
 		end,
 	})
 end, opts)
-keymap.set("n", "tb", ":Telescope buffers<CR>", opts)
+keymap.set("n", "<leader>tB", ":Telescope buffers<CR>", opts)
 -- keymap.set("n", "fb", ":Telescope file_browser<CR>")
 -- keymap.set('n', '<C-S-n>', ':Telescope find_files<CR>')
 keymap.set("n", "<leader>tq", ":bdelete<CR> :bprevious<CR>", opts)
