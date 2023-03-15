@@ -87,13 +87,13 @@ telescope.setup({
 telescope.load_extension("file_browser")
 telescope.load_extension("fzf")
 
-local opts = { noremap = true, silent = true }
+local keymap_opts = { noremap = true, silent = true }
 
 vim.keymap.set("n", "<leader>te", function()
 	telescope.extensions.file_browser.file_browser({
 		path = telescope_buffer_dir(),
 	})
-end, opts)
+end, keymap_opts)
 
 local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
@@ -101,8 +101,14 @@ local conf = require("telescope.config").values
 local themes = require("telescope.themes")
 
 local function get_active_buf_for_tab(tab_num)
-	local window = vim.api.nvim_tabpage_get_win(tab_num)
-	return vim.api.nvim_win_get_buf(window)
+    local is_valid = vim.api.nvim_tabpage_is_valid(tab_num)
+
+    if is_valid == true then
+        local window = vim.api.nvim_tabpage_get_win(tab_num)
+        return vim.api.nvim_win_get_buf(window)
+    else
+        return -1
+    end
 end
 
 local function get_buf_name(bufnr)
@@ -124,19 +130,35 @@ local function get_buffers_for_windows(windows)
 	return buffers
 end
 
+local function get_tabpages()
+    local handles = vim.api.nvim_list_tabpages()
+
+    local tabs = {}
+    for _, handle in ipairs(handles) do
+        table.insert(tabs, {
+            tabnr = handle,
+            windows = vim.api.nvim_tabpage_list_wins(handle)
+        })
+    end
+
+    return tabs
+end
+
 local function get_tabs()
-	local tabs = vim.fn.gettabinfo() or {}
+    local tabs = get_tabpages()
 
 	local pages = {}
 	for _, tabpage in ipairs(tabs) do
 		local current_bufnr = get_active_buf_for_tab(tabpage.tabnr)
 
-		table.insert(pages, {
-			tabnr = tabpage.tabnr,
-			current_page = current_bufnr,
-			current_page_name = get_buf_name(current_bufnr),
-			buffers = get_buffers_for_windows(tabpage.windows),
-		})
+        if current_bufnr ~= -1 then
+            table.insert(pages, {
+                tabnr = tabpage.tabnr,
+                current_page = current_bufnr,
+                current_page_name = get_buf_name(current_bufnr),
+                buffers = get_buffers_for_windows(tabpage.windows),
+            })
+        end
 	end
 
 	return pages
@@ -173,6 +195,7 @@ local function tab_files_picker(opts)
 	opts = vim.tbl_deep_extend("force", {}, themes.get_dropdown(opts or {}))
 	local tabpage_results = make_tab_results(opts, tabpages)
 	local cwdlen = #vim.fn.getcwd()
+
 	pickers
 		.new(opts, {
 			prompt_title = "Tabs",
@@ -207,5 +230,5 @@ local function tab_files_picker(opts)
 end
 
 vim.keymap.set("n", "<leader>tp", function()
-    tab_files_picker({ settings = { all_buffers = true } })
-end, opts)
+	tab_files_picker({ settings = { all_buffers = true } })
+end, keymap_opts)

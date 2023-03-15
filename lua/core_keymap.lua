@@ -56,9 +56,9 @@ keymap.set({ "n", "i", "v", "c" }, "<C-S-tab>", ":tabprev<CR>", opts)
 keymap.set({ "n", "i", "v", "c" }, "<C-tab>", ":tabnext<CR>", opts)
 keymap.set({ "n", "i", "v", "c" }, "<A-o>", ":tabprev<CR>", opts)
 keymap.set({ "n", "i", "v", "c" }, "<A-i>", ":tabnext<CR>", opts)
-keymap.set("n", "tn", ":tabnew<CR>", opts)
-keymap.set("n", "to", ":tabonly<CR>", opts)
-keymap.set("n", "tc", ":tabclose<CR>", opts)
+keymap.set("n", "<leader>tn", ":tabnew<CR>", opts)
+keymap.set("n", "<leader>to", ":tabonly<CR>", opts)
+keymap.set("n", "<leader>tc", ":tabclose<CR>", opts)
 
 -- Telescope
 keymap.set("n", "<leader>tf", ":Telescope find_files<CR>", opts)
@@ -93,7 +93,7 @@ end, opts)
 keymap.set("n", "<leader>tB", ":Telescope buffers<CR>", opts)
 -- keymap.set("n", "fb", ":Telescope file_browser<CR>")
 -- keymap.set('n', '<C-S-n>', ':Telescope find_files<CR>')
-keymap.set("n", "<leader>tq", ":bdelete<CR> :bprevious<CR>", opts)
+-- keymap.set("n", "<leader>tq", ":bdelete<CR> :bprevious<CR>", opts)
 -- keymap.set('n', ',d', ':lua require'popui.diagnostics-navigator'\(\)<CR>', opts)
 -- nnoremap <leader>ff <cmd>Telescope find_files<cr>
 -- nnoremap <leader>fg <cmd>Telescope live_grep<cr>
