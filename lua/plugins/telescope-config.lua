@@ -101,14 +101,14 @@ local conf = require("telescope.config").values
 local themes = require("telescope.themes")
 
 local function get_active_buf_for_tab(tab_num)
-    local is_valid = vim.api.nvim_tabpage_is_valid(tab_num)
+	local is_valid = vim.api.nvim_tabpage_is_valid(tab_num)
 
-    if is_valid == true then
-        local window = vim.api.nvim_tabpage_get_win(tab_num)
-        return vim.api.nvim_win_get_buf(window)
-    else
-        return -1
-    end
+	if is_valid == true then
+		local window = vim.api.nvim_tabpage_get_win(tab_num)
+		return vim.api.nvim_win_get_buf(window)
+	else
+		return -1
+	end
 end
 
 local function get_buf_name(bufnr)
@@ -131,34 +131,35 @@ local function get_buffers_for_windows(windows)
 end
 
 local function get_tabpages()
-    local handles = vim.api.nvim_list_tabpages()
+	local handles = vim.api.nvim_list_tabpages()
 
-    local tabs = {}
-    for _, handle in ipairs(handles) do
-        table.insert(tabs, {
-            tabnr = handle,
-            windows = vim.api.nvim_tabpage_list_wins(handle)
-        })
-    end
+	local tabs = {}
+	for index, handle in ipairs(handles) do
+		table.insert(tabs, {
+			handle = handle,
+			tabnr = index,
+			windows = vim.api.nvim_tabpage_list_wins(handle),
+		})
+	end
 
-    return tabs
+	return tabs
 end
 
 local function get_tabs()
-    local tabs = get_tabpages()
+	local tabs = get_tabpages()
 
 	local pages = {}
 	for _, tabpage in ipairs(tabs) do
-		local current_bufnr = get_active_buf_for_tab(tabpage.tabnr)
+		local current_bufnr = get_active_buf_for_tab(tabpage.handle)
 
-        if current_bufnr ~= -1 then
-            table.insert(pages, {
-                tabnr = tabpage.tabnr,
-                current_page = current_bufnr,
-                current_page_name = get_buf_name(current_bufnr),
-                buffers = get_buffers_for_windows(tabpage.windows),
-            })
-        end
+		if current_bufnr ~= -1 then
+			table.insert(pages, {
+				tabnr = tabpage.tabnr,
+				current_page = current_bufnr,
+				current_page_name = get_buf_name(current_bufnr),
+				buffers = get_buffers_for_windows(tabpage.windows),
+			})
+		end
 	end
 
 	return pages
