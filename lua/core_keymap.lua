@@ -182,3 +182,14 @@ vim.api.nvim_create_user_command("Fgl", function(o)
 end, {
 	bang = true,
 })
+
+vim.api.nvim_create_user_command("Wx", function (o)
+    local cmd = "tabnew | terminal watchmux "
+    if o.args ~= "" then
+        cmd = cmd .. "-c " .. o.args
+    end
+    vim.cmd(cmd)
+end, {
+    nargs = "?",
+    complete = "file"
+})
