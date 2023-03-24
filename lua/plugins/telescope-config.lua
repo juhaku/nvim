@@ -4,7 +4,12 @@ local telescope_actions_state = require("telescope.actions.state")
 local file_browser_actions = telescope.extensions.file_browser.actions
 
 local function telescope_buffer_dir()
-	return vim.fn.expand("%:p:h")
+    local is_file = vim.fn.system("test -f " .. vim.fn.expand("%") .. " && echo 1")
+    if tonumber(is_file) == 1 then
+        return vim.fn.expand("%:p:h")
+    end
+
+    return vim.fn.getcwd()
 end
 
 local function send_to_quickfix(promtbufnr)
