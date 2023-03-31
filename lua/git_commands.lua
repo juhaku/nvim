@@ -138,13 +138,24 @@ end, {
 })
 
 vim.api.nvim_create_user_command("Gp", function(opts)
+	local command = "G push "
+
 	if opts.bang == true then
-		vim.cmd("G push --force-with-lease")
-	else
-		vim.cmd("G push")
+		command = command .. "--force-with-lease "
 	end
+	command = command .. opts.args
+
+	vim.cmd(command)
 end, {
 	bang = true,
+	nargs = "?",
+	complete = function(_, cmd, _)
+		if cmd == "Gp " or "Gp! " then
+			return { "--no-verify" }
+		end
+
+		return {}
+	end,
 })
 
 vim.api.nvim_create_user_command("Gpsup", function(opts)
