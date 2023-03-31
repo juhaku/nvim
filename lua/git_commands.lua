@@ -37,36 +37,35 @@ local get_origin = function()
 	end
 end
 
-
 local function get_remotes()
-    local remotes = vim.fn.systemlist("git ls-remote")
+	local remotes = vim.fn.systemlist("git ls-remote")
 
-    local retVal = {
-        tags = {},
-        heads = {},
-        pulls = {},
-    }
-    for _, remote in ipairs(remotes) do
-        local ref = vim.fn.split(remote, "\t")
-        ref = ref[#ref]
+	local retVal = {
+		tags = {},
+		heads = {},
+		pulls = {},
+	}
+	for _, remote in ipairs(remotes) do
+		local ref = vim.fn.split(remote, "\t")
+		ref = ref[#ref]
 
-        local _, pos = string.find(ref, "refs/")
-        if pos ~= nil then
-            ref = string.sub(ref, pos + 1)
+		local _, pos = string.find(ref, "refs/")
+		if pos ~= nil then
+			ref = string.sub(ref, pos + 1)
 
-            local _, heads = string.find(ref, "heads/")
-            local _, tags = string.find(ref, "tags/")
-            if string.find(ref, "pull") ~= nil then
-                table.insert(retVal.pulls, ref)
-            elseif heads ~= nil then
-                table.insert(retVal.heads, string.sub(ref, heads + 1))
-            elseif tags ~= nil then
-                table.insert(retVal.tags, string.sub(ref, tags + 1))
-            end
-        end
-    end
+			local _, heads = string.find(ref, "heads/")
+			local _, tags = string.find(ref, "tags/")
+			if string.find(ref, "pull") ~= nil then
+				table.insert(retVal.pulls, ref)
+			elseif heads ~= nil then
+				table.insert(retVal.heads, string.sub(ref, heads + 1))
+			elseif tags ~= nil then
+				table.insert(retVal.tags, string.sub(ref, tags + 1))
+			end
+		end
+	end
 
-    return retVal
+	return retVal
 end
 
 -- shorter command git commit
@@ -119,23 +118,23 @@ end, {
 	end,
 })
 
-vim.api.nvim_create_user_command("Gf", function (opts)
-    vim.cmd("G fetch " .. opts.args)
+vim.api.nvim_create_user_command("Gf", function(opts)
+	vim.cmd("G fetch " .. opts.args)
 end, {
-    nargs = "*",
-    complete = function (_, cmd, _)
-        if cmd == "Gf " then
-            return { "origin" }
-        end
+	nargs = "*",
+	complete = function(_, cmd, _)
+		if cmd == "Gf " then
+			return { "origin" }
+		end
 
-        local completion = { "HEAD" }
-        local remotes = get_remotes()
-        completion = vim.list_extend(completion, remotes.heads)
-        completion = vim.list_extend(completion, remotes.pulls)
-        completion = vim.list_extend(completion, remotes.tags)
+		local completion = { "HEAD" }
+		local remotes = get_remotes()
+		completion = vim.list_extend(completion, remotes.heads)
+		completion = vim.list_extend(completion, remotes.pulls)
+		completion = vim.list_extend(completion, remotes.tags)
 
-        return completion
-    end
+		return completion
+	end,
 })
 
 vim.api.nvim_create_user_command("Gp", function(opts)
@@ -148,12 +147,21 @@ end, {
 	bang = true,
 })
 
-vim.api.nvim_create_user_command("Gpsup", function(_)
+vim.api.nvim_create_user_command("Gpsup", function(opts)
 	local origin = get_origin()
 	local current_branch = get_current_branch()
 
-	vim.cmd("G push --set-upstream " .. origin .. " " .. current_branch)
-end, {})
+	vim.cmd("G push --set-upstream " .. origin .. " " .. current_branch .. " " .. opts.args)
+end, {
+	nargs = "?",
+	complete = function(_, cmd, _)
+		if cmd == "Gpsup " then
+			return { "--no-verify" }
+		end
+
+		return {}
+	end,
+})
 
 local function refs_completion()
 	local completion = { "HEAD", "FETCH_HEAD", "ORIG_HEAD" }
