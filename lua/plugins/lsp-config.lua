@@ -476,6 +476,11 @@ require("lspconfig").yamlls.setup({
     end,
     handlers = handlers,
     settings = {
+        yaml = {
+            schemaStore = {
+                enable = true
+            }
+        },
         redhat = {
             telemetry = {
                 enabled = false,
