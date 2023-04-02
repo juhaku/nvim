@@ -4,13 +4,13 @@ require("packer").startup(function()
 	use("lewis6991/impatient.nvim")
 	use("folke/tokyonight.nvim")
 
-	use("kyazdani42/nvim-web-devicons")
+	use("nvim-tree/nvim-web-devicons")
 	use({
 		"nvim-neo-tree/neo-tree.nvim",
 		branch = "v2.x",
 		requires = {
 			"nvim-lua/plenary.nvim",
-			"kyazdani42/nvim-web-devicons",
+			"nvim-tree/nvim-web-devicons",
 			"MunifTanjim/nui.nvim",
 		},
 	})
@@ -40,7 +40,7 @@ require("packer").startup(function()
 	use("nvim-lua/plenary.nvim")
 	-- use("j-hui/fidget.nvim")
 	use("folke/lsp-colors.nvim")
-	use({ "akinsho/bufferline.nvim", tag = "v3.*" })
+	use({ "akinsho/bufferline.nvim", tag = "v3.*", requires = { "nvim-tree/nvim-web-devicons" } })
 	use({ "mbbill/undotree" })
 
 	-- cmp plugins
