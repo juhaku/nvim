@@ -51,6 +51,9 @@ cmp.setup({
 	window = {
 		-- completion = cmp.config.window.bordered(),
 		-- documentation = cmp.config.window.bordered(),
+		documentation = {
+			max_width = 120,
+		},
 	},
 	mapping = cmp.mapping.preset.insert({
 		["<C-u>"] = cmp.mapping.scroll_docs(-4),
@@ -82,7 +85,7 @@ cmp.setup({
 		{ name = "luasnip" },
 		{ name = "crates" },
 	}, {
-	-- { name = "buffer" },
+		-- { name = "buffer" },
 	}),
 })
 
