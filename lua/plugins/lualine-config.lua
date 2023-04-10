@@ -14,6 +14,11 @@ local get_location = function()
     return ret_val
 end
 
+local function cwd()
+    local working_dir = vim.fn.split(vim.fn.getcwd(), "/")
+    return working_dir[#working_dir]
+end
+
 require("lualine").setup({
     options = {
         icons_enabled = true,
@@ -32,7 +37,7 @@ require("lualine").setup({
         -- lualine_c = {
         -- 	{ "filename", path = 1 },
         -- },
-        lualine_c = { "filename" },
+        lualine_c = { cwd, "filename" },
         lualine_x = { "encoding", "fileformat", "filetype" },
         lualine_y = { "progress" },
         lualine_z = { "location" },
@@ -40,7 +45,7 @@ require("lualine").setup({
     inactive_sections = {
         lualine_a = {},
         lualine_b = {},
-        lualine_c = { "filename" },
+        lualine_c = { cwd, "filename" },
         lualine_x = { "location" },
         lualine_y = {},
         lualine_z = {},
