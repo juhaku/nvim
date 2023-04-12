@@ -149,7 +149,7 @@ local on_attach = function(client, bufnr)
     -- 	or client.name == "tsserver"
     -- 	or client.name == "eslint"
     -- then
-    -- 	client.server_capabilities.document_formatting = false
+    -- 	client.server_capabilities.documentFormattingProvider = false
     -- end
     require("illuminate").on_attach(client)
 
@@ -366,7 +366,7 @@ typescript.setup({
             -- })
 
             on_attach(client, bufnr)
-            client.server_capabilities.document_formatting = false
+            client.server_capabilities.documentFormattingProvider = false
         end,
         handlers = handlers,
         settings = {
@@ -405,7 +405,7 @@ require("lspconfig").eslint.setup({
         -- 	command = ":EslintFixAll",
         -- })
         on_attach(client, bufnr)
-        client.server_capabilities.document_formatting = false
+        client.server_capabilities.documentFormattingProvider = false
     end,
 })
 
