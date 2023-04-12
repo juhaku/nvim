@@ -16,7 +16,7 @@ local sources = {
 	null_ls.builtins.diagnostics.staticcheck,
 	null_ls.builtins.formatting.markdownlint,
 	null_ls.builtins.code_actions.gitsigns,
-    require("typescript.extensions.null-ls.code-actions")
+	require("typescript.extensions.null-ls.code-actions"),
 }
 
 null_ls.setup({ sources = sources })
