@@ -133,100 +133,53 @@ local navic = require("nvim-navic")
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-    if client.server_capabilities.documentSymbolProvider then
-        navic.attach(client, bufnr)
-    end
+	if client.server_capabilities.documentSymbolProvider then
+		navic.attach(client, bufnr)
+	end
 
-    -- if client.server_capabilities.documentSymbolProvider then
-    -- 	local filename = vim.fn.expand("%")
-    -- 	-- local location = navic.get_location()
-    -- 	vim.o.winbar = filename .. " > " .. "%{%v:lua.require'nvim-navic'.get_location()%}"
-    -- 	navic.attach(client, bufnr)
-    -- end
-    -- if
-    -- 	client.name == "lua_ls"
-    -- 	or client.name == "gopls"
-    -- 	or client.name == "tsserver"
-    -- 	or client.name == "eslint"
-    -- then
-    -- 	client.server_capabilities.documentFormattingProvider = false
-    -- end
-    require("illuminate").on_attach(client)
+	require("illuminate").on_attach(client)
 
-    -- Enable completion triggered by <c-x><c-o>
-    vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+	-- Enable completion triggered by <c-x><c-o>
+	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
-    -- Mappings.
-    -- See `:help vim.lsp.*` for documentation on any of the below functions
-    local bufopts = { noremap = true, silent = true, buffer = bufnr }
-    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-    -- vim.keymap.set("n", "gd", ":Trouble lsp_definitions<CR>", bufopts)
-    -- vim.keymap.set(
-    -- 	"n",
-    -- 	"gd",
-    -- 	":lua require('telescope.builtin').lsp_definitions({layout_config = {height = 50}}) <cr>",
-    -- 	bufopts
-    -- )
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-    -- vim.keymap.set("n", "gi", ":Trouble lsp_implementations<CR>", bufopts)
-    -- vim.keymap.set(
-    -- 	"n",
-    -- 	"gi",
-    -- 	":lua require('telescope.builtin').lsp_implementations({layout_config = {height = 50}}) <cr>",
-    -- 	bufopts
-    -- )
-    vim.keymap.set({ "n", "i" }, "<C-k>", vim.lsp.buf.signature_help, bufopts)
-    -- vim.keymap.set('n', '<C-p>', vim.lsp.buf.signature_help, bufopts)
-    vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, bufopts)
-    vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
-    vim.keymap.set("n", "<leader>wl", function()
-        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, bufopts)
-    vim.keymap.set("n", "td", vim.lsp.buf.type_definition, bufopts)
-    -- vim.keymap.set("n", "td", ":Trouble lsp_type_definitions<CR>", bufopts)
-    -- vim.keymap.set(
-    -- 	"n",
-    -- 	"td",
-    -- 	":lua require('telescope.builtin').lsp_type_definitions({layout_config = {height = 50}}) <cr>",
-    -- 	bufopts
-    -- )
-    vim.keymap.set("n", "gs", vim.lsp.buf.document_symbol, bufopts)
-    -- vim.keymap.set(
-    -- 	"n",
-    -- 	"bs",
-    -- 	":lua require('telescope.builtin').lsp_document_symbols({layout_config = {height = 50}}) <cr>",
-    -- 	bufopts
-    -- )
-    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
-    vim.keymap.set("n", "<A-CR>", vim.lsp.buf.code_action, bufopts)
-    vim.keymap.set("v", "<A-CR>", vim.lsp.buf.code_action, bufopts)
-    vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-    -- vim.keymap.set("n", "gr", ":Trouble lsp_references<CR>", bufopts)
-    -- vim.keymap.set(
-    -- 	"n",
-    -- 	"gr",
-    -- 	":lua require('telescope.builtin').lsp_references({layout_config = {height = 50}}) <cr>",
-    -- 	bufopts
-    -- )
-    --
+	-- Mappings.
+	-- See `:help vim.lsp.*` for documentation on any of the below functions
+	local bufopts = { noremap = true, silent = true, buffer = bufnr }
+	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
+	vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+	vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
+	vim.keymap.set({ "n", "i" }, "<C-k>", vim.lsp.buf.signature_help, bufopts)
+	vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, bufopts)
+	vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
+	vim.keymap.set("n", "<leader>wl", function()
+		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+	end, bufopts)
+	vim.keymap.set("n", "td", vim.lsp.buf.type_definition, bufopts)
+	vim.keymap.set("n", "gs", vim.lsp.buf.document_symbol, bufopts)
+	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
+	vim.keymap.set("n", "<A-CR>", vim.lsp.buf.code_action, bufopts)
+	vim.keymap.set("v", "<A-CR>", vim.lsp.buf.code_action, bufopts)
+	vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
 
-    vim.keymap.set("n", "<leader>f", function()
-        vim.lsp.buf.format({
-            filter = function(c)
-                return c.name ~= "tsserver" or c.name ~= "gopls" or c.name ~= "lua_ls" or c.name ~= "eslint"
-            end,
-            async = true,
-        })
-    end, bufopts)
+	vim.keymap.set("n", "<leader>f", function()
+		vim.lsp.buf.format({
+			filter = function(c)
+				return c.name ~= "tsserver" or c.name ~= "gopls" or c.name ~= "lua_ls" or c.name ~= "eslint"
+			end,
+			async = true,
+		})
+	end, bufopts)
 end
 
 -- Setup lspconfig.
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 require("lspconfig")["lua_ls"].setup({
-	on_attach = on_attach,
+	on_attach = function(client, bufnr)
+		client.server_capabilities.documentFormattingProvider = false
+		on_attach(client, bufnr)
+	end,
 	handlers = handlers,
 	settings = {
 		Lua = {
@@ -336,77 +289,77 @@ local typescript = require("typescript")
 -- end
 
 typescript.setup({
-    server = {
-        capabilities = capabilities,
-        on_attach = function(client, bufnr)
-            -- ts_on_save()
+	server = {
+		capabilities = capabilities,
+		on_attach = function(client, bufnr)
+			-- ts_on_save()
 
-            local bufopts = { noremap = true, silent = true, buffer = bufnr }
-            vim.keymap.set("n", "<leader><leader>o", function()
-                typescript.actions.organizeImports({ sync = true })
-                -- typescript.actions.fixAll({ sync = true })
-            end, bufopts)
-            vim.keymap.set("n", "<leader><leader>i", function()
-                typescript.actions.addMissingImports({ sync = true })
-                -- typescript.actions.fixAll({ sync = true })
-            end, bufopts)
+			local bufopts = { noremap = true, silent = true, buffer = bufnr }
+			vim.keymap.set("n", "<leader><leader>o", function()
+				typescript.actions.organizeImports({ sync = true })
+				-- typescript.actions.fixAll({ sync = true })
+			end, bufopts)
+			vim.keymap.set("n", "<leader><leader>i", function()
+				typescript.actions.addMissingImports({ sync = true })
+				-- typescript.actions.fixAll({ sync = true })
+			end, bufopts)
 
-            -- add command to perform code actions on write
-            -- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-            -- 	pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
-            -- 	command = ":TypescriptAddMissingImports!",
-            -- })
-            -- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-            -- 	pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
-            -- 	command = ":TypescriptOrganizeImports!",
-            -- })
-            -- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-            -- 	pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
-            -- 	command = ":TypescriptFixAll!",
-            -- })
+			-- add command to perform code actions on write
+			-- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+			-- 	pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+			-- 	command = ":TypescriptAddMissingImports!",
+			-- })
+			-- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+			-- 	pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+			-- 	command = ":TypescriptOrganizeImports!",
+			-- })
+			-- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+			-- 	pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+			-- 	command = ":TypescriptFixAll!",
+			-- })
 
-            on_attach(client, bufnr)
-            client.server_capabilities.documentFormattingProvider = false
-        end,
-        handlers = handlers,
-        settings = {
-            typescript = {
-                inlayHints = {
-                    includeInlayParameterNameHints = "all",
-                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                    includeInlayFunctionParameterTypeHints = true,
-                    includeInlayVariableTypeHints = true,
-                    includeInlayPropertyDeclarationTypeHints = true,
-                    includeInlayFunctionLikeReturnTypeHints = true,
-                    includeInlayEnumMemberValueHints = true,
-                },
-            },
-            javascript = {
-                inlayHints = {
-                    includeInlayParameterNameHints = "all",
-                    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                    includeInlayFunctionParameterTypeHints = true,
-                    includeInlayVariableTypeHints = true,
-                    includeInlayPropertyDeclarationTypeHints = true,
-                    includeInlayFunctionLikeReturnTypeHints = true,
-                    includeInlayEnumMemberValueHints = true,
-                },
-            },
-        },
-    },
+			on_attach(client, bufnr)
+			client.server_capabilities.documentFormattingProvider = false
+		end,
+		handlers = handlers,
+		settings = {
+			typescript = {
+				inlayHints = {
+					includeInlayParameterNameHints = "all",
+					includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+					includeInlayFunctionParameterTypeHints = true,
+					includeInlayVariableTypeHints = true,
+					includeInlayPropertyDeclarationTypeHints = true,
+					includeInlayFunctionLikeReturnTypeHints = true,
+					includeInlayEnumMemberValueHints = true,
+				},
+			},
+			javascript = {
+				inlayHints = {
+					includeInlayParameterNameHints = "all",
+					includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+					includeInlayFunctionParameterTypeHints = true,
+					includeInlayVariableTypeHints = true,
+					includeInlayPropertyDeclarationTypeHints = true,
+					includeInlayFunctionLikeReturnTypeHints = true,
+					includeInlayEnumMemberValueHints = true,
+				},
+			},
+		},
+	},
 })
 
 require("lspconfig").eslint.setup({
-    capabilities = capabilities,
-    on_attach = function(client, bufnr)
-        -- ts_on_save()
-        -- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-        -- 	pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
-        -- 	command = ":EslintFixAll",
-        -- })
-        on_attach(client, bufnr)
-        client.server_capabilities.documentFormattingProvider = false
-    end,
+	capabilities = capabilities,
+	on_attach = function(client, bufnr)
+		-- ts_on_save()
+		-- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+		-- 	pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+		-- 	command = ":EslintFixAll",
+		-- })
+		client.server_capabilities.documentFormattingProvider = false
+		on_attach(client, bufnr)
+	end,
 })
 
 require("lspconfig").vuels.setup({
