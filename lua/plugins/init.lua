@@ -132,7 +132,7 @@ dashboard.section.buttons.val = {
 	-- dashboard.button("tg", "  Find text", ":Telescope live_grep<CR>"),
 	-- dashboard.button("tr", "  Recently used files", ":Telescope oldfiles<CR>"),
 	dashboard.button("te", "  Open file browser", ":Telescope file_browser<CR>"),
-	dashboard.button("tt", "λ Terminal", ":terminal<CR>"),
+	dashboard.button("tt", "λ  Terminal", ":terminal<CR>"),
 	-- dashboard.button("te", "  Open file explorer", ":Ex<CR>"),
 	dashboard.button("os", "⌥  Open session", ":SessionManager load_session<CR>"),
 	dashboard.button("ol", "  Open last session", ":SessionManager load_last_session<CR>"),
