@@ -26,6 +26,10 @@ keymap.set("n", "<C-d>", "<C-d>zz")
 keymap.set("n", "<C-u>", "<C-u>zz")
 keymap.set("n", "n", "nzzzv")
 keymap.set("n", "N", "Nzzzv")
+keymap.set({"n", "v"}, "p", "pgvy`.")
+keymap.set({"n", "v"}, "P", "Pgvy`.")
+keymap.set({"n", "v"}, "x", "\"_x")
+keymap.set({"n", "v"}, "X", "\"_X")
 keymap.set("n", "<leader>dv", ":Gdiffsplit!<CR>", opts)
 
 -- neovide paste in neovide below 10.3
