@@ -599,7 +599,7 @@ local rust_analyer_opts = {
 }
 rust_tools.setup(rust_analyer_opts)
 
-require("lspconfig").dartls.setup({})
+-- require("lspconfig").dartls.setup({})
 require("flutter-tools").setup({
 	debugger = {
 		enabled = true,
