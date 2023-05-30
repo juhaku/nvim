@@ -31,6 +31,7 @@ keymap.set({"n", "v"}, "<A-S-P>", "Pgvy`.")
 keymap.set({"n", "v"}, "x", "\"_x")
 keymap.set({"n", "v"}, "X", "\"_X")
 keymap.set("n", "<leader>dv", ":Gdiffsplit!<CR>", opts)
+keymap.set("n", "<leader>gb", ":G blame<CR>", opts)
 
 -- neovide paste in neovide below 10.3
 if vim.g.neovide ~= nil then
