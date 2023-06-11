@@ -559,7 +559,6 @@ local rust_analyer_opts = {
 					},
 					features = {},
 					noDefaultFeatures = false,
-					allFeatures = false,
 				},
 				procMacro = {
 					enable = true,
