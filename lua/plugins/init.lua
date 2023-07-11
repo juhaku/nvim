@@ -125,6 +125,20 @@ require("trouble").setup({})
 local alpha = require("alpha")
 local dashboard = require("alpha.themes.dashboard")
 
+local function get_version()
+	local cmd = vim.api.nvim_parse_cmd("version", {})
+	local output = vim.api.nvim_cmd(cmd, { output = true })
+	local list = vim.split(output, "\n")
+	local versions = {}
+	for index, value in ipairs(list) do
+		if value ~= "" and index < 5 then
+			table.insert(versions, value)
+		end
+	end
+
+	return vim.fn.join(versions, "\n")
+end
+
 dashboard.section.buttons.val = {
 	dashboard.button("e", "  New file", ":ene <BAR> startinsert<CR>"),
 	-- dashboard.button("tf", "  Find file", ":Telescope find_files<CR>"),
@@ -138,6 +152,8 @@ dashboard.section.buttons.val = {
 	-- dashboard.button("c", "  Configuration", ":e ~/.config/nvim/init.lua<CR>"),
 	dashboard.button("q", "  Quit NVIM", ":qa<CR>"),
 }
+
+dashboard.section.footer.val = get_version()
 
 require("session_manager").setup({
 	autoload_mode = require("session_manager.config").AutoloadMode.Disabled,
