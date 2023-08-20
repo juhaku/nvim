@@ -25,6 +25,7 @@ require("nvim-treesitter.configs").setup({
 		"sql",
 		"markdown",
 		"vim",
+        "proto"
 	},
 
 	-- Install parsers synchronously (only applied to `ensure_installed`)
