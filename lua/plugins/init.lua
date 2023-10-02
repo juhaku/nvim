@@ -92,6 +92,7 @@ autopairs.setup({})
 -- 	Rule("%<%>$", "</>", { "typescript", "typescriptreact", "javascript", "javascriptreact" }):use_regex(true),
 -- })
 
+---@diagnostic disable-next-line: missing-fields
 require("nvim-surround").setup({})
 require("dressing").setup({
 	input = {
@@ -167,10 +168,10 @@ require("crates").setup({
 	},
 })
 
-require("indent_blankline").setup({
-	show_current_context = true,
-	show_current_context_start = false,
-	indent_blankline_use_treesitter_scope = true,
+require("ibl").setup({
+	-- show_current_context = true,
+	-- show_current_context_start = false,
+	-- indent_blankline_use_treesitter_scope = true,
 })
 
 require("pqf").setup({

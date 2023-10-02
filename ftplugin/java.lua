@@ -101,9 +101,10 @@ local config = {
 	root_dir = require("jdtls.setup").find_root({ "mvnw", "gradlew", "pom.xml", "build.gradle", "build.gradle.kts" }),
 	on_attach = function(client, bufnr)
 		lsp_config.codelens_try_refresh()
+		---@diagnostic disable-next-line: missing-fields
 		require("jdtls").setup_dap({ hotcodereplace = "auto" })
 		require("jdtls.dap").setup_dap_main_class_configs()
-		require("jdtls.setup").add_commands()
+		-- require("jdtls.setup").add_commands()
 		-- local dap = require("dap")
 		-- -- add java debug attach config
 		-- vim.fn.list_extend(dap.configurations.java, {

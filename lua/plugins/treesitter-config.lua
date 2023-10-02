@@ -1,5 +1,5 @@
+---@diagnostic disable-next-line: missing-fields
 require("nvim-treesitter.configs").setup({
-	-- A list of parser names, or 'nvim-treesitter.configs'"all"
 	ensure_installed = {
 		"lua",
 		"rust",
@@ -25,14 +25,14 @@ require("nvim-treesitter.configs").setup({
 		"sql",
 		"markdown",
 		"vim",
-        "proto"
+		-- "proto",
 	},
 
-	-- Install parsers synchronously (only applied to `ensure_installed`)
 	sync_install = false,
 
-	-- List of parsers to ignore installing (for "all")
-	-- ignore_install = { "javascript" },
+	auto_install = false,
+
+	ignore_install = {},
 
 	highlight = {
 		-- `false` will disable the whole extension
@@ -96,8 +96,8 @@ require("nvim-treesitter.configs").setup({
 		enable = true,
 	},
 
-    context_commentstring = {
-        enable = true
-    }
+	context_commentstring = {
+		enable = true,
+	},
 })
 require("treesitter-context").setup()

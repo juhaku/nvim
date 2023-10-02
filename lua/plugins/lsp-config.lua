@@ -81,6 +81,7 @@ local async = require("plenary.async")
 local _timer = nil
 local save_file = function(id)
 	if id ~= nil then
+		---@diagnostic disable-next-line: missing-parameter
 		async.run(function()
 			vim.fn.timer_stop(id)
 		end)
@@ -97,6 +98,7 @@ vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
 		end
 		if tonumber(is_file) == 1 then
 			if _timer ~= nil then
+				---@diagnostic disable-next-line: missing-parameter
 				async.run(function()
 					vim.fn.timer_stop(_timer)
 				end)

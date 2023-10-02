@@ -1,6 +1,6 @@
 local dap = require("dap")
 local dapui = require("dapui")
-require("nvim-dap-virtual-text").setup()
+require("nvim-dap-virtual-text").setup({})
 require("dap-go").setup()
 -- require("jester").setup({
 -- 	cmd = "yarn jest -t '$result' -- $file",
@@ -19,6 +19,7 @@ dap.adapters.node2 = {
 
 local dap_vscode_path = home .. "/.local/share/nvim/mason/packages/js-debug-adapter"
 
+---@diagnostic disable-next-line: missing-fields
 require("dap-vscode-js").setup({
 	-- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
 	-- debugger_path = "(runtimedir)/site/pack/packer/opt/vscode-js-debug", -- Path to vscode-js-debug installation.
