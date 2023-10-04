@@ -68,9 +68,52 @@ local function get_remotes()
 	return retVal
 end
 
+local function refs_completion()
+	local completion = { "HEAD", "FETCH_HEAD", "ORIG_HEAD" }
+	local branches = vim.tbl_filter(function(item)
+		if item ~= "*" then
+			return true
+		end
+		return false
+	end, vim.tbl_flatten(get_branches()))
+	local remotes = vim.tbl_flatten(get_remote_branches())
+
+	vim.list_extend(completion, branches)
+	vim.list_extend(completion, remotes)
+
+	return completion
+end
+
+local function run_in_slit_terminal(command, autoclose)
+	vim.api.nvim_create_autocmd({ "TermClose" }, {
+		pattern = { "*git*" },
+		callback = function(o)
+			vim.api.nvim_del_autocmd(o.id)
+
+			if autoclose ~= nil and autoclose == true and vim.v.event.status == 0 then
+				vim.api.nvim_buf_delete(o.buf, {})
+			end
+
+			local fugitive = vim.fn.bufnr("fugitive")
+			if fugitive ~= -1 then
+				vim.api.nvim_buf_call(fugitive, function()
+					vim.cmd("G")
+				end)
+			end
+		end,
+	})
+
+	local height = vim.fn.winheight(0)
+	local term_height = height / 3
+
+	local cmd = term_height .. "split | terminal " .. command
+	vim.cmd(cmd)
+end
+
 -- shorter command git commit
 vim.api.nvim_create_user_command("Gc", function(opts)
-	vim.cmd("G commit " .. opts.args)
+	-- vim.cmd("G commit " .. opts.args)
+	run_in_slit_terminal("git commit " .. opts.args)
 end, {
 	nargs = "?",
 	complete = function()
@@ -79,38 +122,51 @@ end, {
 })
 
 vim.api.nvim_create_user_command("Gcam", function(opts)
-	vim.cmd("G commit -a -m '" .. opts.args .. "'")
+	-- vim.cmd("G commit -a -m '" .. opts.args .. "'")
+	-- if opts.bang == true then
+	-- 	vim.cmd("G push")
+	-- end
+	local command = "git commit -a -m '" .. opts.args .. "'"
 	if opts.bang == true then
-		vim.cmd("G push")
+		command = command .. " && git push"
 	end
+	run_in_slit_terminal(command)
 end, {
 	nargs = "?",
 	bang = true,
 })
 
 vim.api.nvim_create_user_command("Gcmsg", function(opts)
-	vim.cmd("G commit -m '" .. opts.args .. "'")
+	-- vim.cmd("G commit -m '" .. opts.args .. "'")
+	-- if opts.bang == true then
+	-- 	vim.cmd("G push")
+	-- end
+	local command = "git commit -m '" .. opts.args .. "'"
 	if opts.bang == true then
-		vim.cmd("G push")
+		command = command .. " && git push"
 	end
+	run_in_slit_terminal(command)
 end, {
 	nargs = "?",
 	bang = true,
 })
 
 vim.api.nvim_create_user_command("Gaa", function(_)
-	vim.cmd("G add --all")
+	-- vim.cmd("G add --all")
+	run_in_slit_terminal("git add --all")
 end, {})
 
 -- checkout create brach
 vim.api.nvim_create_user_command("Gcb", function(opts)
-	vim.cmd("G checkout -b " .. opts.args)
+	-- vim.cmd("G checkout -b " .. opts.args)
+	run_in_slit_terminal("git checkout -b " .. opts.args)
 end, {
 	nargs = 1,
 })
 
 vim.api.nvim_create_user_command("Gl", function(opts)
-	vim.cmd("G pull " .. opts.args)
+	-- vim.cmd("G pull " .. opts.args)
+	run_in_slit_terminal("git pull " .. opts.args)
 end, {
 	nargs = "?",
 	complete = function()
@@ -119,7 +175,8 @@ end, {
 })
 
 vim.api.nvim_create_user_command("Gf", function(opts)
-	vim.cmd("G fetch " .. opts.args)
+	-- vim.cmd("G fetch " .. opts.args)
+	run_in_slit_terminal("git fetch " .. opts.args)
 end, {
 	nargs = "*",
 	complete = function(_, cmd, _)
@@ -138,14 +195,15 @@ end, {
 })
 
 vim.api.nvim_create_user_command("Gp", function(opts)
-	local command = "G push "
+	local command = "git push "
 
 	if opts.bang == true then
 		command = command .. "--force-with-lease "
 	end
 	command = command .. opts.args
 
-	vim.cmd(command)
+	-- vim.cmd(command)
+	run_in_slit_terminal(command)
 end, {
 	bang = true,
 	nargs = "?",
@@ -158,11 +216,27 @@ end, {
 	end,
 })
 
+vim.api.nvim_create_user_command("Gpf", function(opts)
+	local command = "git push --force-with-lease " .. opts.args
+	-- vim.cmd(command)
+	run_in_slit_terminal(command)
+end, {
+	nargs = "?",
+	complete = function(_, cmd, _)
+		if cmd == "Gp " then
+			return { "--no-verify" }
+		end
+
+		return {}
+	end,
+})
+
 vim.api.nvim_create_user_command("Gpsup", function(opts)
 	local origin = get_origin()
 	local current_branch = get_current_branch()
 
-	vim.cmd("G push --set-upstream " .. origin .. " " .. current_branch .. " " .. opts.args)
+	-- vim.cmd("G push --set-upstream " .. origin .. " " .. current_branch .. " " .. opts.args)
+	run_in_slit_terminal("git push --set-upstream " .. origin .. " " .. current_branch .. " " .. opts.args)
 end, {
 	nargs = "?",
 	complete = function(_, cmd, _)
@@ -174,24 +248,9 @@ end, {
 	end,
 })
 
-local function refs_completion()
-	local completion = { "HEAD", "FETCH_HEAD", "ORIG_HEAD" }
-	local branches = vim.tbl_filter(function(item)
-		if item ~= "*" then
-			return true
-		end
-		return false
-	end, vim.tbl_flatten(get_branches()))
-	local remotes = vim.tbl_flatten(get_remote_branches())
-
-	vim.list_extend(completion, branches)
-	vim.list_extend(completion, remotes)
-
-	return completion
-end
-
 vim.api.nvim_create_user_command("Gco", function(opts)
-	vim.cmd("G checkout " .. opts.args)
+	-- vim.cmd("G checkout " .. opts.args)
+	run_in_slit_terminal("git checkout " .. opts.args)
 end, {
 	nargs = "?",
 	complete = function()
@@ -200,7 +259,8 @@ end, {
 })
 
 vim.api.nvim_create_user_command("Grb", function(opts)
-	vim.cmd("G rebase -i " .. opts.args)
+	-- vim.cmd("G rebase -i " .. opts.args)
+	run_in_slit_terminal("git rebase -i " .. opts.args)
 end, {
 	nargs = "?",
 	complete = function()
@@ -209,7 +269,8 @@ end, {
 })
 
 vim.api.nvim_create_user_command("Gb", function(opts)
-	vim.cmd("G branch " .. opts.args)
+	-- vim.cmd("G branch " .. opts.args)
+	run_in_slit_terminal("git branch " .. opts.args)
 end, {
 	nargs = "*",
 	complete = function(_, cmd, _)
@@ -221,3 +282,7 @@ end, {
 		end
 	end,
 })
+
+vim.api.nvim_create_user_command("Glsr", function()
+	run_in_slit_terminal("git ls-remote")
+end, {})
