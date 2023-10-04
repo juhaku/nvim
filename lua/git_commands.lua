@@ -106,7 +106,7 @@ local function run_in_slit_terminal(command, autoclose)
 	local height = vim.fn.winheight(0)
 	local term_height = height / 3
 
-	local cmd = term_height .. "split | terminal " .. command
+	local cmd = "botright" .. term_height .. "split | terminal " .. command
 	vim.cmd(cmd)
 end
 
