@@ -169,9 +169,11 @@ require("crates").setup({
 })
 
 require("ibl").setup({
-	-- show_current_context = true,
-	-- show_current_context_start = false,
-	-- indent_blankline_use_treesitter_scope = true,
+	scope = {
+		include = {
+			node_type = { lua = { "return_statement", "table_constructor" } },
+		},
+	},
 })
 
 require("pqf").setup({

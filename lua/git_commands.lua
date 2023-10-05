@@ -103,10 +103,7 @@ local function run_in_slit_terminal(command, autoclose)
 		end,
 	})
 
-	local height = vim.fn.winheight(0)
-	local term_height = height / 3
-
-	local cmd = "botright" .. term_height .. "split | terminal " .. command
+	local cmd = "botright split | terminal " .. command
 	vim.cmd(cmd)
 end
 
@@ -152,8 +149,8 @@ end, {
 })
 
 vim.api.nvim_create_user_command("Gaa", function(_)
-	-- vim.cmd("G add --all")
-	run_in_slit_terminal("git add --all")
+	vim.cmd("G add --all")
+	-- run_in_slit_terminal("git add --all")
 end, {})
 
 -- checkout create brach
@@ -165,8 +162,8 @@ end, {
 })
 
 vim.api.nvim_create_user_command("Gl", function(opts)
-	-- vim.cmd("G pull " .. opts.args)
-	run_in_slit_terminal("git pull " .. opts.args)
+	vim.cmd("G pull " .. opts.args)
+	-- run_in_slit_terminal("git pull " .. opts.args)
 end, {
 	nargs = "?",
 	complete = function()
@@ -175,8 +172,8 @@ end, {
 })
 
 vim.api.nvim_create_user_command("Gf", function(opts)
-	-- vim.cmd("G fetch " .. opts.args)
-	run_in_slit_terminal("git fetch " .. opts.args)
+	vim.cmd("G fetch " .. opts.args)
+	-- run_in_slit_terminal("git fetch " .. opts.args)
 end, {
 	nargs = "*",
 	complete = function(_, cmd, _)
@@ -249,8 +246,8 @@ end, {
 })
 
 vim.api.nvim_create_user_command("Gco", function(opts)
-	-- vim.cmd("G checkout " .. opts.args)
-	run_in_slit_terminal("git checkout " .. opts.args)
+	vim.cmd("G checkout " .. opts.args)
+	-- run_in_slit_terminal("git checkout " .. opts.args)
 end, {
 	nargs = "?",
 	complete = function()
@@ -259,8 +256,8 @@ end, {
 })
 
 vim.api.nvim_create_user_command("Grb", function(opts)
-	-- vim.cmd("G rebase -i " .. opts.args)
-	run_in_slit_terminal("git rebase -i " .. opts.args)
+	vim.cmd("G rebase -i " .. opts.args)
+	-- run_in_slit_terminal("git rebase -i " .. opts.args)
 end, {
 	nargs = "?",
 	complete = function()
@@ -269,8 +266,8 @@ end, {
 })
 
 vim.api.nvim_create_user_command("Gb", function(opts)
-	-- vim.cmd("G branch " .. opts.args)
-	run_in_slit_terminal("git branch " .. opts.args)
+	vim.cmd("G branch " .. opts.args)
+	-- run_in_slit_terminal("git branch " .. opts.args)
 end, {
 	nargs = "*",
 	complete = function(_, cmd, _)
@@ -284,5 +281,6 @@ end, {
 })
 
 vim.api.nvim_create_user_command("Glsr", function()
-	run_in_slit_terminal("git ls-remote")
+    vim.cmd("G ls-remote")
+    -- run_in_slit_terminal("git ls-remote")
 end, {})
