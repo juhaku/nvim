@@ -155,8 +155,8 @@ end, {})
 
 -- checkout create brach
 vim.api.nvim_create_user_command("Gcb", function(opts)
-	-- vim.cmd("G checkout -b " .. opts.args)
-	run_in_slit_terminal("git checkout -b " .. opts.args)
+	vim.cmd("G checkout -b " .. opts.args)
+	-- run_in_slit_terminal("git checkout -b " .. opts.args)
 end, {
 	nargs = 1,
 })
