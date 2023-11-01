@@ -205,28 +205,35 @@ end, {
 	complete = "file",
 })
 
-vim.api.nvim_create_user_command("Grep", function(o)
-	local args = ""
+local function live_grep(o, args)
 	if o.args ~= "" then
-		args = " search_dir=*" .. o.args .. "*"
+		args = vim.tbl_deep_extend("force", args, {
+			search_dirs = { o.args },
+		})
 	end
-	vim.cmd("Telescope live_grep" .. args)
+
+	require("telescope.builtin").live_grep(args)
+end
+
+vim.api.nvim_create_user_command("Grep", function(o)
+	live_grep(o, {})
+end, {
+	nargs = "?",
+	complete = "dir",
+})
+
+vim.api.nvim_create_user_command("GrepHidden", function(o)
+	live_grep(o, { "--hidden" })
 end, {
 	nargs = "?",
 	complete = "dir",
 })
 
 vim.api.nvim_create_user_command("GrepAll", function(o)
-	local dir = ""
-	if o.args ~= "" then
-		dir = "*" .. o.args .. "*"
-	end
-	require("telescope.builtin").live_grep({
-		search_dir = dir,
-		additional_args = function()
-			return { "--hidden" }
-		end,
-	})
+	local grep_all_args = {
+		additional_args = { "--hidden", "--no-ignore" },
+	}
+	live_grep(o, grep_all_args)
 end, {
 	nargs = "?",
 	complete = "dir",
