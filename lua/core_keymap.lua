@@ -11,16 +11,16 @@ keymap.set("n", "QQ", ":qa<CR>", opts)
 keymap.set("n", "<leader>qa", ":qa<CR>", opts)
 keymap.set("n", "<leader>qm", ":to<CR><CMD>Alpha<CR>", opts)
 keymap.set("n", "<leader>ut", ":UndotreeToggle<CR>", opts)
-keymap.set({"n", "v"}, "<leader>y", '"+y', opts)
-keymap.set({"n", "v"}, "<leader>c", '"+x', opts)
-keymap.set({"n", "v"}, "<leader>d", '"+d', opts)
-keymap.set({"n", "v"}, "<leader>p", '"+p', opts)
-keymap.set({"n", "v"}, "<leader>P", '"+P', opts)
+keymap.set({ "n", "v" }, "<leader>y", '"+y', opts)
+keymap.set({ "n", "v" }, "<leader>c", '"+x', opts)
+keymap.set({ "n", "v" }, "<leader>d", '"+d', opts)
+keymap.set({ "n", "v" }, "<leader>p", '"+p', opts)
+keymap.set({ "n", "v" }, "<leader>P", '"+P', opts)
 
 keymap.set("n", "<leader>wf", ":HopPattern<CR>", opts)
 -- keymap.set({ "n", "i", "v", "x", "c" }, "<Bslash><Bslash>", "<Esc>", opts)
 keymap.set("i", "<C-c>", "<Esc>", opts)
-keymap.set({"i", "n"}, "<C-\\>", "<Esc>", opts)
+keymap.set({ "i", "n" }, "<C-\\>", "<Esc>", opts)
 -- TODO filter quicfix list based on ignored files
 keymap.set("n", "<C-n>", ":cnext<CR>zz", opts)
 keymap.set("n", "<C-p>", ":cprev<CR>zz", opts)
@@ -31,10 +31,10 @@ keymap.set("n", "<C-d>", "<C-d>zz")
 keymap.set("n", "<C-u>", "<C-u>zz")
 keymap.set("n", "n", "nzzzv")
 keymap.set("n", "N", "Nzzzv")
-keymap.set({"n", "v"}, "<A-p>", "pgvy`.")
-keymap.set({"n", "v"}, "<A-S-P>", "Pgvy`.")
-keymap.set({"n", "v"}, "x", "\"_x")
-keymap.set({"n", "v"}, "X", "\"_X")
+keymap.set({ "n", "v" }, "<A-p>", "pgvy`.")
+keymap.set({ "n", "v" }, "<A-S-P>", "Pgvy`.")
+keymap.set({ "n", "v" }, "x", '"_x')
+keymap.set({ "n", "v" }, "X", '"_X')
 keymap.set("n", "<leader>dv", ":Gdiffsplit!<CR>", opts)
 keymap.set("n", "<leader>gb", ":G blame<CR>", opts)
 
@@ -171,7 +171,7 @@ end, {
 	end,
 })
 
-vim.api.nvim_create_user_command("STig", function(o)
+vim.api.nvim_create_user_command("Stig", function(o)
 	local cmd = "split | terminal tig " .. o.args
 	vim.cmd(cmd)
 end, {
@@ -194,13 +194,40 @@ end, {
 	bang = true,
 })
 
-vim.api.nvim_create_user_command("Wx", function (o)
-    local cmd = "tabnew | terminal watchmux "
-    if o.args ~= "" then
-        cmd = cmd .. "-c " .. o.args
-    end
-    vim.cmd(cmd)
+vim.api.nvim_create_user_command("Wx", function(o)
+	local cmd = "tabnew | terminal watchmux "
+	if o.args ~= "" then
+		cmd = cmd .. "-c " .. o.args
+	end
+	vim.cmd(cmd)
 end, {
-    nargs = "?",
-    complete = "file"
+	nargs = "?",
+	complete = "file",
+})
+
+vim.api.nvim_create_user_command("Grep", function(o)
+	local args = ""
+	if o.args ~= "" then
+		args = " search_dir=*" .. o.args .. "*"
+	end
+	vim.cmd("Telescope live_grep" .. args)
+end, {
+	nargs = "?",
+	complete = "dir",
+})
+
+vim.api.nvim_create_user_command("GrepAll", function(o)
+	local dir = ""
+	if o.args ~= "" then
+		dir = "*" .. o.args .. "*"
+	end
+	require("telescope.builtin").live_grep({
+		search_dir = dir,
+		additional_args = function()
+			return { "--hidden" }
+		end,
+	})
+end, {
+	nargs = "?",
+	complete = "dir",
 })
