@@ -106,6 +106,9 @@ local finders = require("telescope.finders")
 local conf = require("telescope.config").values
 local themes = require("telescope.themes")
 
+--- Get active buffer number withing given tab
+---@param tab_num number tab number to get active buffer number for
+---@return number bufnr active buffer number in tab; or -1 if tab is not valid
 local function get_active_buf_for_tab(tab_num)
 	local is_valid = vim.api.nvim_tabpage_is_valid(tab_num)
 
@@ -117,10 +120,21 @@ local function get_active_buf_for_tab(tab_num)
 	end
 end
 
+--- Get buffer name for given buffer number
+---@param bufnr number buffer number
+---@return string name name of the buffer
 local function get_buf_name(bufnr)
 	return vim.api.nvim_buf_get_name(bufnr)
 end
 
+---@class Buffer
+---@field bufnr number buffer number
+---@field bufname string buffer name
+---@field window number window number of the buffer
+
+--- Get buffers withing given windows
+---@param windows any[] windows
+---@return Buffer[] buffers in given windows
 local function get_buffers_for_windows(windows)
 	windows = windows or {}
 	local buffers = {}
@@ -136,6 +150,13 @@ local function get_buffers_for_windows(windows)
 	return buffers
 end
 
+---@class TabPage
+---@field handle number tab page file handle
+---@field tabnr number tab index number
+---@field windows number[] list of window handle numbers in tab
+
+--- Get list of `TabPage`
+---@return TabPage[] tab_pages list of tab tages currently available
 local function get_tabpages()
 	local handles = vim.api.nvim_list_tabpages()
 
@@ -151,6 +172,14 @@ local function get_tabpages()
 	return tabs
 end
 
+---@class Tab
+---@field tabnr number tab index number
+---@field current_page number current buffer number
+---@field current_page_name string current buffer name
+---@field buffers Buffer[] list of buffers in tab page
+
+--- Get currently available tabs
+---@return Tab[] tabs currently available tabs
 local function get_tabs()
 	local tabs = get_tabpages()
 
@@ -171,21 +200,35 @@ local function get_tabs()
 	return pages
 end
 
-local function make_tab_results(opts, tabpages)
+---@class TabResult
+---@field tabnr number tab index number
+---@field bufnr number buffer number within the tab
+---@field bufname string buffer name within the tab
+---@field window number|nil window number of the tab
+
+--- Make tab results from given `tabs` based on given `opts`
+---@param opts table table of configuration options
+---@param tabs Tab[] currently available tabs
+---@return TabResult[] tab_results Telescope viewable results of the the tabs
+local function make_tab_results(opts, tabs)
+	---@type TabResult[]
 	local results = {}
+
 	if opts.settings and opts.settings.all_buffers == true then
-		for _, tabpage in ipairs(tabpages) do
+		for _, tabpage in ipairs(tabs) do
 			for _, tabbuffer in ipairs(tabpage.buffers) do
-				table.insert(results, {
-					tabnr = tabpage.tabnr,
-					bufnr = tabbuffer.bufnr,
-					bufname = tabbuffer.bufname,
-					window = tabbuffer.window,
-				})
+				if tabbuffer.bufname ~= "" then
+					table.insert(results, {
+						tabnr = tabpage.tabnr,
+						bufnr = tabbuffer.bufnr,
+						bufname = tabbuffer.bufname,
+						window = tabbuffer.window,
+					})
+				end
 			end
 		end
 	else
-		for _, tabpage in ipairs(tabpages) do
+		for _, tabpage in ipairs(tabs) do
 			table.insert(results, {
 				tabnr = tabpage.tabnr,
 				bufnr = tabpage.current_page,
@@ -198,9 +241,9 @@ local function make_tab_results(opts, tabpages)
 end
 
 local function tab_files_picker(opts)
-	local tabpages = get_tabs()
+	local tabs = get_tabs()
 	opts = vim.tbl_deep_extend("force", {}, themes.get_dropdown(opts or {}))
-	local tabpage_results = make_tab_results(opts, tabpages)
+	local tabpage_results = make_tab_results(opts, tabs)
 	local cwdlen = #vim.fn.getcwd()
 
 	pickers
