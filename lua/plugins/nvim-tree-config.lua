@@ -1,118 +1,80 @@
+local api = require("nvim-tree.api")
+
+local function close_node()
+	api.node.navigate.parent_close()
+end
+
+local function edit_or_open()
+	local node = api.tree.get_node_under_cursor()
+
+	if node.nodes ~= nil then
+		api.node.open.edit()
+	else
+		api.node.open.edit()
+		api.tree.close()
+	end
+end
+
+local function on_attach(bufnr)
+	local function opts(desc)
+		return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+	end
+	-- default mappings
+	api.config.mappings.default_on_attach(bufnr)
+
+	vim.keymap.set("n", "cd", api.tree.change_root_to_node, opts("CD"))
+	-- vim.keymap.set("n", "w", api.tree.change_root_to_node, opts("CD"))
+	vim.keymap.set("n", "%", api.fs.create, opts("Create"))
+	vim.keymap.set("n", "l", edit_or_open, opts("Edit Or Open"))
+	vim.keymap.set("n", "h", close_node, opts("Close"))
+end
+
 require("nvim-tree").setup({
-	auto_reload_on_write = true,
-	disable_netrw = true,
-	hijack_cursor = false,
-	hijack_netrw = true,
-	hijack_unnamed_buffer_when_opening = false,
-	ignore_buffer_on_setup = false,
-	open_on_setup = true,
-	open_on_setup_file = false,
-	open_on_tab = true,
-	sort_by = "name",
-	update_cwd = false,
-	reload_on_bufenter = false,
+	on_attach = on_attach,
+	hijack_netrw = false,
 	view = {
 		width = 50,
-		height = 30,
-		hide_root_folder = false,
-		side = "left",
-		preserve_window_proportions = false,
-		number = false,
-		relativenumber = false,
-		signcolumn = "yes",
-		mappings = {
-			custom_only = false,
-			list = {
-				-- user mappings go here
-			},
-		},
 	},
 	renderer = {
+		special_files = {},
+		highlight_git = true,
+		highlight_diagnostics = true,
+		highlight_modified = "all",
 		indent_markers = {
-			enable = false,
-			icons = {
-				corner = "└ ",
-				edge = "│ ",
-				none = "  ",
-			},
+			enable = true,
 		},
 		icons = {
-			webdev_colors = true,
-			git_placement = "before",
+			show = {
+				folder_arrow = true,
+			},
 		},
 	},
-	hijack_directories = {
+	modified = {
 		enable = true,
-		auto_open = false,
-	},
-	update_focused_file = {
-		enable = true,
-		update_cwd = false,
-		ignore_list = {},
-	},
-	ignore_ft_on_setup = {},
-	system_open = {
-		cmd = "",
-		args = {},
+		show_on_dirs = true,
+		show_on_open_dirs = true,
 	},
 	diagnostics = {
 		enable = true,
-		show_on_dirs = false,
-		icons = {
-			hint = "",
-			info = "",
-			warning = "",
-			error = "",
-		},
+		show_on_dirs = true,
+		show_on_open_dirs = true,
+		debounce_delay = 50,
 	},
 	filters = {
-		dotfiles = false,
+		git_ignored = true,
+		dotfiles = true,
+		git_clean = false,
+		no_buffer = false,
 		custom = {},
-		exclude = {},
-	},
-	git = {
-		enable = true,
-		ignore = true,
-		timeout = 400,
-	},
-	actions = {
-		use_system_clipboard = true,
-		change_dir = {
-			enable = true,
-			global = false,
-			restrict_above_cwd = false,
-		},
-		open_file = {
-			quit_on_open = false,
-			resize_window = true,
-			window_picker = {
-				enable = true,
-				chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-				exclude = {
-					filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
-					buftype = { "nofile", "terminal", "help" },
-				},
-			},
+		exclude = {
+			"node_modules",
 		},
 	},
-	trash = {
-		cmd = "trash",
-		require_confirm = true,
-	},
-	live_filter = {
-		prefix = "[FILTER]: ",
-		always_show_folders = true,
-	},
-	log = {
-		enable = false,
-		truncate = false,
-		types = {
-			all = false,
-			config = false,
-			copy_paste = false,
-			diagnostics = false,
-			git = false,
-			profile = false,
+	tab = {
+		sync = {
+			open = true,
+			close = true,
+			ignore = {},
 		},
 	},
 })

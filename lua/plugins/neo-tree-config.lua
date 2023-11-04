@@ -1,9 +1,16 @@
+local neotree_filesystem = require("neo-tree.sources.filesystem")
+
 require("neo-tree").setup({
+	default_component_configs = {
+		symlink_target = {
+			enabled = true,
+		},
+	},
 	close_if_last_window = false,
 	window = {
 		width = 50,
 		mappings = {
-			-- ["Z"] = "expand_all_nodes",
+			["Z"] = "expand_all_nodes",
 			["<tab>"] = function(state)
 				state.commands["open"](state)
 				vim.cmd("Neotree reveal")
@@ -11,17 +18,32 @@ require("neo-tree").setup({
 			["h"] = function(state)
 				local node = state.tree:get_node()
 				if node.type == "directory" and node:is_expanded() then
-					require("neo-tree.sources.filesystem").toggle_directory(state, node)
+					neotree_filesystem.toggle_directory(state, node)
 				end
 			end,
 			["l"] = function(state)
 				local node = state.tree:get_node()
 				if node.type == "directory" then
 					if not node:is_expanded() then
-						require("neo-tree.sources.filesystem").toggle_directory(state, node)
+						neotree_filesystem.toggle_directory(state, node)
 					end
 				end
 			end,
+			["-"] = {
+				"navigate_up",
+			},
+			["w"] = {
+				"set_root",
+			},
+			["cd"] = {
+				"set_root",
+			},
+			["%"] = {
+				"add",
+			},
+			["X"] = {
+				"system_open",
+			},
 		},
 	},
 	filesystem = {
@@ -30,7 +52,17 @@ require("neo-tree").setup({
 				"node_modules",
 			},
 		},
-		follow_current_file = true,
+		follow_current_file = {
+			enabled = true,
+			leave_dirs_open = true,
+		},
 		hijack_netrw_behavior = "disabled",
+	},
+	commands = {
+		system_open = function(state)
+			local node = state.tree:get_node()
+			local path = node:get_id()
+			vim.fn.jobstart({ "xdg-open", path }, { detach = true })
+		end,
 	},
 })

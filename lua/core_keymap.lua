@@ -1,9 +1,9 @@
 local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
 
--- core
-keymap.set("n", "<leader>e", ":Neotree filesystem toggle left<CR>")
--- keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
+-- -- core
+-- keymap.set("n", "<leader>e", ":Neotree filesystem toggle left<CR>")
+keymap.set("n", "<leader>e", ":NvimTreeFindFileToggle<CR>", opts)
 keymap.set("n", "<leader>n", ":nohl<CR>", opts)
 keymap.set("n", "<leader>w", ":w<CR>", opts)
 keymap.set("n", "vae", "gg<S-v>G", opts) -- visual select all

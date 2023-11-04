@@ -4,12 +4,12 @@ local telescope_actions_state = require("telescope.actions.state")
 local file_browser_actions = telescope.extensions.file_browser.actions
 
 local function telescope_buffer_dir()
-    local is_file = vim.fn.system("test -f " .. vim.fn.expand("%") .. " && echo 1")
-    if tonumber(is_file) == 1 then
-        return vim.fn.expand("%:p:h")
-    end
+	local is_file = vim.fn.system("test -f " .. vim.fn.expand("%") .. " && echo 1")
+	if tonumber(is_file) == 1 then
+		return vim.fn.expand("%:p:h")
+	end
 
-    return vim.fn.getcwd()
+	return vim.fn.getcwd()
 end
 
 local function send_to_quickfix(promtbufnr)
@@ -70,17 +70,18 @@ telescope.setup({
 					["<A-a>"] = file_browser_actions.create,
 					["<C-cr>"] = telescope_actions.file_tab,
 					["<C-t>"] = telescope_actions.file_tab,
-					["<C-S-w>"] = file_browser_actions.change_cwd,
+					-- ["<C-S-w>"] = file_browser_actions.change_cwd,
 					["-"] = file_browser_actions.goto_parent_dir,
 				},
 				["n"] = {
-					["s"] = telescope_actions.toggle_selection,
+					["m"] = telescope_actions.toggle_selection,
 					["<C-cr>"] = telescope_actions.file_tab,
 					["t"] = telescope_actions.file_tab,
 					["<C-c>"] = telescope_actions.close,
 					["q"] = telescope_actions.close,
 					["%"] = file_browser_actions.create,
-					["W"] = file_browser_actions.change_cwd,
+					["cd"] = file_browser_actions.change_cwd,
+					-- ["W"] = file_browser_actions.change_cwd,
 					["-"] = file_browser_actions.goto_parent_dir,
 					-- ["/"] = { "i", type = "command" },
 				},
