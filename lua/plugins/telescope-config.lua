@@ -266,11 +266,13 @@ local function tab_files_picker(opts)
 				telescope_actions.select_default:replace(function()
 					telescope_actions.close(prompt_bufnr)
 					local entry = telescope_actions_state.get_selected_entry()
-					local tab = entry.value.tabnr
-					vim.cmd("tabnext " .. tab)
+					if entry ~= nil then
+						local tab = entry.value.tabnr
+						vim.cmd("tabnext " .. tab)
 
-					if entry.value.window ~= nil then
-						vim.fn.win_gotoid(entry.value.window)
+						if entry.value.window ~= nil then
+							vim.fn.win_gotoid(entry.value.window)
+						end
 					end
 				end)
 				return true
