@@ -9,7 +9,7 @@ local tabs = require("plugins.tabs-telescope-picker")
 local keymap_opts = { noremap = true, silent = true }
 
 local home = os.getenv("HOME")
-local config_file = home .. "/.config/nvim/lib/tabmarks.json"
+local config_path = home .. "/.config/nvim/lib/"
 
 ---@class TabMark
 ---@field tab TabResult|nil tab result attached to the index.
@@ -232,10 +232,18 @@ vim.keymap.set("n", "<leader>5", function()
 	select_mark(5)
 end, keymap_opts)
 
+---Get cwd folder name
+---@return string cwd folder name
+local function get_cwd_name()
+	local working_dir = vim.fn.split(vim.fn.getcwd(), "/")
+	return working_dir[#working_dir]
+end
+
 local function save_config()
+	local cwd = get_cwd_name()
 	local json = vim.fn.json_encode(_marks)
 
-	local cmd = "echo '" .. json .. "' > " .. config_file
+	local cmd = "echo '" .. json .. "' > " .. config_path .. "tabmarks." .. cwd .. ".json"
 
 	vim.fn.system(cmd)
 end
@@ -246,6 +254,9 @@ vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
 })
 
 local function read_config()
+	local cwd = get_cwd_name()
+	local config_file = config_path .. "tabmarks." .. cwd .. ".json"
+
 	local is_config_file = vim.fn.system("test -f " .. config_file .. " && echo 1")
 	if tonumber(is_config_file) == 1 then
 		local json_str = vim.fn.system("cat " .. config_file)
@@ -253,7 +264,7 @@ local function read_config()
 	end
 end
 
-vim.api.nvim_create_autocmd({ "VimEnter" }, {
-	pattern = { "*" },
+vim.api.nvim_create_autocmd({ "User" }, {
+	pattern = { "SessionLoadPost" },
 	callback = read_config,
 })
