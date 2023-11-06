@@ -7,7 +7,24 @@ local telescope_actions_state = require("telescope.actions.state")
 
 local keymap_opts = { noremap = true, silent = true }
 local tab_picker_default_settings = { settings = { all_buffers = true } }
-local tab_picker_sort_last_active = 1
+local tab_picker_sort_last_active = 0
+---@type string[] ignored tab names
+local ignored_tabs = { "NvimTree.*" }
+
+---Check whether the tab should be ignored from the results
+---@param name string tab buffer name to check against ignored ones
+---@param ignored string[] ignored tab names supporting glob pattern
+---@return boolean wheter tab should be ignored or not
+local function is_not_ignored_tab(name, ignored)
+	local is_ignored = false
+	for _, ignored_pattern in ipairs(ignored) do
+		if name:match(ignored_pattern) ~= nil then
+			is_ignored = true
+			break
+		end
+	end
+	return is_ignored
+end
 
 local M = {}
 
@@ -122,7 +139,7 @@ M.make_tab_results = function(opts, tabs)
 	if opts.settings and opts.settings.all_buffers == true then
 		for _, tabpage in ipairs(tabs) do
 			for _, tabbuffer in ipairs(tabpage.buffers) do
-				if tabbuffer.bufname ~= "" then
+				if tabbuffer.bufname ~= "" or is_not_ignored_tab(tabbuffer.bufname, ignored_tabs) then
 					table.insert(results, {
 						tabnr = tabpage.tabnr,
 						bufnr = tabbuffer.bufnr,
