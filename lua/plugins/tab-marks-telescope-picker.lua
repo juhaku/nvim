@@ -268,3 +268,24 @@ vim.api.nvim_create_autocmd({ "User" }, {
 	pattern = { "SessionLoadPost" },
 	callback = read_config,
 })
+
+-- delete orphaned tab marks
+vim.api.nvim_create_autocmd({ "WinEnter" }, {
+	pattern = { "*" },
+	callback = function()
+		for index, mark in ipairs(_marks) do
+			local tab = nil
+			for _, t in ipairs(tabs.get_tab_results()) do
+				if mark.tab ~= nil and t.bufnr == mark.tab.bufnr and t.bufname == mark.tab.bufname then
+					tab = t
+					break
+				end
+			end
+			if tab == nil and mark.tab ~= nil then
+				-- delete mark that is not found from currently available tabs
+				table.remove(_marks, index)
+				table.insert(_marks, index, {})
+			end
+		end
+	end,
+})

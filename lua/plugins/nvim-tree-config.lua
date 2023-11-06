@@ -105,3 +105,8 @@ require("nvim-tree").setup({
 		},
 	},
 })
+
+-- fix the highlight group of info icons until actual fix gets merged
+-- https://github.com/nvim-tree/nvim-tree.lua/issues/2516
+vim.cmd("hi link NvimTreeLspDiagnosticsInfo NvimTreeLspDiagnosticsInformation")
+
