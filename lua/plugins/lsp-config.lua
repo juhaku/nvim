@@ -1,6 +1,6 @@
--- setup signs
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-for type, icon in pairs(signs) do
+local global_options = require("global_options")
+
+for type, icon in pairs(global_options.diagnostic_signs) do
 	local hl = "DiagnosticSign" .. type
 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
