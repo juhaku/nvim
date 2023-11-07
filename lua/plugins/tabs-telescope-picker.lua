@@ -123,8 +123,8 @@ M.get_tabs = function()
 end
 
 ---@class TabResult
----@field tabnr number tab index number
----@field bufnr number buffer number within the tab
+---@field tabnr number Current tab index number. This may change between restarts.
+---@field bufnr number Current buffer number within the tab. This may change upon restarts.
 ---@field bufname string buffer name within the tab
 ---@field window number|nil window number of the tab
 

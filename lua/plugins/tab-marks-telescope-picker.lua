@@ -23,23 +23,69 @@ local _marks = {
 	{},
 }
 
----Find `TabMark` from `marks` by `bufnr` of the tab buffer
----@param bufnr number buffer number of the tab window
----@param marks TabMark[] tab results to look for buffer
----@return number|nil index Found tab index or `nil` if `results` does not have suchs buffer
----@return TabResult|nil result Found tab result or `nil` if `results` does not have such buffer
-local function find_tab_mark_by_bufnr(bufnr, marks)
-	local i, found = nil, nil
-	for index, tab in ipairs(marks) do
-		if tab.tab ~= nil and tab.tab.bufnr == bufnr then
-			i = index
-			found = tab
-			break
-		end
-	end
-
-	return i, found
+---Get cwd folder name
+---@return string cwd folder name
+local function get_cwd_name()
+	local working_dir = vim.fn.split(vim.fn.getcwd(), "/")
+	return working_dir[#working_dir]
 end
+
+local function save_config()
+	local cwd = get_cwd_name()
+	local json = vim.fn.json_encode(_marks)
+
+	local cmd = "echo '" .. json .. "' > " .. config_path .. "tabmarks." .. cwd .. ".json"
+
+	vim.fn.system(cmd)
+end
+
+vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
+	pattern = { "*" },
+	callback = save_config,
+})
+
+local function read_config()
+	local cwd = get_cwd_name()
+	local config_file = config_path .. "tabmarks." .. cwd .. ".json"
+
+	local is_config_file = vim.fn.system("test -f " .. config_file .. " && echo 1")
+	if tonumber(is_config_file) == 1 then
+		local json_str = vim.fn.system("cat " .. config_file)
+		_marks = vim.fn.json_decode(json_str)
+	end
+end
+
+vim.api.nvim_create_autocmd({ "User" }, {
+	pattern = { "SessionLoadPost" },
+	callback = read_config,
+})
+
+-- delete orphaned tab marks
+vim.api.nvim_create_autocmd({ "WinEnter" }, {
+	pattern = { "*" },
+	callback = function()
+		for index, mark in ipairs(_marks) do
+			---@type TabResult
+			local tab = nil
+			for _, t in ipairs(tabs.get_tab_results()) do
+				if mark.tab ~= nil and t.bufname == mark.tab.bufname then
+					tab = t
+					break
+				end
+			end
+			if tab == nil and mark.tab ~= nil then
+				-- delete mark that is not found from currently available tabs
+				table.remove(_marks, index)
+				table.insert(_marks, index, {})
+			elseif tab ~= nil and mark.tab ~= nil then
+				-- mark and tab both exist, update the mark with with the tab
+				-- this is because the bufnr might change
+				table.remove(_marks, index)
+				table.insert(_marks, index, { tab = tab })
+			end
+		end
+	end,
+})
 
 ---Generate new tab marks finder
 ---@param marks TabMark[] marks to use in the finder
@@ -159,17 +205,21 @@ local function tab_marks_picker(opts)
 
 				map("n", "d", function()
 					delete_tab_mark(prompt_bufnr, cwdlen)
+					save_config()
 				end)
 				map("i", "<C-d>", function()
 					delete_tab_mark(prompt_bufnr, cwdlen)
+					save_config()
 				end)
 				map("n", "J", function()
 					-- down
 					move_tab_mark_down(prompt_bufnr, cwdlen)
+					save_config()
 				end)
 				map("n", "K", function()
 					-- up
 					move_tab_mark_up(prompt_bufnr, cwdlen)
+					save_config()
 				end)
 
 				return true
@@ -187,13 +237,13 @@ vim.keymap.set("n", "<leader>m", function()
 		local idx = tonumber(input)
 
 		local _, tab = tabs.find_tab_result_by_bufnr(bufnr, _results)
-		local _, mark = find_tab_mark_by_bufnr(bufnr, _marks)
 
-		if tab ~= nil and idx ~= nil and mark == nil then
+		if tab ~= nil and idx ~= nil then
 			table.remove(_marks, idx)
 			table.insert(_marks, idx, {
 				tab = tab,
 			})
+			save_config()
 		end
 	end)
 end, keymap_opts)
@@ -213,6 +263,8 @@ local function select_mark(index)
 		if mark.tab.window ~= nil then
 			vim.fn.win_gotoid(mark.tab.window)
 		end
+	else
+		vim.notify("TabMark: " .. index .. " is not set!", vim.log.levels.INFO)
 	end
 end
 
@@ -231,61 +283,3 @@ end, keymap_opts)
 vim.keymap.set("n", "<leader>5", function()
 	select_mark(5)
 end, keymap_opts)
-
----Get cwd folder name
----@return string cwd folder name
-local function get_cwd_name()
-	local working_dir = vim.fn.split(vim.fn.getcwd(), "/")
-	return working_dir[#working_dir]
-end
-
-local function save_config()
-	local cwd = get_cwd_name()
-	local json = vim.fn.json_encode(_marks)
-
-	local cmd = "echo '" .. json .. "' > " .. config_path .. "tabmarks." .. cwd .. ".json"
-
-	vim.fn.system(cmd)
-end
-
-vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
-	pattern = { "*" },
-	callback = save_config,
-})
-
-local function read_config()
-	local cwd = get_cwd_name()
-	local config_file = config_path .. "tabmarks." .. cwd .. ".json"
-
-	local is_config_file = vim.fn.system("test -f " .. config_file .. " && echo 1")
-	if tonumber(is_config_file) == 1 then
-		local json_str = vim.fn.system("cat " .. config_file)
-		_marks = vim.fn.json_decode(json_str)
-	end
-end
-
-vim.api.nvim_create_autocmd({ "User" }, {
-	pattern = { "SessionLoadPost" },
-	callback = read_config,
-})
-
--- delete orphaned tab marks
-vim.api.nvim_create_autocmd({ "WinEnter" }, {
-	pattern = { "*" },
-	callback = function()
-		for index, mark in ipairs(_marks) do
-			local tab = nil
-			for _, t in ipairs(tabs.get_tab_results()) do
-				if mark.tab ~= nil and t.bufnr == mark.tab.bufnr and t.bufname == mark.tab.bufname then
-					tab = t
-					break
-				end
-			end
-			if tab == nil and mark.tab ~= nil then
-				-- delete mark that is not found from currently available tabs
-				table.remove(_marks, index)
-				table.insert(_marks, index, {})
-			end
-		end
-	end,
-})
