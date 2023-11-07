@@ -192,6 +192,24 @@ M.find_tab_result_by_bufnr = function(bufnr, results)
 	return i, found
 end
 
+---Find `TabResult` by `bufname` of the tab
+---@param bufname string buffer name to find tab for
+---@param results TabResult[] list of tab results
+---@return number|nil index found tab index or nil if not found
+---@return TabResult|nil result found tab result or nil if not found
+function M.find_tab_result_by_name(bufname, results)
+	local i, found = nil, nil
+	for index, tab in ipairs(results) do
+		if tab.bufname == bufname then
+			i = index
+			found = tab
+			break
+		end
+	end
+
+	return i, found
+end
+
 local function tab_files_picker(opts)
 	opts = vim.tbl_deep_extend("force", {}, themes.get_dropdown(opts or {}))
 	if tab_picker_sort_last_active == 0 then

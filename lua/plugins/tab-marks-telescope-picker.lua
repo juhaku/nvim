@@ -60,32 +60,32 @@ vim.api.nvim_create_autocmd({ "User" }, {
 	callback = read_config,
 })
 
--- delete orphaned tab marks
-vim.api.nvim_create_autocmd({ "WinEnter" }, {
-	pattern = { "*" },
-	callback = function()
-		for index, mark in ipairs(_marks) do
-			---@type TabResult
-			local tab = nil
-			for _, t in ipairs(tabs.get_tab_results()) do
-				if mark.tab ~= nil and t.bufname == mark.tab.bufname then
-					tab = t
-					break
-				end
-			end
-			if tab == nil and mark.tab ~= nil then
-				-- delete mark that is not found from currently available tabs
-				table.remove(_marks, index)
-				table.insert(_marks, index, {})
-			elseif tab ~= nil and mark.tab ~= nil then
-				-- mark and tab both exist, update the mark with with the tab
-				-- this is because the bufnr might change
-				table.remove(_marks, index)
-				table.insert(_marks, index, { tab = tab })
-			end
-		end
-	end,
-})
+---- delete orphaned tab marks
+--vim.api.nvim_create_autocmd({ "WinEnter" }, {
+--	pattern = { "*" },
+--	callback = function()
+--		for index, mark in ipairs(_marks) do
+--			---@type TabResult
+--			local tab = nil
+--			for _, t in ipairs(tabs.get_tab_results()) do
+--				if mark.tab ~= nil and t.bufname == mark.tab.bufname then
+--					tab = t
+--					break
+--				end
+--			end
+--			if tab == nil and mark.tab ~= nil then
+--				-- delete mark that is not found from currently available tabs
+--				table.remove(_marks, index)
+--				table.insert(_marks, index, {})
+--			elseif tab ~= nil and mark.tab ~= nil then
+--				-- mark and tab both exist, update the mark with with the tab
+--				-- this is because the bufnr might change
+--				table.remove(_marks, index)
+--				table.insert(_marks, index, { tab = tab })
+--			end
+--		end
+--	end,
+--})
 
 ---Generate new tab marks finder
 ---@param marks TabMark[] marks to use in the finder
@@ -134,6 +134,19 @@ local function delete_tab_mark(prompt_bufnr, cwdlen)
 	end
 end
 
+---Clear tab all tab marks
+---@param prompt_bufnr number telescope prompt buffer number
+---@param cwdlen number length of the path of current working directory
+local function delete_all_tab_marks(prompt_bufnr, cwdlen)
+	for i = 1, 5 do
+		table.remove(_marks, i)
+		table.insert(_marks, i, {})
+	end
+	telescope_actions_state
+		.get_current_picker(prompt_bufnr)
+		:refresh(generate_finder(_marks, cwdlen), { reset_prompt = true })
+end
+
 ---Move tab mark down in the tab marks picker
 ---@param prompt_bufnr number telescope prompt buffer number
 ---@param cwdlen number length of the path of current working directory
@@ -177,6 +190,31 @@ local function move_tab_mark_up(prompt_bufnr, cwdlen)
 	end
 end
 
+---Select mark by marks `index` number
+---@param index integer marks index number
+local function select_mark(index)
+	local mark = _marks[index]
+	if mark.tab ~= nil then
+		local _, existing_tab = tabs.find_tab_result_by_name(mark.tab.bufname, tabs.get_tab_results())
+		if existing_tab == nil then
+			local len = #vim.fn.getcwd()
+			local name = string.sub(mark.tab.bufname, len + 1)
+
+			vim.notify("Tab mark: " .. index .. " points to stale tab window ." .. name .. "!", vim.log.levels.WARN)
+			return
+		end
+
+		local tab = mark.tab.tabnr
+		vim.cmd("tabnext " .. tab)
+
+		if mark.tab.window ~= nil then
+			vim.fn.win_gotoid(mark.tab.window)
+		end
+	else
+		vim.notify("Tab mark: " .. index .. " is not set!", vim.log.levels.INFO)
+	end
+end
+
 local function tab_marks_picker(opts)
 	opts = vim.tbl_deep_extend("force", {
 		initial_mode = "normal",
@@ -193,16 +231,13 @@ local function tab_marks_picker(opts)
 				telescope_actions.select_default:replace(function()
 					telescope_actions.close(prompt_bufnr)
 					local entry = telescope_actions_state.get_selected_entry()
-					if entry ~= nil and entry.value ~= "" then
-						local tab = entry.value.tab.tabnr
-						vim.cmd("tabnext " .. tab)
-
-						if entry.value.tab.window ~= nil then
-							vim.fn.win_gotoid(entry.value.tab.window)
-						end
-					end
+					select_mark(entry.index)
 				end)
 
+				map("n", "D", function()
+					delete_all_tab_marks(prompt_bufnr, cwdlen)
+					save_config()
+				end)
 				map("n", "d", function()
 					delete_tab_mark(prompt_bufnr, cwdlen)
 					save_config()
@@ -251,22 +286,6 @@ end, keymap_opts)
 vim.keymap.set("n", "<leader>tm", function()
 	tab_marks_picker()
 end, keymap_opts)
-
----Select mark by marks `index` number
----@param index integer marks index number
-local function select_mark(index)
-	local mark = _marks[index]
-	if mark.tab ~= nil then
-		local tab = mark.tab.tabnr
-		vim.cmd("tabnext " .. tab)
-
-		if mark.tab.window ~= nil then
-			vim.fn.win_gotoid(mark.tab.window)
-		end
-	else
-		vim.notify("TabMark: " .. index .. " is not set!", vim.log.levels.INFO)
-	end
-end
 
 vim.keymap.set("n", "<leader>1", function()
 	select_mark(1)
