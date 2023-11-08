@@ -52,6 +52,16 @@ local function read_config()
 	if tonumber(is_config_file) == 1 then
 		local json_str = vim.fn.system("cat " .. config_file)
 		_marks = vim.fn.json_decode(json_str)
+		local tab_results = tabs.get_tab_results()
+		for _, tab in ipairs(tab_results) do
+			for mindex, mark in ipairs(_marks) do
+				if tab.bufname == mark.bufname then
+					table.remove(_marks, mindex)
+					table.insert(_marks, mindex, { tab = tab })
+					break
+				end
+			end
+		end
 	end
 end
 
@@ -204,11 +214,10 @@ local function select_mark(index)
 			return
 		end
 
-		local tab = mark.tab.tabnr
-		vim.cmd("tabnext " .. tab)
+		vim.cmd("tabnext " .. existing_tab.tabnr)
 
 		if mark.tab.window ~= nil then
-			vim.fn.win_gotoid(mark.tab.window)
+			vim.fn.win_gotoid(existing_tab.window)
 		end
 	else
 		vim.notify("Tab mark: " .. index .. " is not set!", vim.log.levels.INFO)
