@@ -26,4 +26,7 @@ return {
 		Hint = " ",
 		Info = " ",
 	},
+
+	---@type boolean automatically close buffers with non existing files
+	auto_close_missing_buffers = true,
 }

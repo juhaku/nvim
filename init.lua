@@ -5,6 +5,7 @@ require("colors")
 require("core_options")
 require("core_keymap")
 require("git_commands")
+require("core_autocmds")
 
 -- plugins
 require("plugins")
