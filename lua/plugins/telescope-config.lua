@@ -28,6 +28,8 @@ telescope.setup({
 			["i"] = {
 				["<C-c>"] = { "<esc>", type = "command" },
 				["<C-q>"] = send_to_quickfix,
+				["<A-BS>"] = { "<C-S-w>", type = "command" },
+				["<A-h>"] = { "<C-S-w>", type = "command" },
 			},
 		},
 	},
