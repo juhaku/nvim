@@ -76,6 +76,7 @@ telescope.setup({
 				},
 				["n"] = {
 					["m"] = telescope_actions.toggle_selection,
+					["x"] = file_browser_actions.move,
 					["<C-cr>"] = telescope_actions.file_tab,
 					["t"] = telescope_actions.file_tab,
 					["<C-c>"] = telescope_actions.close,
