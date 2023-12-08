@@ -66,6 +66,7 @@ telescope.setup({
 			},
 			mappings = {
 				["i"] = {
+					["<C-m>"] = telescope_actions.toggle_selection,
 					["<C-c>"] = { "<esc>", type = "command" },
 					["<C-s>"] = telescope_actions.toggle_selection,
 					["<A-a>"] = file_browser_actions.create,
