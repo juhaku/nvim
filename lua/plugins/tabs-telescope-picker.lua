@@ -1,7 +1,6 @@
 local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
 local conf = require("telescope.config").values
-local themes = require("telescope.themes")
 local telescope_actions = require("telescope.actions")
 local telescope_actions_state = require("telescope.actions.state")
 
@@ -26,7 +25,26 @@ local function is_not_ignored_tab(name, ignored)
 	return is_ignored
 end
 
-local M = {}
+local M = {
+	---Tabs picker config
+	tabs_picker_config = {
+		layout_strategy = "center",
+		sorting_strategy = "ascending",
+		results_title = false,
+		layout_config = {
+			center = {
+				width = 120,
+				height = 40,
+				prompt_position = "top",
+			},
+		},
+		borderchars = {
+			preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+			prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
+			results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
+		},
+	},
+}
 
 --- Get active buffer number withing given tab
 ---@param tab_num number tab number to get active buffer number for
@@ -211,7 +229,7 @@ function M.find_tab_result_by_name(bufname, results)
 end
 
 local function tab_files_picker(opts)
-	opts = vim.tbl_deep_extend("force", {}, themes.get_dropdown(opts or {}))
+	opts = vim.tbl_deep_extend("force", {}, M.tabs_picker_config, opts)
 	if tab_picker_sort_last_active == 0 then
 		_results = M.get_tab_results(opts)
 	end

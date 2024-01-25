@@ -227,7 +227,7 @@ end
 local function tab_marks_picker(opts)
 	opts = vim.tbl_deep_extend("force", {
 		initial_mode = "normal",
-	}, themes.get_dropdown(opts or {}))
+	}, tabs.tabs_picker_config, opts or {})
 	local cwdlen = #vim.fn.getcwd()
 
 	pickers
