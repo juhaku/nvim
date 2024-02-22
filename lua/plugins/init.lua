@@ -41,10 +41,10 @@ require("packer").startup(function()
 	use("https://gitlab.com/yorickpeterse/nvim-pqf")
 	use("phaazon/hop.nvim")
 	use("RRethy/vim-illuminate")
-	use("jose-elias-alvarez/null-ls.nvim")
+	use("nvimtools/none-ls.nvim")
 	use("kylechui/nvim-surround")
 	use("nvim-lua/plenary.nvim")
-	-- use("j-hui/fidget.nvim")
+	use("j-hui/fidget.nvim")
 	use({ "akinsho/bufferline.nvim", tag = "v3.*", requires = { "nvim-tree/nvim-web-devicons" } })
 	use({ "mbbill/undotree" })
 
@@ -72,8 +72,8 @@ require("packer").startup(function()
 	use("leoluz/nvim-dap-go")
 	use("mxsdev/nvim-dap-vscode-js")
 
+	use({ "mrcjkb/rustaceanvim", tag = "4.*" })
 	-- languages
-	use("simrat39/rust-tools.nvim")
 	use("saecki/crates.nvim")
 	use("crispgm/nvim-go")
 	use("mfussenegger/nvim-jdtls")
@@ -188,7 +188,13 @@ require("pqf").setup({
 
 require("hop").setup()
 
--- require("fidget").setup({})
+require("fidget").setup({
+	notification = {
+		window = {
+			winblend = 0,
+		},
+	},
+})
 
 ---@diagnostic disable-next-line: missing-fields
 require("ts_context_commentstring").setup({})

@@ -37,8 +37,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		local bufnr = args.buf
 		local client = vim.lsp.get_client_by_id(args.data.client_id)
 
-		-- only gopls, java, typescript is handled here, Rust has it's own support
-		if client.name == "tsserver" or client.name == "jdtls" or client.name == "gopls" then
+		-- only gopls, java, typescript and rust is handled here
+		if
+			client.name == "tsserver"
+			or client.name == "jdtls"
+			or client.name == "gopls"
+			or client.name == "rust-analyzer"
+		then
 			require("lsp-inlayhints").on_attach(client, bufnr)
 		end
 	end,
@@ -457,97 +462,51 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 	end,
 })
 
-local lldb_port = 13456
-local extension_path = vim.env.HOME .. "/.local/share/nvim/mason/packages/codelldb/extension/"
-local codelldb_path = extension_path .. "adapter/codelldb"
-local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
-
-local rust_tools = require("rust-tools")
-local rust_analyer_opts = {
+vim.g.rustaceanvim = {
 	tools = {
-		-- how to execute terminal commands
-		-- options right now: termopen / quickfix
-		executor = require("rust-tools/executors").termopen,
-		-- callback to execute once rust-analyzer is done initializing the workspace
-		-- The callback receives one parameter indicating the `health` of the server: "ok" | "warning" | "error"
-		on_initialized = nil,
-		-- These apply to the default RustSetInlayHints command
-		inlay_hints = {
-			auto = true,
-			-- Only show inlay hints for the current line
-			only_current_line = false,
-			-- Event which triggers a refersh of the inlay hints.
-			-- You can make this "CursorMoved" or "CursorMoved,CursorMovedI" but
-			-- not that this may cause higher CPU usage.
-			-- This option is only respected when only_current_line and
-			-- autoSetHints both are true.
-			only_current_line_autocmd = "CursorHold",
-			-- whether to show parameter hints with the inlay hints or not
-			-- default: true
-			show_parameter_hints = true,
-			-- whether to show variable name before type hints with the inlay hints or not
-			-- default: false
-			show_variable_name = true,
-			-- prefix for parameter hints
-			-- default: "<-"
-			parameter_hints_prefix = "<- ",
-			-- prefix for all the other hints (type, chaining)
-			-- default: "=>"
-			other_hints_prefix = "=> ",
-			-- whether to align to the lenght of the longest line in the file
-			max_len_align = false,
-			-- padding from the left if max_len_align is true
-			max_len_align_padding = 1,
-			-- whether to align to the extreme right or not
-			right_align = false,
-			-- padding from the right if right_align is true
-			right_align_padding = 7,
-			-- The color of the hints
-			highlight = "Comment",
-		},
-		-- options same as lsp hover / vim.lsp.util.open_floating_preview()
-		hover_actions = {
-			-- 	-- the border that is used for the hover window
-			-- 	-- see vim.api.nvim_open_win()
-			border = border,
-			auto_focus = false,
-		},
 	},
-	-- see https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rust_analyzer
 	server = {
-		on_init = function(client)
-			local cwd = vim.fn.getcwd()
-			local local_config_path = cwd .. "/.nvim/rust-analyzer.json"
-
-			local local_config = vim.fn.system("cat " .. local_config_path)
-
-			if string.find(local_config, "No such file or directory") ~= nil then
-				return true
-			end
-
-			local cfg =
-				vim.tbl_deep_extend("force", client.config.settings["rust-analyzer"], vim.fn.json_decode(local_config))
-			client.config.settings["rust-analyzer"] = cfg
-
-			client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
-			return true
-		end,
-		capabilities = capabilities,
 		on_attach = function(client, bufnr)
 			codelens_try_refresh()
 			on_attach(client, bufnr)
-			local o = { buffer = bufnr }
-			vim.keymap.set("n", "K", rust_tools.hover_actions.hover_actions, o)
-			vim.keymap.set("x", "<S-CR>", rust_tools.code_action_group.code_action_group, o)
-			vim.keymap.set("n", "<S-CR>", rust_tools.code_action_group.code_action_group, o)
-			-- vim.keymap.set("n", "<C-S-k>", rust_tools.hover_actions.hover_actions, { buffer = bufnr })
-			-- vim.keymap.set("n", "<leader>a", rust_tools.code_action_group.code_action_group, { buffer = bufnr })
 		end,
-		handlers = handlers,
-		-- standalone file support
-		-- setting it to false may improve startup time
-		standalone = false,
-		settings = {
+		settings = function(project_root)
+			local rust_analyzer_settings = project_root .. "/.nvim/rust-analyzer.json"
+			local default_config = require("rustaceanvim.config.internal")
+			local default_settings = default_config.server.default_settings
+
+			local has_project_settings = tonumber(vim.fn.system("test -f " .. rust_analyzer_settings .. " && echo 1"))
+			if has_project_settings == 1 then
+				vim.notify("found ./nvim/rust-analyzer.json project settings", vim.log.levels.DEBUG)
+				local content = vim.fn.system("cat " .. rust_analyzer_settings)
+				local success, json = pcall(vim.fn.json_decode, content)
+				if success then
+					-- merge default config with the project settings
+					local merged_config = {
+						["rust-analyzer"] = vim.tbl_deep_extend("force", default_settings["rust-analyzer"], json),
+					}
+					vim.notify(
+						"project settings is correct json using default settings merged with project settings",
+						vim.log.levels.TRACE
+					)
+					vim.notify(vim.inspect(merged_config), vim.log.levels.TRACE)
+					return merged_config
+				else
+					vim.notify(
+						"failed to decode project settings as json, using default settings",
+						vim.log.levels.WARN
+					)
+					vim.notify(vim.inspect(default_config), vim.log.levels.TRACE)
+					-- use defautl settings
+					return default_settings
+				end
+			end
+			vim.notify("no project settings using default settings", vim.log.levels.DEBUG)
+			vim.notify(vim.inspect(default_config), vim.log.levels.TRACE)
+			return default_settings
+		end,
+		default_settings = {
+			-- rust-analyzer language server configuration
 			["rust-analyzer"] = {
 				imports = {
 					granularity = {
@@ -571,36 +530,11 @@ local rust_analyer_opts = {
 				checkOnSave = {
 					command = "clippy",
 				},
-				-- new behavior in rust_analyzer, support coming soon?
-				-- inlayHints = { locationLinks = false }
-			},
-		},
-	},
-	-- dap = {
-	-- 	adapter = {
-	-- 		type = "executable",
-	-- 		command = "lldb",
-	-- 		name = "rt_lldb",
-	-- 	},
-	-- },
-	-- dap = {
-	--     adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
-	-- },
-	dap = {
-		adapter = {
-			type = "server",
-			port = lldb_port,
-			host = "127.0.0.1",
-			executable = {
-				command = codelldb_path,
-				args = { "--liblldb", liblldb_path, "--port", lldb_port },
 			},
 		},
 	},
 }
-rust_tools.setup(rust_analyer_opts)
 
--- require("lspconfig").dartls.setup({})
 require("flutter-tools").setup({
 	debugger = {
 		enabled = true,
