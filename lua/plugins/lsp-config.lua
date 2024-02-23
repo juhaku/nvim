@@ -485,11 +485,11 @@ vim.g.rustaceanvim = {
 					local merged_config = {
 						["rust-analyzer"] = vim.tbl_deep_extend("force", default_settings["rust-analyzer"], json),
 					}
-					vim.notify(
-						"project settings is correct json using default settings merged with project settings",
-						vim.log.levels.TRACE
-					)
-					vim.notify(vim.inspect(merged_config), vim.log.levels.TRACE)
+					-- vim.notify(
+					-- 	"project settings is correct json using default settings merged with project settings",
+					-- 	vim.log.levels.TRACE
+					-- )
+					-- vim.notify(vim.inspect(merged_config), vim.log.levels.TRACE)
 					return merged_config
 				else
 					vim.notify(
@@ -501,8 +501,8 @@ vim.g.rustaceanvim = {
 					return default_settings
 				end
 			end
-			vim.notify("no project settings using default settings", vim.log.levels.DEBUG)
-			vim.notify(vim.inspect(default_config), vim.log.levels.TRACE)
+			-- vim.notify("no project settings using default settings", vim.log.levels.DEBUG)
+			-- vim.notify(vim.inspect(default_config), vim.log.levels.TRACE)
 			return default_settings
 		end,
 		default_settings = {
