@@ -48,6 +48,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 	end,
 })
+vim.cmd("hi LspInlayHint guibg=NONE")
 
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
