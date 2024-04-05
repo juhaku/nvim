@@ -67,9 +67,11 @@ telescope.setup({
 			mappings = {
 				["i"] = {
 					["<C-m>"] = telescope_actions.toggle_selection,
+					["<A-Y>"] = file_browser_actions.move,
 					["<C-c>"] = { "<esc>", type = "command" },
-					["<C-s>"] = telescope_actions.toggle_selection,
 					["<A-a>"] = file_browser_actions.create,
+					["<A-s>"] = file_browser_actions.open,
+					["<CR>"] = file_browser_actions.open_dir,
 					["<C-cr>"] = telescope_actions.file_tab,
 					["<C-t>"] = telescope_actions.file_tab,
 					-- ["<C-S-w>"] = file_browser_actions.change_cwd,
@@ -77,7 +79,8 @@ telescope.setup({
 				},
 				["n"] = {
 					["m"] = telescope_actions.toggle_selection,
-					["x"] = file_browser_actions.move,
+					["Y"] = file_browser_actions.move,
+					["s"] = file_browser_actions.open,
 					["<C-cr>"] = telescope_actions.file_tab,
 					["t"] = telescope_actions.file_tab,
 					["<C-c>"] = telescope_actions.close,
