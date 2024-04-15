@@ -1,5 +1,3 @@
-local lsp_config = require("plugins.lsp-config")
--- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
 local home = os.getenv("HOME")
 
 local jdtls_path = home .. "/.local/share/nvim/mason/packages/jdtls"
@@ -7,15 +5,15 @@ local jdtls_launcher = "org.eclipse.equinox.launcher_*.jar"
 local java_location = "/usr/lib/jvm"
 
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
-local workspace_dir = home .. "/.config/jdtls/" .. project_name
+local workspace_dir = home .. "/.local/share/nvim/jdtls/" .. project_name
 
 local bundles = {
 	vim.fn.glob(
 		home
-			.. "/.config/nvim/lib/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"
+			.. "/.local/share/nvim/jdtls-libs/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"
 	),
 }
-vim.list_extend(bundles, vim.split(vim.fn.glob(home .. "/.config/nvim/lib/vscode-java-test/server/*.jar"), "\n"))
+vim.list_extend(bundles, vim.split(vim.fn.glob(home .. "/.local/share/nvim/jdtls-libs/vscode-java-test/server/*.jar"), "\n"))
 
 local jdtls = require("jdtls")
 
@@ -73,8 +71,6 @@ end
 
 local config = {
 	cmd = {
-		-- use java 17 or never to run
-		-- "/usr/lib/jvm/java-18-openjdk/bin/java",
 		find_latest_java_path() .. "/bin/java",
 
 		"-Declipse.application=org.eclipse.jdt.ls.core.id1",
@@ -98,34 +94,58 @@ local config = {
 		"-data",
 		workspace_dir,
 	},
-	root_dir = require("jdtls.setup").find_root({ "mvnw", "gradlew", "pom.xml", "build.gradle", "build.gradle.kts" }),
+	root_dir = require("jdtls.setup").find_root({
+		"mvnw",
+		"gradlew",
+		"pom.xml",
+		"build.gradle",
+		"build.gradle.kts",
+		".git",
+	}),
 	on_attach = function(client, bufnr)
-		lsp_config.codelens_try_refresh()
+		require("juhaku.plugins.lsp").on_attach(client, bufnr)
+
 		---@diagnostic disable-next-line: missing-fields
 		require("jdtls").setup_dap({ hotcodereplace = "auto" })
 		require("jdtls.dap").setup_dap_main_class_configs()
-		-- require("jdtls.setup").add_commands()
-		-- local dap = require("dap")
-		-- -- add java debug attach config
-		-- vim.fn.list_extend(dap.configurations.java, {
-		-- 	{
-		-- 		type = "java",
-		-- 		request = "attach",
-		-- 		name = "Debug (Attach) - Remote",
-		-- 		hostName = "127.0.0.1",
-		-- 		port = 5005,
-		-- 	},
-		-- })
 
-		lsp_config.on_attach(client, bufnr)
+		vim.cmd([[
+            command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_compile JdtCompile lua require('jdtls').compile(<f-args>)
+            command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_set_runtime JdtSetRuntime lua require('jdtls').set_runtime(<f-args>)
+            command! -buffer JdtUpdateConfig lua require('jdtls').update_project_config()
+            command! -buffer JdtJol lua require('jdtls').jol()
+            command! -buffer JdtBytecode lua require('jdtls').javap()
+            command! -buffer JdtJshell lua require('jdtls').jshell()
+        ]])
+
+		local opts = { noremap = true, silent = true, buffer = bufnr  }
+		vim.keymap.set("n", "<leader><leader>o", jdtls.organize_imports, opts)
+		-- keymap.set("n", "<leader>dn", ":lua require('jdtls').test_nearest_method()<CR>", opts)
+		-- keymap.set("n", "<leader>dc", ":lua require('jdtls').test_class()<CR>", opts)
+
+		vim.api.nvim_create_user_command("JavaOrganizeImports", jdtls.organize_imports, {})
+		vim.api.nvim_create_user_command("JavaTestClass", jdtls.test_class, {})
+		vim.api.nvim_create_user_command("JavaTestNearest", jdtls.test_nearest_method, {})
+
+		-- nnoremap crv <Cmd>lua require('jdtls').extract_variable()<CR>
+		-- vnoremap crv <Esc><Cmd>lua require('jdtls').extract_variable(true)<CR>
+		-- nnoremap crc <Cmd>lua require('jdtls').extract_constant()<CR>
+		-- vnoremap crc <Esc><Cmd>lua require('jdtls').extract_constant(true)<CR>
+		-- vnoremap crm <Esc><Cmd>lua require('jdtls').extract_method(true)<CR>
 	end,
-	capabilities = lsp_config.capabilities,
-	handlers = lsp_config.handlers,
+	capabilities = require("juhaku.plugins.cmp").default_capabilities(),
+	handlers = require("juhaku.plugins.lsp").handlers,
 	-- Here you can configure eclipse.jdt.ls specific settings
 	-- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
 	-- for a list of options
 	settings = {
 		java = {
+			sources = {
+				organizeImports = {
+					starThreshold = 9999,
+					staticStarThreshold = 9999,
+				},
+			},
 			import = {
 				saveActions = {
 					organizeImports = true,
@@ -169,41 +189,6 @@ local config = {
 	},
 }
 
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-	pattern = { "*.java" },
-	callback = function()
-		lsp_config.codelens_try_refresh()
-	end,
-})
-
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
 jdtls.start_or_attach(config)
-
-vim.cmd([[
-    command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_compile JdtCompile lua require('jdtls').compile(<f-args>)
-    command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_set_runtime JdtSetRuntime lua require('jdtls').set_runtime(<f-args>)
-    command! -buffer JdtUpdateConfig lua require('jdtls').update_project_config()
-    command! -buffer JdtJol lua require('jdtls').jol()
-    command! -buffer JdtBytecode lua require('jdtls').javap()
-    command! -buffer JdtJshell lua require('jdtls').jshell()
-]])
-
-local keymap = vim.keymap
-local opts = { noremap = true, silent = true }
-
-keymap.set("n", "<leader><leader>o", ":lua require('jdtls').organize_imports()<CR>", opts)
-keymap.set("n", "<leader>dn", ":lua require('jdtls').test_nearest_method()<CR>", opts)
-keymap.set("n", "<leader>dc", ":lua require('jdtls').test_class()<CR>", opts)
-
--- nnoremap <A-o> <Cmd>lua require'jdtls'.organize_imports()<CR>
--- nnoremap crv <Cmd>lua require('jdtls').extract_variable()<CR>
--- vnoremap crv <Esc><Cmd>lua require('jdtls').extract_variable(true)<CR>
--- nnoremap crc <Cmd>lua require('jdtls').extract_constant()<CR>
--- vnoremap crc <Esc><Cmd>lua require('jdtls').extract_constant(true)<CR>
--- vnoremap crm <Esc><Cmd>lua require('jdtls').extract_method(true)<CR>
-
--- -- If using nvim-dap
--- -- This requires java-debug and vscode-java-test bundles, see install steps in this README further below.
--- nnoremap <leader>df <Cmd>lua require'jdtls'.test_class()<CR>
--- nnoremap <leader>dn <Cmd>lua require'jdtls'.test_nearest_method()<CR>
