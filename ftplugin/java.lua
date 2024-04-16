@@ -3,17 +3,17 @@ local home = os.getenv("HOME")
 local jdtls_path = home .. "/.local/share/nvim/mason/packages/jdtls"
 local jdtls_launcher = "org.eclipse.equinox.launcher_*.jar"
 local java_location = "/usr/lib/jvm"
+local jdtls_libs_dir = home .. "/.local/share/nvim/jdtls-libs"
 
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
 local workspace_dir = home .. "/.local/share/nvim/jdtls/" .. project_name
 
 local bundles = {
 	vim.fn.glob(
-		home
-			.. "/.local/share/nvim/jdtls-libs/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"
+		jdtls_libs_dir .. "/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"
 	),
 }
-vim.list_extend(bundles, vim.split(vim.fn.glob(home .. "/.local/share/nvim/jdtls-libs/vscode-java-test/server/*.jar"), "\n"))
+vim.list_extend(bundles, vim.split(vim.fn.glob(jdtls_libs_dir .. "/vscode-java-test/server/*.jar"), "\n"))
 
 local jdtls = require("jdtls")
 
@@ -79,7 +79,7 @@ local config = {
 		-- '-Dlog.protocol=true',
 		"-Dlog.level=ALL",
 		"-Xms4G",
-		"-javaagent:" .. home .. "/.config/nvim/lib/lombok.jar",
+		"-javaagent:" .. jdtls_libs_dir .. "/lombok.jar",
 		"--add-modules=ALL-SYSTEM",
 		"--add-opens",
 		"java.base/java.util=ALL-UNNAMED",
@@ -94,14 +94,14 @@ local config = {
 		"-data",
 		workspace_dir,
 	},
-	root_dir = require("jdtls.setup").find_root({
+	root_dir = require("lspconfig").util.root_pattern(
+		".git",
 		"mvnw",
 		"gradlew",
 		"pom.xml",
 		"build.gradle",
-		"build.gradle.kts",
-		".git",
-	}),
+		"build.gradle.kts"
+	)(vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())),
 	on_attach = function(client, bufnr)
 		require("juhaku.plugins.lsp").on_attach(client, bufnr)
 
@@ -118,7 +118,7 @@ local config = {
             command! -buffer JdtJshell lua require('jdtls').jshell()
         ]])
 
-		local opts = { noremap = true, silent = true, buffer = bufnr  }
+		local opts = { noremap = true, silent = true, buffer = bufnr }
 		vim.keymap.set("n", "<leader><leader>o", jdtls.organize_imports, opts)
 		-- keymap.set("n", "<leader>dn", ":lua require('jdtls').test_nearest_method()<CR>", opts)
 		-- keymap.set("n", "<leader>dc", ":lua require('jdtls').test_class()<CR>", opts)

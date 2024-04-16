@@ -14,9 +14,9 @@ return {
 			null_ls.builtins.formatting.stylua,
 			-- null_ls.builtins.formatting.beautysh, -- TOOD
 			-- null_ls.builtins.code_actions.shellcheck, -- TODO
-			-- null_ls.builtins.formatting.goimports, -- TODO
-			-- null_ls.builtins.formatting.gofumpt, -- TODO
-			-- null_ls.builtins.diagnostics.staticcheck, -- TODO
+			null_ls.builtins.formatting.goimports, -- TODO
+			null_ls.builtins.formatting.gofumpt, -- TODO
+			null_ls.builtins.diagnostics.staticcheck, -- TODO
 			-- null_ls.builtins.formatting.markdownlint, -- TODO
 			null_ls.builtins.code_actions.gitsigns, -- TODO
 			-- require("typescript.extensions.null-ls.code-actions"), -- TODO
