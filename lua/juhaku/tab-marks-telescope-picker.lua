@@ -104,19 +104,19 @@ vim.api.nvim_create_autocmd({ "User" }, {
 local function generate_finder(marks, cwdlen)
 	local m = {}
 	for index, mark in ipairs(marks) do
-		table.insert(m, table.pack(index, mark))
+		table.insert(m, { index, mark })
 	end
 
 	return finders.new_table({
 		results = m,
 		entry_maker = function(marks_list)
-			local i, mark = table.unpack(marks_list)
+			local index, mark = marks_list[1], marks_list[2]
 			if mark.tab ~= nil then
 				local name = string.sub(mark.tab.bufname, cwdlen + 1)
 
 				return {
 					value = mark,
-					display = "#" .. i .. " (" .. mark.tab.tabnr .. ") ." .. name,
+					display = "#" .. index .. " (" .. mark.tab.tabnr .. ") ." .. name,
 					ordinal = mark.tab.bufname,
 				}
 			else
