@@ -149,16 +149,11 @@ keymap.set("t", "<A-\\>", "<C-\\><C-n>", opts)
 -- keymap.set("t", "<A-w>l", "<C-\\><C-n><C-w>l", opts)
 -- keymap.set("t", "<A-w>h", "<C-\\><C-n><C-w>h", opts)
 
--- excute checktime command to make vim auto reload file upon external change
-vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
-	pattern = { "*" },
-	callback = function(o)
-		local buf_name = string.match(vim.api.nvim_buf_get_name(o.buf), "%[Command Line%]")
-		if vim.mode ~= "c" and buf_name ~= "[Command Line]" then
-			vim.cmd("checktime")
-		end
-	end,
-})
+keymap.set("n", "<leader>x.", ":split | Oil<CR>", opts)
+keymap.set("n", "<leader>v.", ":vsplit | Oil<CR>", opts)
+keymap.set("n", "<leader>t.", ":tabnew | Oil<CR>", opts)
+keymap.set("n", "<leader>.", ":Oil<CR>", opts)
+
 
 vim.api.nvim_create_autocmd({ "TermOpen" }, {
 	pattern = { "*" },
