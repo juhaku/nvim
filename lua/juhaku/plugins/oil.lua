@@ -2,6 +2,14 @@ return {
 	"stevearc/oil.nvim",
 	opts = {
 		default_file_explorer = false,
+		prompt_save_on_select_new_entry = false,
+		columns = {
+			"icon",
+			-- "permissions",
+			-- "size",
+			-- "mtie",
+		},
+		experimental_watch_for_changes = true,
 		keymaps = {
 			-- ["g?"] = "actions.show_help",
 			-- ["<CR>"] = "actions.select",
