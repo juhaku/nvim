@@ -7,6 +7,17 @@ return {
 			-- ["<CR>"] = "actions.select",
 			["<C-v>"] = "actions.select_vsplit",
 			["<C-x>"] = "actions.select_split",
+			["cd"] = {
+				callback = function()
+					local current_dir = require("oil").get_current_dir()
+					if current_dir ~= nil then
+						vim.notify("Change working directory to: " .. current_dir, vim.log.levels.INFO)
+						vim.uv.chdir(current_dir)
+					end
+				end,
+				desc = "Change working directory to current directory",
+				mode = "n",
+			},
 			-- ["<C-t>"] = "actions.select_tab",
 			-- ["<C-p>"] = "actions.preview",
 			-- ["q"] = "actions.close",
