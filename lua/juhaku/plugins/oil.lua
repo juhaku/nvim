@@ -20,7 +20,7 @@ return {
 			},
 			-- ["<C-t>"] = "actions.select_tab",
 			-- ["<C-p>"] = "actions.preview",
-			-- ["q"] = "actions.close",
+			["<A-\\>"] = "actions.close",
 			-- ["<C-l>"] = "actions.refresh",
 			-- ["-"] = "actions.parent",
 			-- ["_"] = "actions.open_cwd",
