@@ -152,7 +152,7 @@ keymap.set("t", "<A-\\>", "<C-\\><C-n>", opts)
 keymap.set("n", "<leader>x.", ":split | Oil<CR>", opts)
 keymap.set("n", "<leader>v.", ":vsplit | Oil<CR>", opts)
 keymap.set("n", "<leader>t.", ":tabnew | Oil<CR>", opts)
-keymap.set("n", "<leader>.", ":Oil<CR>", opts)
+keymap.set("n", "<leader>.", ":Oil --float<CR>", opts)
 
 
 vim.api.nvim_create_autocmd({ "TermOpen" }, {

@@ -1,3 +1,4 @@
+local global = require("global")
 return {
 	"stevearc/oil.nvim",
 	opts = {
@@ -29,6 +30,7 @@ return {
 			-- ["<C-t>"] = "actions.select_tab",
 			-- ["<C-p>"] = "actions.preview",
 			["<A-\\>"] = "actions.close",
+			["q"] = "actions.close",
 			-- ["<C-l>"] = "actions.refresh",
 			-- ["-"] = "actions.parent",
 			-- ["_"] = "actions.open_cwd",
@@ -38,6 +40,22 @@ return {
 			-- ["gx"] = "actions.open_external",
 			-- ["g."] = "actions.toggle_hidden",
 			-- ["g\\"] = "actions.toggle_trash",
+		},
+		float = {
+			-- Padding around the floating window
+			padding = 30,
+			max_width = 160,
+			-- max_height = 140,
+			-- max_height = 0,
+			border = global.border,
+			win_options = {
+				winblend = global.winblend,
+			},
+			-- -- This is the config that will be passed to nvim_open_win.
+			-- -- Change values here to customize the layout
+			-- override = function(conf)
+			-- 	return conf
+			-- end,
 		},
 	},
 }
