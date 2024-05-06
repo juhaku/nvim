@@ -7,6 +7,7 @@ return {
 		config = true,
 		opts = {
 			lint_prompt_style = "vt",
+            auto_lint = false
 		},
 	},
 	{ "leoluz/nvim-dap-go", config = true },

@@ -14,10 +14,10 @@ vim.g.neovide_cursor_vfx_particle_speed = 12.0
 vim.g.neovide_cursor_vfx_particle_phase = 5.0
 vim.g.neovide_cursor_vfx_particle_curl = 1.5
 
-vim.opt.guifont = "Hack Nerd Font:h8"
+vim.opt.guifont = "SauceCodePro Nerd Font:h10"
 vim.g.gui_font_default_size = 8
 vim.g.gui_font_size = vim.g.gui_font_default_size
-vim.g.gui_font_face = "Hack Nerd Font"
+vim.g.gui_font_face = "SauceCodePro Nerd Font"
 
 local refreshGuiFont = function()
 	vim.opt.guifont = string.format("%s:h%s", vim.g.gui_font_face, vim.g.gui_font_size)

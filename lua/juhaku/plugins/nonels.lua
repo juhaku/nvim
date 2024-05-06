@@ -12,12 +12,13 @@ return {
 			-- null_ls.builtins.code_actions.eslint_d,
 			-- null_ls.builtins.formatting.eslint_d,
 			null_ls.builtins.formatting.stylua,
-			null_ls.builtins.formatting.goimports, -- TODO
-			null_ls.builtins.formatting.gofumpt, -- TODO
-			null_ls.builtins.diagnostics.staticcheck, -- TODO
-			null_ls.builtins.code_actions.gitsigns, -- TODO
+			null_ls.builtins.formatting.goimports,
+			null_ls.builtins.formatting.gofumpt,
+			null_ls.builtins.diagnostics.staticcheck,
+			null_ls.builtins.diagnostics.revive,
+			null_ls.builtins.code_actions.gitsigns,
 			null_ls.builtins.formatting.shfmt,
-			-- require("typescript.extensions.null-ls.code-actions"), -- TODO
+			-- require("typescript.extensions.null-ls.code-actions"),
 		}
 
 		null_ls.setup({ sources = sources })
