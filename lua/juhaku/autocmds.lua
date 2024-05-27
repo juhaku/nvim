@@ -94,6 +94,6 @@ end
 vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
 	pattern = { "*.java", "*.ts", "*.go", "*.rs" },
 	callback = function()
-		local _, _ = pcall(vim.lsp.codelens.refresh)
+		local _, _ = pcall(vim.lsp.codelens.refresh, { bufnr = 0 })
 	end,
 })
