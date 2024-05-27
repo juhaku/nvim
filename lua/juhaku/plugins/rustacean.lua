@@ -4,7 +4,11 @@ return {
 	ft = { "rust" },
 	config = function()
 		vim.g.rustaceanvim = {
-			tools = {},
+			tools = {
+				float_win_config = {
+					border = require("global").border,
+				},
+			},
 			server = {
 				on_attach = require("juhaku.plugins.lsp").on_attach,
 				settings = function(project_root)
@@ -27,11 +31,6 @@ return {
 									json
 								),
 							}
-							-- vim.notify(
-							-- 	"project settings is correct json using default settings merged with project settings",
-							-- 	vim.log.levels.TRACE
-							-- )
-							-- vim.notify(vim.inspect(merged_config), vim.log.levels.TRACE)
 							return merged_config
 						else
 							vim.notify(
@@ -43,8 +42,6 @@ return {
 							return default_settings
 						end
 					end
-					-- vim.notify("no project settings using default settings", vim.log.levels.DEBUG)
-					-- vim.notify(vim.inspect(default_config), vim.log.levels.TRACE)
 					return default_settings
 				end,
 				default_settings = {
