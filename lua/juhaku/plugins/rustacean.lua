@@ -8,6 +8,7 @@ return {
 				float_win_config = {
 					border = require("global").border,
 				},
+				test_executor = "termopen",
 			},
 			server = {
 				on_attach = require("juhaku.plugins.lsp").on_attach,
