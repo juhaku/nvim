@@ -5,30 +5,18 @@ return {
 		"lewis6991/gitsigns.nvim",
 		opts = {
 			signs = {
-				add = { hl = "GitSignsAdd", text = icons.add, numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
+				add = { text = icons.add },
 				change = {
-					hl = "GitSignsChange",
 					text = icons.change,
-					numhl = "GitSignsChangeNr",
-					linehl = "GitSignsChangeLn",
 				},
 				delete = {
-					hl = "GitSignsDelete",
 					text = icons.delete,
-					numhl = "GitSignsDeleteNr",
-					linehl = "GitSignsDeleteLn",
 				},
 				topdelete = {
-					hl = "GitSignsDelete",
 					text = icons.topdelete,
-					numhl = "GitSignsDeleteNr",
-					linehl = "GitSignsDeleteLn",
 				},
 				changedelete = {
-					hl = "GitSignsChange",
 					text = icons.changedelete,
-					numhl = "GitSignsChangeNr",
-					linehl = "GitSignsChangeLn",
 				},
 				-- delete = { hl = "GitSignsDelete", text = "_", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
 				-- topdelete = { hl = "GitSignsDelete", text = "‾", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
@@ -43,9 +31,6 @@ return {
 				interval = 1000,
 			},
 			attach_to_untracked = true,
-			-- yadm = {
-			--     enable = false,
-			-- },
 			on_attach = function(bufnr)
 				local gs = package.loaded.gitsigns
 
