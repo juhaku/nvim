@@ -84,7 +84,7 @@ local function refs_completion()
 	return completion
 end
 
-local function run_in_slit_terminal(command, autoclose)
+local function run_in_split_terminal(command, autoclose)
 	vim.api.nvim_create_autocmd({ "TermClose" }, {
 		pattern = { "*git*" },
 		callback = function(o)
@@ -110,7 +110,7 @@ end
 -- shorter command git commit
 vim.api.nvim_create_user_command("Gc", function(opts)
 	-- vim.cmd("G commit " .. opts.args)
-	run_in_slit_terminal("git commit " .. opts.args)
+	run_in_split_terminal("git commit " .. opts.args)
 end, {
 	nargs = "?",
 	complete = function()
@@ -127,7 +127,7 @@ vim.api.nvim_create_user_command("Gcam", function(opts)
 	if opts.bang == true then
 		command = command .. " && git push"
 	end
-	run_in_slit_terminal(command)
+	run_in_split_terminal(command)
 end, {
 	nargs = "?",
 	bang = true,
@@ -142,7 +142,7 @@ vim.api.nvim_create_user_command("Gcmsg", function(opts)
 	if opts.bang == true then
 		command = command .. " && git push"
 	end
-	run_in_slit_terminal(command)
+	run_in_split_terminal(command)
 end, {
 	nargs = "?",
 	bang = true,
@@ -200,7 +200,7 @@ vim.api.nvim_create_user_command("Gp", function(opts)
 	command = command .. opts.args
 
 	-- vim.cmd(command)
-	run_in_slit_terminal(command)
+	run_in_split_terminal(command)
 end, {
 	bang = true,
 	nargs = "?",
@@ -216,7 +216,7 @@ end, {
 vim.api.nvim_create_user_command("Gpf", function(opts)
 	local command = "git push --force-with-lease " .. opts.args
 	-- vim.cmd(command)
-	run_in_slit_terminal(command)
+	run_in_split_terminal(command)
 end, {
 	nargs = "?",
 	complete = function(_, cmd, _)
@@ -233,7 +233,7 @@ vim.api.nvim_create_user_command("Gpsup", function(opts)
 	local current_branch = get_current_branch()
 
 	-- vim.cmd("G push --set-upstream " .. origin .. " " .. current_branch .. " " .. opts.args)
-	run_in_slit_terminal("git push --set-upstream " .. origin .. " " .. current_branch .. " " .. opts.args)
+	run_in_split_terminal("git push --set-upstream " .. origin .. " " .. current_branch .. " " .. opts.args)
 end, {
 	nargs = "?",
 	complete = function(_, cmd, _)
