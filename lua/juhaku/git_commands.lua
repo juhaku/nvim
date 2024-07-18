@@ -23,11 +23,7 @@ local get_remote_branches = function()
 end
 
 local get_current_branch = function()
-	for _, branch in ipairs(get_branches()) do
-		if #branch == 2 then
-			return branch[2]
-		end
-	end
+	return vim.trim(vim.fn.system("git branch --show-current"))
 end
 
 local get_origin = function()
@@ -75,9 +71,16 @@ local function refs_completion()
 			return true
 		end
 		return false
-	end, vim.tbl_flatten(get_branches()))
-	local remotes = vim.tbl_flatten(get_remote_branches())
-
+	end, vim.iter(get_branches()):flatten():totable())
+	local remotes = vim.iter(get_remote_branches())
+		:flatten()
+		:filter(function(item)
+			if item ~= "->" then
+				return true
+			end
+			return false
+		end)
+		:totable()
 	vim.list_extend(completion, branches)
 	vim.list_extend(completion, remotes)
 
