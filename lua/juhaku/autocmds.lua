@@ -37,9 +37,11 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, {
 -- excute checktime command to make vim auto reload file upon external change
 vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
 	pattern = { "*" },
-	callback = function(o)
-		local buf_name = string.match(vim.api.nvim_buf_get_name(o.buf), "%[Command Line%]")
-		if vim.mode ~= "c" and buf_name ~= "[Command Line]" then
+	callback = function(_)
+		local mode = vim.fn.mode()
+		local cmdwintype = vim.fn.getcmdwintype()
+
+		if mode ~= "c" and cmdwintype ~= ":" then
 			vim.cmd("checktime")
 		end
 	end,
