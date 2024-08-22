@@ -76,9 +76,6 @@ return {
 					-- }
 				},
 				textobjects = { enable = true },
-				autotag = {
-					enable = true,
-				},
 			})
 		end,
 	},
@@ -88,8 +85,5 @@ return {
 		config = function()
 			require("treesitter-context").setup()
 		end,
-	},
-	{
-		"windwp/nvim-ts-autotag",
 	},
 }
