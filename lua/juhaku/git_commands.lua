@@ -1,4 +1,4 @@
-local get_branches = function()
+local function get_branches()
 	local ret_val = {}
 	local branches = vim.fn.systemlist("git branch")
 
@@ -64,7 +64,10 @@ local function get_remotes()
 	return retVal
 end
 
-local function refs_completion()
+---Get REFS completion optionallly filtering output by given `str`
+---@param str string? Filter incase sensitive manner the completion output.
+---@return table completions Matching completions.
+local function refs_completion(str)
 	local completion = { "HEAD", "FETCH_HEAD", "ORIG_HEAD" }
 	local branches = vim.tbl_filter(function(item)
 		if item ~= "*" then
@@ -83,6 +86,17 @@ local function refs_completion()
 		:totable()
 	vim.list_extend(completion, branches)
 	vim.list_extend(completion, remotes)
+
+    -- only make filtering if the filter is provided
+    if str ~= nil and str ~= "" then
+        completion = vim.iter(completion):filter(function (item)
+            if item:lower():match(str:lower()) then
+                return true
+            end
+            return false
+        end)
+        :totable()
+    end
 
 	return completion
 end
@@ -253,8 +267,9 @@ vim.api.nvim_create_user_command("Gco", function(opts)
 	-- run_in_slit_terminal("git checkout " .. opts.args)
 end, {
 	nargs = "?",
-	complete = function()
-		return refs_completion()
+	complete = function(lead, cmd, cursor)
+            print("lead: " .. lead .. " cmd: " .. cmd .. " cursor pos: " .. cursor)
+		return refs_completion(lead)
 	end,
 })
 
@@ -263,8 +278,8 @@ vim.api.nvim_create_user_command("Grb", function(opts)
 	-- run_in_slit_terminal("git rebase -i " .. opts.args)
 end, {
 	nargs = "?",
-	complete = function()
-		return refs_completion()
+	complete = function(lead)
+		return refs_completion(lead)
 	end,
 })
 
