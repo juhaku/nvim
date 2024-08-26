@@ -21,7 +21,6 @@ keymap.set("i", "<A-d>", '<C-o>"_dw')
 keymap.set({ "i", "c" }, "<A-BS>", "<C-w>")
 keymap.set({ "i", "c" }, "<A-h>", "<C-w>")
 
-keymap.set("n", "<leader>wf", ":HopPattern<CR>", opts)
 -- keymap.set({ "n", "i", "v", "x", "c" }, "<Bslash><Bslash>", "<Esc>", opts)
 keymap.set("i", "<C-c>", "<Esc>", opts)
 -- TODO filter quicfix list based on ignored files
@@ -49,7 +48,7 @@ end
 
 -- session manager
 keymap.set("n", "<leader>os", ":SessionManager load_session<CR>", opts)
-keymap.set("n", "<leader>ws", ":SessionManager save_current_session<CR>", opts)
+keymap.set("n", "<leader>sw", ":SessionManager save_current_session<CR>", opts)
 
 -- resize splits
 keymap.set("n", "<C-Left>", "<C-w><", opts)
@@ -106,32 +105,7 @@ keymap.set("n", "<leader>tG", function()
 	})
 end, opts)
 keymap.set("n", "<leader>tB", ":Telescope buffers<CR>", opts)
--- keymap.set("n", "fb", ":Telescope file_browser<CR>")
--- keymap.set('n', '<C-S-n>', ':Telescope find_files<CR>')
--- keymap.set("n", "<leader>tq", ":bdelete<CR> :bprevious<CR>", opts)
--- keymap.set('n', ',d', ':lua require'popui.diagnostics-navigator'\(\)<CR>', opts)
--- nnoremap <leader>ff <cmd>Telescope find_files<cr>
--- nnoremap <leader>fg <cmd>Telescope live_grep<cr>
--- nnoremap <leader>fb <cmd>Telescope buffers<cr>
--- nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-
 -- Dap keybindings
--- keymap.set("n", "<leader>b", ":DapToggleBreakpoint<CR>", opts)
--- keymap.set("n", "<leader>B", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", opts)
--- keymap.set("n", "<leader>bh", ":lua require'dap'.set_breakpoint(nil, vim.fn.input('Hit count: '), nil)<CR>", opts)
--- keymap.set("n", "<leader>bl", ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log message: '))<CR>", opts)
--- keymap.set("n", "<F9>", ":DapContinue<CR>", opts)
--- keymap.set("n", "<F8>", ":DapStepOver<CR>", opts)
--- keymap.set("n", "<F10>", ":DapTerminate<CR>", opts)
--- keymap.set("n", "<F6>", ":DapStepInto<CR>", opts)
--- keymap.set("n", "<F7>", ":DapStepOut<CR>", opts)
--- keymap.set("n", "<leader>dr", ":DapToggleRepl<CR>", opts)
--- keymap.set(
--- 	"n",
--- 	"<leader>lp",
--- 	":lua require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>",
--- 	opts
--- )
 -- keymap.set("n", "<leader>dl", ":lua lua require('dap').run_last()<CR>", opts)
 -- keymap.set("n", "<F12>", ":lua require('dapui').close()<CR>", opts)
 
