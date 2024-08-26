@@ -84,6 +84,7 @@ return {
 				{ text = "", texthl = "DiagnosticSignError", linehl = "", numhl = "" }
 			)
 			vim.fn.sign_define("DapLogPoint", { text = "", texthl = "DiagnosticSignError", linehl = "", numhl = "" })
+			vim.fn.sign_define("DapStopped", { text = "→", texthl = "DiagnosticOk", linehl = "", numhl = "" })
 
 			vim.api.nvim_create_user_command("DapBreakpointCondition", function()
 				vim.ui.input({ prompt = "Condition: " }, function(input)
