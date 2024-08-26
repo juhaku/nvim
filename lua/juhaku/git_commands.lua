@@ -288,12 +288,12 @@ vim.api.nvim_create_user_command("Gb", function(opts)
 	-- run_in_slit_terminal("git branch " .. opts.args)
 end, {
 	nargs = "*",
-	complete = function(_, cmd, _)
+	complete = function(lead, cmd, _)
 		if cmd == "Gb " then
 			-- return flags
 			return { "-l", "-D" }
 		else
-			return refs_completion()
+			return refs_completion(lead)
 		end
 	end,
 })
