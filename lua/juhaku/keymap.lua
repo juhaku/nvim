@@ -10,7 +10,28 @@ keymap.set("n", "vae", "gg<S-v>G", opts) -- visual select all
 keymap.set("n", "QQ", ":qa<CR>", opts)
 keymap.set("n", "<leader>qa", ":qa<CR>", opts)
 keymap.set("n", "<leader>qm", ":to<CR><CMD>Alpha<CR>", opts)
-keymap.set("n", "<leader>ut", ":UndotreeToggle<CR>", opts)
+keymap.set("n", "<leader>ut", function()
+	local wins = vim.api.nvim_list_wins()
+
+	local open = false
+	for _, win in ipairs(wins) do
+		local buf = vim.api.nvim_win_get_buf(win)
+		local name = vim.api.nvim_buf_get_name(buf)
+		if name:match("undotree") then
+			open = true
+			break
+		end
+	end
+
+	if open then
+		vim.cmd(":UndotreeHide")
+	else
+		vim.cmd([[
+            UndotreeShow
+            UndotreeFocus
+        ]])
+	end
+end)
 keymap.set({ "n", "v" }, "<leader>y", '"+y', opts)
 keymap.set({ "n", "v" }, "<leader>c", '"+c', opts)
 keymap.set({ "n", "v" }, "<leader>x", '"+x', opts)
@@ -127,7 +148,6 @@ keymap.set("n", "<leader>x.", ":split | Oil<CR>", opts)
 keymap.set("n", "<leader>v.", ":vsplit | Oil<CR>", opts)
 keymap.set("n", "<leader>t.", ":tabnew | Oil<CR>", opts)
 keymap.set("n", "<leader>.", ":Oil --float<CR>", opts)
-
 
 vim.api.nvim_create_autocmd({ "TermOpen" }, {
 	pattern = { "*" },
