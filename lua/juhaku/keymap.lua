@@ -137,7 +137,6 @@ keymap.set("n", "<leader>tt", ":tabnew | terminal<CR>", opts)
 
 keymap.set("t", "<Esc>", "<C-\\><C-n>", opts)
 keymap.set("t", "<A-\\>", "<C-\\><C-n>", opts)
-keymap.set("t", "<A-,>", "<C-\\><C-n>", opts)
 -- keymap.set("t", "<A-w>q", "<C-\\><C-n><C-w>q", opts)
 
 -- keymap.set("t", "<A-w>k", "<C-\\><C-n><C-w>k", opts)
