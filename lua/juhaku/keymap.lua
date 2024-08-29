@@ -151,7 +151,10 @@ keymap.set("n", "<leader>.", ":Oil --float<CR>", opts)
 
 vim.api.nvim_create_autocmd({ "TermOpen" }, {
 	pattern = { "*" },
-	command = ":startinsert",
+	command = [[
+        setlocal nospell
+        startinsert
+    ]],
 })
 
 vim.api.nvim_create_user_command("Tig", function(o)

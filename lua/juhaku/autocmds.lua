@@ -34,7 +34,7 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, {
 	end,
 })
 
--- excute checktime command to make vim auto reload file upon external change
+-- execute checktime command to make vim auto reload file upon external change
 vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
 	pattern = { "*" },
 	callback = function(_)
