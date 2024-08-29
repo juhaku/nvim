@@ -50,3 +50,6 @@ options.wildoptions = { "pum", "tagfile", "fuzzy" }
 options.undodir = os.getenv("HOME") .. "/.local/state/nvim/undodir"
 options.undofile = true
 options.updatetime = 40
+
+options.spell = true
+options.spelllang = "en"
