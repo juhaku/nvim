@@ -12,7 +12,7 @@ keymap.set("n", "QQ", ":qa<CR>", opts)
 keymap.set("n", "<leader>qa", ":qa<CR>", opts)
 keymap.set("n", "<leader>qm", ":to<CR><CMD>Alpha<CR>", opts)
 keymap.set("n", "<leader>ut", function()
-	local undotree_open = utils.is_window_open("undotree")
+	local undotree_open = utils.is_window_open_by_name_pattern("undotree")
 	if undotree_open then
 		vim.cmd(":UndotreeHide")
 	else
