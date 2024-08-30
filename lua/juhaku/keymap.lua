@@ -1,3 +1,4 @@
+local utils = require("juhaku.utils")
 local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
 
@@ -11,19 +12,8 @@ keymap.set("n", "QQ", ":qa<CR>", opts)
 keymap.set("n", "<leader>qa", ":qa<CR>", opts)
 keymap.set("n", "<leader>qm", ":to<CR><CMD>Alpha<CR>", opts)
 keymap.set("n", "<leader>ut", function()
-	local wins = vim.api.nvim_list_wins()
-
-	local open = false
-	for _, win in ipairs(wins) do
-		local buf = vim.api.nvim_win_get_buf(win)
-		local name = vim.api.nvim_buf_get_name(buf)
-		if name:match("undotree") then
-			open = true
-			break
-		end
-	end
-
-	if open then
+	local undotree_open = utils.is_window_open("undotree")
+	if undotree_open then
 		vim.cmd(":UndotreeHide")
 	else
 		vim.cmd([[
