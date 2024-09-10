@@ -9,6 +9,8 @@ return {
 			if trouble.is_open() then
 				---@diagnostic disable-next-line: missing-parameter, missing-fields
 				trouble.next({ follow = true })
+				---@diagnostic disable-next-line: missing-parameter, missing-fields
+                trouble.jump()
 			end
 		end, opts)
 
@@ -16,6 +18,8 @@ return {
 			if trouble.is_open() then
 				---@diagnostic disable-next-line: missing-parameter, missing-fields
 				trouble.prev({ follow = true })
+                ---@diagnostic disable-next-line: missing-parameter, missing-fields
+                trouble.jump()
 			end
 		end, opts)
 
