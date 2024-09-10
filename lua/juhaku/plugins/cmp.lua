@@ -11,6 +11,9 @@ return {
 			local kind_icons = require("global").icons.kind
 
 			cmp.setup({
+				-- experimental = {
+				-- 	ghost_text = true,
+				-- },
 				formatting = {
 					format = function(entry, vim_item)
 						vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind)

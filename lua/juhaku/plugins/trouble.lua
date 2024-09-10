@@ -8,14 +8,14 @@ return {
 		set("n", "<A-n>", function()
 			if trouble.is_open() then
 				---@diagnostic disable-next-line: missing-parameter, missing-fields
-				trouble.next({ focus = true })
+				trouble.next({ follow = true })
 			end
 		end, opts)
 
 		set("n", "<A-p>", function()
 			if trouble.is_open() then
 				---@diagnostic disable-next-line: missing-parameter, missing-fields
-				trouble.prev({ focus = true })
+				trouble.prev({ follow = true })
 			end
 		end, opts)
 
