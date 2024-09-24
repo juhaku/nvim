@@ -123,7 +123,7 @@ function M.on_attach(client, bufnr)
 	vim.keymap.set("n", "<leader>f", function()
 		vim.lsp.buf.format({
 			filter = function(c)
-				return c.name ~= "tsserver" or c.name ~= "gopls" or c.name ~= "lua_ls" or c.name ~= "eslint"
+				return c.name ~= "ts_ls" or c.name ~= "gopls" or c.name ~= "lua_ls" or c.name ~= "eslint"
 			end,
 			async = true,
 		})
