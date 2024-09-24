@@ -43,7 +43,6 @@ return {
 		},
 		float = {
 			-- Padding around the floating window
-			padding = 30,
 			max_width = 160,
 			-- max_height = 140,
 			-- max_height = 0,
@@ -53,9 +52,21 @@ return {
 			},
 			-- -- This is the config that will be passed to nvim_open_win.
 			-- -- Change values here to customize the layout
-			-- override = function(conf)
-			-- 	return conf
-			-- end,
+			override = function(conf)
+				-- make the height of the float dynamic, and resilient of small screens
+				local max_height = 45
+				local screen_height = vim.opt.lines:get() - vim.opt.cmdheight:get()
+				local win_center_row = math.floor(screen_height / 2 - (max_height / 2))
+
+				if screen_height > max_height then
+					conf = vim.tbl_deep_extend("force", conf, {
+						row = win_center_row,
+						height = max_height,
+					})
+				end
+
+				return conf
+			end,
 		},
 	},
 }
