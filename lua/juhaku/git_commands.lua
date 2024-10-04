@@ -87,16 +87,17 @@ local function refs_completion(str)
 	vim.list_extend(completion, branches)
 	vim.list_extend(completion, remotes)
 
-    -- only make filtering if the filter is provided
-    if str ~= nil and str ~= "" then
-        completion = vim.iter(completion):filter(function (item)
-            if item:lower():match(str:lower()) then
-                return true
-            end
-            return false
-        end)
-        :totable()
-    end
+	-- only make filtering if the filter is provided
+	if str ~= nil and str ~= "" then
+		completion = vim.iter(completion)
+			:filter(function(item)
+				if item:lower():match(str:lower()) then
+					return true
+				end
+				return false
+			end)
+			:totable()
+	end
 
 	return completion
 end
@@ -268,7 +269,6 @@ vim.api.nvim_create_user_command("Gco", function(opts)
 end, {
 	nargs = "?",
 	complete = function(lead, cmd, cursor)
-            print("lead: " .. lead .. " cmd: " .. cmd .. " cursor pos: " .. cursor)
 		return refs_completion(lead)
 	end,
 })
@@ -302,3 +302,13 @@ vim.api.nvim_create_user_command("Glsr", function()
 	vim.cmd("G ls-remote")
 	-- run_in_slit_terminal("git ls-remote")
 end, {})
+
+vim.api.nvim_create_user_command("Gd", function(opts)
+	vim.cmd("tab G diff " .. opts.args)
+	-- run_in_slit_terminal("git branch " .. opts.args)
+end, {
+	nargs = "*",
+	complete = function(lead, _, _)
+		return refs_completion(lead)
+	end,
+})
