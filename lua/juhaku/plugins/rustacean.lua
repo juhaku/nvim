@@ -70,6 +70,11 @@ return {
 						checkOnSave = {
 							command = "clippy",
 						},
+						completion = {
+							fullFunctionSignatures = {
+								enable = true,
+							},
+						},
 					},
 				},
 			},
