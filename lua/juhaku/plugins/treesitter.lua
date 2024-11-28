@@ -31,6 +31,7 @@ return {
 					"vim",
 					"vimdoc",
 					-- "proto",
+					"astro",
 				},
 				sync_install = false,
 				auto_install = false,

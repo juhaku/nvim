@@ -53,6 +53,7 @@ function M.config()
 		"cssls",
 		"html",
 		"eslint",
+		"astro",
 	}
 
 	local capabilities = require("juhaku.plugins.cmp").default_capabilities()

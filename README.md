@@ -21,3 +21,4 @@ Install following plugins manually via `:Mason` if not installed.
 * shfmt
 * staticcheck
 * stylua
+* astro
