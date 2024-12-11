@@ -54,6 +54,7 @@ return {
 					},
 				},
 				extensions = {
+					fzf = {},
 					file_browser = {
 						-- hijack_netrw = true,
 						initial_mode = "normal",
