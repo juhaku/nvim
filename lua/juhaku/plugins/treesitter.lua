@@ -24,6 +24,7 @@ return {
 					"dockerfile",
 					"graphql",
 					--"vue",
+					"css",
 					"scss",
 					"jsonc",
 					"sql",
