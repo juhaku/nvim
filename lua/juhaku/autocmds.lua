@@ -73,7 +73,7 @@ if global.autosave == true then
 				callback = function(change_opts)
 					local is_file = nil
 					if change_opts.file ~= "" then
-						is_file = tonumber(vim.fn.system("test -f " .. change_opts.file .. "&& echo 1"))
+						is_file = tonumber(vim.fn.system("test -f '" .. change_opts.file .. "' && echo 1"))
 					end
 					if is_file ~= nil and is_file == 1 then
 						if _timer ~= nil then
