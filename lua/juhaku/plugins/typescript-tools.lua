@@ -9,6 +9,15 @@ return {
 		end,
 		handlers = require("juhaku.plugins.lsp").handlers,
 		capabilities = require("juhaku.plugins.cmp").default_capabilities(),
+		filetypes = {
+			"javascript",
+			"javascriptreact",
+			"javascript.jsx",
+			"typescript",
+			"typescriptreact",
+			"typescript.tsx",
+			"astro",
+		},
 		settings = {
 			pexpose_as_code_action = "all",
 			code_lens = "all",

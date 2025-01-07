@@ -91,7 +91,8 @@ function M.config()
 end
 
 function M.on_attach(client, bufnr)
-	if client.server_capabilities.documentSymbolProvider then
+    -- navic does not need to be attached to astro since it will be comfing via typescript-tools
+	if client.server_capabilities.documentSymbolProvider and client.name ~= "astro" then
 		require("nvim-navic").attach(client, bufnr)
 	end
 
