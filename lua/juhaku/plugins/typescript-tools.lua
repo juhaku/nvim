@@ -16,7 +16,6 @@ return {
 			"typescript",
 			"typescriptreact",
 			"typescript.tsx",
-			"astro",
 		},
 		settings = {
 			pexpose_as_code_action = "all",

@@ -80,6 +80,10 @@ function M.config()
 			cfg = vim.tbl_deep_extend("force", cfg, {
 				settings = server_settings.settings,
 			})
+            -- astro possibly have custom init options that should be added to the config
+			if server == "astro" then
+				cfg = vim.tbl_deep_extend("force", cfg, { init_options = server_settings.init_options or {} })
+			end
 		end
 
 		if server == "lua_ls" then
@@ -91,8 +95,8 @@ function M.config()
 end
 
 function M.on_attach(client, bufnr)
-    -- navic does not need to be attached to astro since it will be comfing via typescript-tools
-	if client.server_capabilities.documentSymbolProvider and client.name ~= "astro" then
+	-- navic does not need to be attached to astro since it will be comfing via typescript-tools
+	if client.server_capabilities.documentSymbolProvider then
 		require("nvim-navic").attach(client, bufnr)
 	end
 
