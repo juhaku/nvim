@@ -53,8 +53,14 @@ keymap.set("n", "<leader>gb", ":G blame<CR>", opts)
 
 -- neovide paste in neovide below 10.3
 if vim.g.neovide ~= nil then
-	keymap.set({ "c", "i" }, "<C-S-v>", '<C-r>"', {})
-	keymap.set("n", "<C-S-v>", '"+p', {})
+	local global = require("global")
+	if global.is_mac() then
+        keymap.set({ "c", "i" }, "<D-v>", '<C-r>"', {})
+		keymap.set("n", "<D-v>", '"+p', {})
+	else
+		keymap.set({ "c", "i" }, "<C-S-v>", '<C-r>"', {})
+		keymap.set("n", "<C-S-v>", '"+p', {})
+	end
 end
 
 -- session manager

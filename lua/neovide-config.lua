@@ -14,8 +14,8 @@ vim.g.neovide_cursor_vfx_particle_speed = 12.0
 vim.g.neovide_cursor_vfx_particle_phase = 5.0
 vim.g.neovide_cursor_vfx_particle_curl = 1.5
 
-vim.opt.guifont = "SauceCodePro Nerd Font:h10"
-vim.g.gui_font_default_size = 8
+vim.opt.guifont = "SauceCodePro Nerd Font:h14"
+vim.g.gui_font_default_size = 14
 vim.g.gui_font_size = vim.g.gui_font_default_size
 vim.g.gui_font_face = "SauceCodePro Nerd Font"
 
@@ -44,3 +44,11 @@ end, opts)
 vim.keymap.set({ "n", "i" }, "<C-->", function()
 	resizeGuiFont(-1)
 end, opts)
+
+local global = require("global")
+
+if global.is_mac() then
+    vim.g.neovide_transparency = 0.93
+    vim.g.neovide_window_blurred = true
+	vim.g.neovide_input_macos_option_key_is_meta = "both"
+end

@@ -99,4 +99,14 @@ return {
 
 	---@type boolean whether autosave files or not
 	autosave = true,
+
+	---Check whether system is MacOS or not
+	---@return boolean true when system is mac; false otherwise
+	is_mac = function()
+		local sysname = vim.uv.os_uname().sysname
+		return sysname == "Darwin"
+	end,
+
+    ---@type boolean force eol for each opened file
+    force_eol = true
 }

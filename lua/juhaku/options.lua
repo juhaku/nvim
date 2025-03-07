@@ -2,12 +2,14 @@
 vim.g.mapleader = " "
 vim.g.netrw_banner = 0
 
-if vim.g.neovide then
-	require("neovide-config")
-end
-
 -- options
 local options = vim.opt
+
+if vim.g.neovide then
+	require("neovide-config")
+else
+	options.guifont = "SauceCodePro Nerd Font:h14"
+end
 
 options.cmdheight = 1
 options.showmode = false
@@ -41,7 +43,7 @@ options.hidden = true
 options.autoindent = true
 --options.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
 options.virtualedit = "block"
-options.guifont = "Hack Nerd Font:h8"
+
 options.wrap = false
 options.mouse = "a"
 options.swapfile = false

@@ -20,12 +20,24 @@ local jdtls = require("jdtls")
 local extendedClientCapabilities = jdtls.extendedClientCapabilities
 extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
 
+local global = require("global")
+
 local function get_jdks()
-	local jdk_paths = vim.fn.systemlist("fd java " .. java_location .. " -d 1")
+	local jdk_paths = {}
+	if global.is_mac() then
+		local versions =
+			vim.fn.systemlist("ls " .. home .. "/.sdkman/candidates/java | awk '{if ($1 != \"current\") { print $1} }'")
+		for _, version in ipairs(versions) do
+			table.insert(jdk_paths, home .. "/.sdkman/candidates/java/" .. version)
+		end
+	else
+		jdk_paths = vim.fn.systemlist("fd java " .. java_location .. " -d 1")
+	end
 	local jdks = {}
 
 	for _, path in ipairs(jdk_paths) do
-		local version = string.gsub(path, "[a-zA-Z/-]*", "")
+		local version = string.gsub(path, "[a-zA-Z%./-]*", "")
+		version = string.sub(version, 1, 2)
 		if tonumber(version) < 9 and tonumber(version) > 5 then
 			version = "1." .. version
 		end
