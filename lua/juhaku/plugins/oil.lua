@@ -2,7 +2,7 @@ local global = require("global")
 return {
 	"stevearc/oil.nvim",
 	opts = {
-		default_file_explorer = false,
+		default_file_explorer = true,
 		prompt_save_on_select_new_entry = false,
 		columns = {
 			"icon",
