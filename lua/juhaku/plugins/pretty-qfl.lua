@@ -5,10 +5,10 @@ return {
 
 		require("pqf").setup({
 			signs = {
-				Error = global.diagnostic_signs.Error,
-				Warn = global.diagnostic_signs.Warn,
-				Hint = global.diagnostic_signs.Hint,
-				Info = global.diagnostic_signs.Info,
+				Error = global.icons.diagnostic.Error,
+				Warn = global.icons.diagnostic.Warn,
+				Hint = global.icons.diagnostic.Hint,
+				Info = global.icons.diagnostic.Info,
 			},
 		})
 	end,

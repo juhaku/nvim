@@ -4,6 +4,7 @@ require("juhaku.options")
 require("juhaku.keymap")
 require("juhaku.git_commands")
 require("juhaku.autocmds")
+require("juhaku.diagnostic")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then

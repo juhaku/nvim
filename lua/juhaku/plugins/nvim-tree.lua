@@ -77,10 +77,10 @@ return {
 				show_on_open_dirs = true,
 				debounce_delay = 50,
 				icons = {
-					hint = global.diagnostic_signs.Hint:gsub("%s", ""),
-					info = global.diagnostic_signs.Info:gsub("%s", ""),
-					warning = global.diagnostic_signs.Warn:gsub("%s", ""),
-					error = global.diagnostic_signs.Error:gsub("%s", ""),
+					hint = global.icons.diagnostic.Hint:gsub("%s", ""),
+					info = global.icons.diagnostic.Info:gsub("%s", ""),
+					warning = global.icons.diagnostic.Warn:gsub("%s", ""),
+					error = global.icons.diagnostic.Error:gsub("%s", ""),
 				},
 			},
 			filters = {

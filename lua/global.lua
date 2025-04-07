@@ -31,14 +31,6 @@ return {
 	---@type string global border style for neovim floating windows
 	border = "rounded",
 
-	---@type DiagnosticSigns vim diagnostic signs used globally
-	diagnostic_signs = {
-		Error = "",
-		Warn = "",
-		Hint = "󰌶",
-		Info = "󰋽",
-	},
-
 	---@type Icons table of icons
 	icons = {
 		---@type DiagnosticSigns vim diagnostic signs used globally

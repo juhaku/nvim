@@ -10,37 +10,11 @@ local M = {
 
 local global = require("global")
 M.handlers = {
-	["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = global.border }),
-	["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = global.border }),
+	["textDocument/hover"] = vim.lsp.with(vim.lsp.buf.hover, { border = global.border }),
+	["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.buf.signature_help, { border = global.border }),
 }
 
 function M.config()
-	local opts = { noremap = true, silent = true }
-	vim.keymap.set("n", "<A-d>", vim.diagnostic.open_float, opts)
-	vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-	vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-	vim.keymap.set("n", "<leader>dl", vim.diagnostic.setloclist, opts)
-	vim.keymap.set("n", "<leader>dq", vim.diagnostic.setqflist, opts)
-
-	for type, icon in pairs(global.diagnostic_signs) do
-		local hl = "DiagnosticSign" .. type
-		vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-	end
-
-	local config = {
-		virtual_text = true,
-		signs = true,
-		update_in_insert = true,
-		underline = true,
-		severity_sort = true,
-		float = {
-			focusable = true,
-			style = "minimal",
-			border = global.border,
-		},
-	}
-	vim.diagnostic.config(config)
-
 	local servers = {
 		"lua_ls",
 		"gopls",
@@ -80,13 +54,14 @@ function M.config()
 			cfg = vim.tbl_deep_extend("force", cfg, {
 				settings = server_settings.settings,
 			})
-            -- astro possibly have custom init options that should be added to the config
+			-- astro possibly have custom init options that should be added to the config
 			if server == "astro" then
 				cfg = vim.tbl_deep_extend("force", cfg, { init_options = server_settings.init_options or {} })
 			end
 		end
 
 		if server == "lua_ls" then
+			---@diagnostic disable-next-line: missing-fields
 			require("neodev").setup({})
 		end
 
@@ -134,9 +109,6 @@ function M.on_attach(client, bufnr)
 			async = true,
 		})
 	end, attachopts)
-	-- vim.keymap.set('n', '<leader>f', function()
-	--     vim.lsp.buf.format { async = true }
-	-- end, opts)
 end
 
 return M
