@@ -4,7 +4,18 @@ local M = {
 		"williamboman/mason-lspconfig.nvim",
 		"SmiteshP/nvim-navic",
 		"RRethy/vim-illuminate",
-		"folke/neodev.nvim",
+		-- "folke/neodev.nvim",
+		{
+			"folke/lazydev.nvim",
+			ft = "lua", -- only load on lua files
+			opts = {
+				library = {
+					-- See the configuration section for more details
+					-- Load luvit types when the `vim.uv` word is found
+					-- { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+				},
+			},
+		},
 	},
 }
 
@@ -54,11 +65,6 @@ function M.config()
 			if server == "astro" then
 				cfg = vim.tbl_deep_extend("force", cfg, { init_options = server_settings.init_options or {} })
 			end
-		end
-
-		if server == "lua_ls" then
-			---@diagnostic disable-next-line: missing-fields
-			require("neodev").setup({})
 		end
 
 		lspconfig[server].setup(cfg)
