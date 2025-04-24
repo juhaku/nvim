@@ -9,10 +9,6 @@ local M = {
 }
 
 local global = require("global")
-M.handlers = {
-	["textDocument/hover"] = vim.lsp.with(vim.lsp.buf.hover, { border = global.border }),
-	["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.buf.signature_help, { border = global.border }),
-}
 
 function M.config()
 	local servers = {
@@ -88,9 +84,13 @@ function M.on_attach(client, bufnr)
 	local attachopts = { buffer = bufnr, noremap = true, silent = true }
 	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, attachopts)
 	vim.keymap.set("n", "gd", vim.lsp.buf.definition, attachopts)
-	vim.keymap.set("n", "K", vim.lsp.buf.hover, attachopts)
+	vim.keymap.set("n", "K", function()
+		vim.lsp.buf.hover({ border = global.border })
+	end, attachopts)
 	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, attachopts)
-	vim.keymap.set({ "n", "i" }, "<C-k>", vim.lsp.buf.signature_help, attachopts)
+	vim.keymap.set({ "n", "i" }, "<C-k>", function()
+		vim.lsp.buf.signature_help({ border = global.border })
+	end, attachopts)
 	vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, attachopts)
 	vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, attachopts)
 	vim.keymap.set("n", "<leader>wl", function()

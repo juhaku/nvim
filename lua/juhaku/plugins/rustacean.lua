@@ -1,6 +1,6 @@
 return {
 	"mrcjkb/rustaceanvim",
-	version = "^4",
+	version = "^6",
 	ft = { "rust" },
 	config = function()
 		vim.g.rustaceanvim = {
@@ -11,7 +11,17 @@ return {
 				test_executor = "termopen",
 			},
 			server = {
-				on_attach = require("juhaku.plugins.lsp").on_attach,
+				on_attach = function(client, bufnr)
+					require("juhaku.plugins.lsp").on_attach(client, bufnr)
+
+					local opts = { silent = true, buffer = bufnr }
+					vim.keymap.set("n", "K", function()
+						vim.cmd.RustLsp({ "hover", "actions" })
+					end, opts)
+					-- vim.keymap.set("n", "<A-CR>", function()
+					-- 	vim.cmd.RustLsp("codeAction")
+					-- end, opts)
+				end,
 				settings = function(project_root)
 					local rust_analyzer_settings = project_root .. "/.nvim/rust-analyzer.json"
 					local default_config = require("rustaceanvim.config.internal")
