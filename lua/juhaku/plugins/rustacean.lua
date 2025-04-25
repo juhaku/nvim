@@ -77,7 +77,7 @@ return {
 								enable = true,
 							},
 						},
-						checkOnSave = {
+						check = {
 							command = "clippy",
 						},
 						completion = {
