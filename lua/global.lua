@@ -99,6 +99,6 @@ return {
 		return sysname == "Darwin"
 	end,
 
-    ---@type boolean force eol for each opened file
-    force_eol = true
+	---@type boolean force eol for each opened file
+	force_eol = true,
 }
