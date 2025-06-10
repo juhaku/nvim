@@ -55,7 +55,7 @@ keymap.set("n", "<leader>gb", ":G blame<CR>", opts)
 if vim.g.neovide ~= nil then
 	local global = require("global")
 	if global.is_mac() then
-        keymap.set({ "c", "i" }, "<D-v>", '<C-r>"', {})
+		keymap.set({ "c", "i" }, "<D-v>", '<C-r>"', {})
 		keymap.set("n", "<D-v>", '"+p', {})
 	else
 		keymap.set({ "c", "i" }, "<C-S-v>", '<C-r>"', {})
@@ -63,9 +63,23 @@ if vim.g.neovide ~= nil then
 	end
 end
 
--- session manager
-keymap.set("n", "<leader>os", ":SessionManager load_session<CR>", opts)
-keymap.set("n", "<leader>sw", ":SessionManager save_current_session<CR>", opts)
+-- persistence
+vim.keymap.set("n", "<leader>os", function()
+	require("persistence").select()
+end)
+vim.keymap.set("n", "<leader>ol", function()
+	-- match("^(.*://)(.*)$")
+	local path = vim.fn.expand("%:p:h")
+	print("got path:" .. path)
+	vim.notify("got path: " .. path, vim.log.levels.DEBUG)
+	local schema, dir = path:match("(%w*://)(.*)")
+	if schema == nil then
+		dir = path
+	end
+	vim.notify("dir:" .. dir, vim.log.levels.DEBUG)
+	vim.uv.chdir(dir)
+	require("persistence").load()
+end)
 
 -- resize splits
 keymap.set("n", "<C-Left>", "<C-w><", opts)
