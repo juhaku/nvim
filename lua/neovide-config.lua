@@ -1,54 +1,43 @@
--- neovide options
-vim.g.neovide_opacity= 0.9
-vim.g.neovide_remember_window_size = true
-vim.g.neovide_floating_blur_amount_x = 2.0
-vim.g.neovide_floating_blur_amount_y = 2.0
-vim.g.neovide_cursor_vfx_mode = "railgun"
-vim.g.neovide_cursor_vfx_particle_density = 12.0
-vim.g.neovide_cursor_antialiasing = true
-vim.g.neovide_cursor_vfx_opacity = 180.0
-vim.g.neovide_cursor_vfx_particle_lifetime = 1.5
-vim.g.neovide_cursor_vfx_particle_speed = 12.0
-
--- railgun only
-vim.g.neovide_cursor_vfx_particle_phase = 5.0
-vim.g.neovide_cursor_vfx_particle_curl = 1.5
-
-vim.opt.guifont = "SauceCodePro Nerd Font:h14"
-vim.g.gui_font_default_size = 14
-vim.g.gui_font_size = vim.g.gui_font_default_size
-vim.g.gui_font_face = "SauceCodePro Nerd Font"
-
-local refreshGuiFont = function()
-	vim.opt.guifont = string.format("%s:h%s", vim.g.gui_font_face, vim.g.gui_font_size)
-end
-
-local resizeGuiFont = function(delta)
-	vim.g.gui_font_size = vim.g.gui_font_size + delta
-	refreshGuiFont()
-end
-
-local resetGuiFont = function()
-	vim.g.gui_font_size = vim.g.gui_font_default_size
-	refreshGuiFont()
-end
-
--- Call function on startup to set default value
-resetGuiFont()
-
-local opts = { noremap = true, silent = true }
-
-vim.keymap.set({ "n", "i" }, "<C-=>", function()
-	resizeGuiFont(1)
-end, opts)
-vim.keymap.set({ "n", "i" }, "<C-->", function()
-	resizeGuiFont(-1)
-end, opts)
-
 local global = require("global")
 
+-- neovide options
+vim.g.neovide_opacity = 0.93
+vim.g.neovide_remember_window_size = true
+-- vim.g.neovide_floating_blur_amount_x = 5.0
+-- vim.g.neovide_floating_blur_amount_y = 5.0
+vim.g.neovide_cursor_vfx_mode = "torpedo"
+vim.g.neovide_cursor_vfx_particle_density = 3
+vim.g.neovide_cursor_antialiasing = true
+vim.g.neovide_cursor_vfx_opacity = 50.0
+-- vim.g.neovide_cursor_vfx_particle_lifetime = 1.5
+-- vim.g.neovide_cursor_vfx_particle_speed = 12.0
+-- railgun only
+-- vim.g.neovide_cursor_vfx_particle_phase = 9
+-- vim.g.neovide_cursor_vfx_particle_curl = 20
+
+local font = "AdwaitaMono Nerd Font Mono"
 if global.is_mac() then
-    vim.g.neovide_transparency = 0.93
-    vim.g.neovide_window_blurred = true
+	font = "SauceCodePro Nerd Font"
+end
+local font_size = 11
+vim.opt.guifont = font .. ":h" .. font_size
+
+vim.g.neovide_scale_factor = 1.0
+local change_scale_factor = function(delta)
+	vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
+end
+vim.keymap.set("n", "<C-=>", function()
+	change_scale_factor(1.05)
+end)
+vim.keymap.set("n", "<C-->", function()
+	change_scale_factor(1 / 1.05)
+end)
+vim.keymap.set("n", "<C-0>", function()
+	vim.g.neovide_scale_factor = 1.0
+end)
+
+if global.is_mac() then
+	vim.g.neovide_opacity = 0.93
+	vim.g.neovide_window_blurred = true
 	vim.g.neovide_input_macos_option_key_is_meta = "both"
 end
