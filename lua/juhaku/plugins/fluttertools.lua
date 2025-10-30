@@ -17,7 +17,6 @@ return {
 						flutterMode = "debug",
 					},
 				}
-				require("dap.ext.vscode").load_launchjs()
 			end,
 		},
 		lsp = {

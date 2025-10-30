@@ -4,7 +4,6 @@ local M = {
 		"williamboman/mason-lspconfig.nvim",
 		"SmiteshP/nvim-navic",
 		"RRethy/vim-illuminate",
-		-- "folke/neodev.nvim",
 		{
 			"folke/lazydev.nvim",
 			ft = "lua", -- only load on lua files
@@ -35,10 +34,10 @@ function M.config()
 		"html",
 		"eslint",
 		"astro",
+		"jdtls",
 	}
 
 	local capabilities = require("juhaku.plugins.cmp").default_capabilities()
-	local lspconfig = require("lspconfig")
 	for _, server in ipairs(servers) do
 		-- if server == "html" or server == "cssls" or server == "jsonls" then
 		-- 	capabilities.textdocument.completion.completionItem.snippetSupport = true
@@ -47,27 +46,33 @@ function M.config()
 		local cfg = {
 			on_attach = M.on_attach,
 			capabilities = capabilities,
-			handlers = M.handlers,
+			handlers = M.handlers, -- TODO should this have some default value?
 		}
 
-		local ok, server_settings = pcall(require, "juhaku.plugins.lsp.servers." .. server)
+		local ok, server_config = pcall(require, "juhaku.plugins.lsp.servers." .. server)
 		if ok then
-			if server_settings.on_attach ~= nil then
+			if server_config.on_attach ~= nil then
 				cfg.on_attach = function(client, bufnr)
 					M.on_attach(client, bufnr)
-					server_settings.on_attach(client, bufnr)
+					server_config.on_attach(client, bufnr)
 				end
 			end
 			cfg = vim.tbl_deep_extend("force", cfg, {
-				settings = server_settings.settings,
+				settings = server_config.settings,
 			})
-			-- astro possibly have custom init options that should be added to the config
-			if server == "astro" then
-				cfg = vim.tbl_deep_extend("force", cfg, { init_options = server_settings.init_options or {} })
+			if server_config.cmd ~= nil then
+				cfg.cmd = server_config.cmd
+			end
+			if server_config.root_dir ~= nil then
+				cfg.root_dir = server_config.root_dir
+			end
+			if server_config.init_options ~= nil then
+				cfg = vim.tbl_deep_extend("force", cfg, { init_options = server_config.init_options or {} })
 			end
 		end
 
-		lspconfig[server].setup(cfg)
+		vim.lsp.enable(server)
+		vim.lsp.config(server, cfg)
 	end
 end
 
