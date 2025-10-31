@@ -157,6 +157,18 @@ keymap.set("n", "<leader>v.", ":vsplit | Oil<CR>", opts)
 keymap.set("n", "<leader>t.", ":tabnew | Oil<CR>", opts)
 keymap.set("n", "<leader>.", ":Oil --float<CR>", opts)
 
+keymap.set("n", "<leader>o", function()
+	local line = vim.api.nvim_get_current_line()
+	local url = line:match("(https?://[^%s]+)")
+	if url ~= nil then
+		if require("global").is_mac() then
+			vim.fn.system("open " .. url)
+		else
+			vim.fn.system("xdg-open " .. url)
+		end
+	end
+end, opts)
+
 vim.api.nvim_create_autocmd({ "TermOpen" }, {
 	pattern = { "*" },
 	command = [[
