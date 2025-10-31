@@ -159,12 +159,17 @@ keymap.set("n", "<leader>.", ":Oil --float<CR>", opts)
 
 keymap.set("n", "<leader>o", function()
 	local line = vim.api.nvim_get_current_line()
-	local url = line:match("(https?://[^%s]+)")
-	if url ~= nil then
-		if require("global").is_mac() then
-			vim.fn.system("open " .. url)
-		else
-			vim.fn.system("xdg-open " .. url)
+	local _, y = unpack(vim.api.nvim_win_get_cursor(0))
+	y = y + 1
+
+	for url in line:gmatch("(https?://[^%s%(%)]+)") do
+		local i = line:find(url, 1, true)
+		if y >= i and y <= (i + url:len()) then
+			if require("global").is_mac() then
+				vim.fn.system("open " .. url)
+			else
+				vim.fn.system("xdg-open " .. url)
+			end
 		end
 	end
 end, opts)
