@@ -22,6 +22,13 @@ return {
 			return working_dir[#working_dir]
 		end
 
+		local function scale()
+			if vim.g.neovide then
+				return (math.floor(vim.g.neovide_scale_factor * 100 + 0.5)) .. "%%"
+			end
+			return ""
+		end
+
 		require("lualine").setup({
 			options = {
 				icons_enabled = true,
@@ -29,10 +36,10 @@ return {
 				component_separators = { left = "", right = "" },
 				section_separators = { left = "", right = "" },
 				disabled_filetypes = {
-                    winbar = {
-                        "dap-repl"
-                    }
-                },
+					winbar = {
+						"dap-repl",
+					},
+				},
 				always_divide_middle = true,
 				globalstatus = true,
 			},
@@ -43,7 +50,7 @@ return {
 				-- 	{ "filename", path = 1 },
 				-- },
 				lualine_c = { cwd, "filename" },
-				lualine_x = { "encoding", "fileformat", "filetype" },
+				lualine_x = { scale, "encoding", "fileformat", "filetype" },
 				lualine_y = { "progress" },
 				lualine_z = { "location" },
 			},

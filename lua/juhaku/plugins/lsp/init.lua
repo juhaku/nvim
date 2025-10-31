@@ -1,7 +1,7 @@
 local M = {
 	"neovim/nvim-lspconfig",
 	dependencies = {
-		"williamboman/mason-lspconfig.nvim",
+		"mason-org/mason-lspconfig.nvim",
 		"SmiteshP/nvim-navic",
 		"RRethy/vim-illuminate",
 		{
@@ -20,22 +20,40 @@ local M = {
 
 local global = require("global")
 
+---@type string[] table of all LSP servers
+M.servers = {
+	"rust_analyzer",
+	"gopls",
+	"jdtls",
+	"jsonls",
+	"dockerls",
+	"bashls",
+	"ts_ls",
+	"lua_ls",
+	"taplo",
+	"yamlls",
+	"lemminx",
+	"cssls",
+	"html",
+	"eslint",
+	"astro",
+}
+
+---@type string[] table of manually enableable LSP servers
+M.manual_enable_servers = { "ts_ls", "rust_analyzer" }
+
+---Check if LSP server is supposed to be manually configured
+---@param server string name of the LSP server
+---@return boolean
+function M.is_not_manually_configured(server)
+	return not vim.iter(M.manual_enable_servers):any(function(manual_server)
+		return manual_server == server
+	end)
+end
+
 function M.config()
-	local servers = {
-		"lua_ls",
-		"gopls",
-		"bashls",
-		"dockerls",
-		"jsonls",
-		"taplo",
-		"yamlls",
-		"lemminx",
-		"cssls",
-		"html",
-		"eslint",
-		"astro",
-		"jdtls",
-	}
+	local servers = vim.iter(M.servers):filter(M.is_not_manually_configured):totable()
+	-- vim.notify("load LSP servers: " .. vim.inspect(servers), vim.log.levels.DEBUG)
 
 	local capabilities = require("juhaku.plugins.cmp").default_capabilities()
 	for _, server in ipairs(servers) do
@@ -46,7 +64,7 @@ function M.config()
 		local cfg = {
 			on_attach = M.on_attach,
 			capabilities = capabilities,
-			handlers = M.handlers, -- TODO should this have some default value?
+			-- handlers = M.handlers, -- TODO should this have some default value?
 		}
 
 		local ok, server_config = pcall(require, "juhaku.plugins.lsp.servers." .. server)

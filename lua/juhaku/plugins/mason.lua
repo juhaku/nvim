@@ -1,6 +1,6 @@
 return {
 	{
-		"williamboman/mason.nvim",
+		"mason-org/mason.nvim",
 		config = true,
 		opts = {
 			ui = {
@@ -9,25 +9,11 @@ return {
 		},
 	},
 	{
-		"williamboman/mason-lspconfig.nvim",
+		"mason-org/mason-lspconfig.nvim",
 		config = true,
 		opts = {
-			ensure_installed = {
-				"rust_analyzer",
-				"gopls",
-				"jdtls",
-				"jsonls",
-				"dockerls",
-				"bashls",
-				"ts_ls",
-				"lua_ls",
-				"taplo",
-				"yamlls",
-				"lemminx",
-				"cssls",
-				"html",
-				"eslint",
-			},
+			ensure_installed = require("juhaku.plugins.lsp").servers,
+			automatic_enable = false, -- enabling is done in LSP init.lua
 		},
 	},
 }
