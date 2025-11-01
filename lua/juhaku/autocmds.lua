@@ -104,7 +104,6 @@ if global.force_eol then
 	vim.api.nvim_create_autocmd({ "BufWrite" }, {
 		pattern = { "*" },
 		callback = function(o)
-			print("forcing eol and fix eol post write")
 			vim.api.nvim_set_option_value("fixeol", true, { buf = o.buf })
 			vim.api.nvim_set_option_value("eol", true, { buf = o.buf })
 		end,
