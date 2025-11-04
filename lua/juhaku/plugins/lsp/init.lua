@@ -37,6 +37,7 @@ M.servers = {
 	"html",
 	"eslint",
 	"astro",
+    "tailwindcss"
 }
 
 ---@type string[] table of manually enableable LSP servers
@@ -64,7 +65,6 @@ function M.config()
 		local cfg = {
 			on_attach = M.on_attach,
 			capabilities = capabilities,
-			-- handlers = M.handlers, -- TODO should this have some default value?
 		}
 
 		local ok, server_config = pcall(require, "juhaku.plugins.lsp.servers." .. server)
