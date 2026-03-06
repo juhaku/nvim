@@ -101,4 +101,7 @@ return {
 
 	---@type boolean force eol for each opened file
 	force_eol = true,
+
+    ---@type boolean are AI tools such as copilot and code companion enabled
+    ai_enabled = true
 }

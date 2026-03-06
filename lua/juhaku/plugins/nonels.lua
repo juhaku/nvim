@@ -19,6 +19,7 @@ return {
 			null_ls.builtins.code_actions.gitsigns,
 			null_ls.builtins.formatting.shfmt,
 			-- require("typescript.extensions.null-ls.code-actions"),
+			require("aiwaku.lsp-code-actions"),
 		}
 
 		null_ls.setup({ sources = sources })

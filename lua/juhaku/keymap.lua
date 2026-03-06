@@ -34,6 +34,7 @@ keymap.set({ "i", "c" }, "<A-h>", "<C-w>")
 
 -- keymap.set({ "n", "i", "v", "x", "c" }, "<Bslash><Bslash>", "<Esc>", opts)
 keymap.set("i", "<C-c>", "<Esc>", opts)
+keymap.set("i", "<A-\\>", "<Esc>", opts)
 -- TODO filter quicfix list based on ignored files
 keymap.set("n", "<C-n>", ":cnext<CR>zz", opts)
 keymap.set("n", "<C-p>", ":cprev<CR>zz", opts)

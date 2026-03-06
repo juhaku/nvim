@@ -58,14 +58,19 @@ if global.autosave == true then
 				return
 			end
 			local _timer = nil
-			local save_file = function(id)
-				if id ~= nil then
-					---@diagnostic disable-next-line: missing-parameter
-					async.run(function()
-						vim.fn.timer_stop(id)
+			local save_file = function(buf)
+				return function(id)
+					if id ~= nil then
+						---@diagnostic disable-next-line: missing-parameter
+						async.run(function()
+							vim.fn.timer_stop(id)
+						end)
+					end
+
+					vim.api.nvim_buf_call(buf, function()
+						vim.cmd("write")
 					end)
 				end
-				vim.cmd("write")
 			end
 
 			vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
@@ -84,7 +89,7 @@ if global.autosave == true then
 							_timer = nil
 						end
 
-						_timer = vim.fn.timer_start(300, save_file)
+						_timer = vim.fn.timer_start(300, save_file(change_opts.buf))
 					end
 				end,
 			})
