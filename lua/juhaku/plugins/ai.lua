@@ -4,9 +4,16 @@ return {
 	{ "github/copilot.vim", enabled = is_ai_enabled },
 	{
 		"juhaku/aiwaku.nvim",
-		dependencies = { "nvim-lua/plenary.nvim" },
+		-- dir = "~/dev/repos/aiwaku.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"stevearc/dressing.nvim",
+		},
 		enabled = is_ai_enabled,
-		opts = { cmd = "~/.local/bin/copilot", width = 100 },
+		opts = {
+			cmd = "~/.local/bin/copilot",
+			width = 100,
+		},
 	},
 	-- {
 	-- 	"olimorris/codecompanion.nvim",
