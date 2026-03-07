@@ -1,5 +1,6 @@
 return {
 	"nvimtools/none-ls.nvim",
+	dependencies = { "juhaku/aiwaku.nvim" },
 	config = function()
 		local null_ls = require("null-ls")
 
