@@ -26,8 +26,8 @@ keymap.set({ "n", "v" }, "<leader>y", '"+y', opts)
 keymap.set({ "n", "v" }, "<leader>c", '"+c', opts)
 keymap.set({ "n", "v" }, "<leader>x", '"+x', opts)
 keymap.set({ "n", "v" }, "<leader>d", '"+d', opts)
-keymap.set({ "n", "v" }, "<leader>p", '"+p', opts)
-keymap.set({ "n", "v" }, "<leader>P", '"+P', opts)
+keymap.set({ "n", "v", "t" }, "<leader>p", '"+p', opts)
+keymap.set({ "n", "v", "t" }, "<leader>P", '"+P', opts)
 keymap.set("i", "<A-d>", '<C-o>"_dw')
 keymap.set({ "i", "c" }, "<A-BS>", "<C-w>")
 keymap.set({ "i", "c" }, "<A-h>", "<C-w>")
@@ -57,10 +57,10 @@ if vim.g.neovide ~= nil then
 	local global = require("global")
 	if global.is_mac() then
 		keymap.set({ "c", "i" }, "<D-v>", '<C-r>"', {})
-		keymap.set("n", "<D-v>", '"+p', {})
+		keymap.set({"n", "t"}, "<D-v>", '"+p', {})
 	else
 		keymap.set({ "c", "i" }, "<C-S-v>", '<C-r>"', {})
-		keymap.set("n", "<C-S-v>", '"+p', {})
+		keymap.set({"n", "t"}, "<C-S-v>", '"+p', {})
 	end
 end
 
