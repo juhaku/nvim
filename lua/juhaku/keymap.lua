@@ -52,17 +52,20 @@ keymap.set({ "n", "v" }, "X", '"_X')
 keymap.set("n", "<leader>dv", ":Gdiffsplit!<CR>", opts)
 keymap.set("n", "<leader>gb", ":G blame<CR>", opts)
 
+local global = require("global")
+if global.is_mac() then
+    keymap.set({ "t" }, "<D-v>", '<C-\\><C-n>"+p <Cmd>startinsert<CR>', {})
+else
+    keymap.set({ "t" }, "<C-S-v>", '<C-\\><C-n>"+p <Cmd>startinsert<CR>', {})
+end
 -- neovide paste in neovide below 10.3
 if vim.g.neovide ~= nil then
-	local global = require("global")
 	if global.is_mac() then
 		keymap.set({ "c", "i" }, "<D-v>", '<C-r>"', {})
 		keymap.set({ "n" }, "<D-v>", '"+p', {})
-		keymap.set({ "t" }, "<D-v>", '<C-\\><C-n>"+p <Cmd>startinsert<CR>', {})
 	else
 		keymap.set({ "c", "i" }, "<C-S-v>", '<C-r>"', {})
 		keymap.set({ "n" }, "<C-S-v>", '"+p', {})
-		keymap.set({ "t" }, "<C-S-v>", '<C-\\><C-n>"+p <Cmd>startinsert<CR>', {})
 	end
 end
 
