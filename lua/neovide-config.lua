@@ -16,10 +16,11 @@ vim.g.neovide_cursor_vfx_opacity = 50.0
 -- vim.g.neovide_cursor_vfx_particle_curl = 20
 
 local font = "AdwaitaMono Nerd Font Mono"
+local font_size = 11
 if global.is_mac() then
 	font = "SauceCodePro Nerd Font"
+    font_size = 15
 end
-local font_size = 11
 vim.opt.guifont = font .. ":h" .. font_size
 
 vim.g.neovide_scale_factor = 1.0
@@ -37,7 +38,7 @@ vim.keymap.set("n", "<C-0>", function()
 end)
 
 if global.is_mac() then
-	vim.g.neovide_opacity = 0.93
+	vim.g.neovide_opacity = 0.7
 	vim.g.neovide_window_blurred = true
 	vim.g.neovide_input_macos_option_key_is_meta = "both"
 end
