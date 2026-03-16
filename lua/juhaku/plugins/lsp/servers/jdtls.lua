@@ -36,9 +36,9 @@ local function get_jdks()
 	local jdks = {}
 
 	for _, path in ipairs(jdk_paths) do
-		local version = string.gsub(path, "[a-zA-Z%./-]*", "")
-		version = string.sub(version, 1, 2)
-		if (global.is_mac() and tonumber(version) == 80) or (tonumber(version) < 9 and tonumber(version) > 5) then
+		local basename = string.match(path, "[^/]+$")
+		local version = string.match(basename, "^(%d+)")
+		if tonumber(version) > 5 and tonumber(version) < 9 then
 			version = "1." .. version
 		end
 		table.insert(jdks, {
