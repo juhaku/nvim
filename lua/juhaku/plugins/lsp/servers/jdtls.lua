@@ -8,6 +8,29 @@ local jdtls_libs_dir = home .. "/.local/share/nvim/jdtls-libs"
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
 local workspace_dir = home .. "/.local/share/nvim/jdtls/" .. project_name
 
+local lombok_url = "https://projectlombok.org/downloads/lombok.jar"
+local lombok_path = jdtls_libs_dir .. "/lombok.jar"
+
+local function download_lombok(force)
+	if not force and vim.fn.filereadable(lombok_path) == 1 then
+		return
+	end
+	vim.notify("[java] Downloading lombok.jar", vim.log.levels.INFO)
+	local result = vim.fn.system({ "curl", "-fsSL", "-o", lombok_path, lombok_url })
+	if vim.v.shell_error ~= 0 then
+		vim.notify("[java] Download failed:\n" .. result, vim.log.levels.ERROR)
+	else
+		vim.notify("[java] Download complete: " .. lombok_path, vim.log.levels.INFO)
+	end
+end
+
+download_lombok(false)
+
+vim.api.nvim_create_user_command("JavaUpdateLombok", function()
+	vim.fn.delete(lombok_path)
+	download_lombok(true)
+end, { desc = "Re-download lombok.jar" })
+
 local bundles = {
 	vim.fn.glob(
 		jdtls_libs_dir .. "/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"
@@ -81,6 +104,15 @@ local function find_latest_java_path()
 	return jdks[#jdks].path
 end
 
+-- Add this helper near the other local functions
+local function get_jdtls_config_dir()
+	if global.is_mac() then
+		local arch = vim.fn.system("uname -m"):gsub("\n", "")
+		return jdtls_path .. (arch == "arm64" and "/config_mac_arm" or "/config_mac")
+	end
+	return jdtls_path .. "/config_linux"
+end
+
 local M = {
 	cmd = {
 		find_latest_java_path() .. "/bin/java",
@@ -103,7 +135,7 @@ local M = {
 		vim.fn.glob(jdtls_path .. "/plugins/" .. jdtls_launcher),
 
 		"-configuration",
-		jdtls_path .. "/config_linux",
+		get_jdtls_config_dir(),
 		"-data",
 		workspace_dir,
 	},
