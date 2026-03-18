@@ -12,11 +12,21 @@ return {
 		enabled = is_ai_enabled,
 		opts = {
 			cmd = require("global").is_mac() and { "copilot", "--yolo" } or { "~/.local/bin/copilot", "--yolo" },
-			width = 100,
+			-- width = 100,
+			keymaps = {
+				[{ "n" }] = {
+					["<leader>ai"] = {
+						command = function()
+							require("aiwaku").toggle({ jump = true })
+						end,
+						description = "Toggle Aiwaku",
+					},
+				},
+			},
 			terminal_keymaps = {
 				["<A-o>"] = {
 					command = "<C-\\><C-n><CMD>tabprev<CR>",
-					description = "Prev tab"
+					description = "Prev tab",
 				},
 				["<A-i>"] = {
 					command = "<C-\\><C-n><CMD>tabnext<CR>",
