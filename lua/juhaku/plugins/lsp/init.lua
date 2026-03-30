@@ -102,7 +102,7 @@ function M.on_attach(client, bufnr)
 
 	require("illuminate").on_attach(client)
 
-	if client.supports_method("textDocument/inlayHint") then
+	if client:supports_method("textDocument/inlayHint") then
 		vim.lsp.inlay_hint.enable(true, { bufnr })
 	end
 	-- Enable completion triggered by <c-x><c-o>

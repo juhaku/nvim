@@ -103,6 +103,10 @@ local function refs_completion(str)
 end
 
 local function run_in_split_terminal(command, autoclose)
+	if vim.fn.exepath("direnv") ~= "" and vim.fn.filereadable(".envrc") == 1 then
+		command = "direnv exec . " .. command
+	end
+
 	vim.api.nvim_create_autocmd({ "TermClose" }, {
 		pattern = { "*git*" },
 		callback = function(o)

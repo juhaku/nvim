@@ -16,9 +16,11 @@ Install following plugins manually via `:Mason` if not installed.
 * delve
 * gofumpt
 * goimports
+* prettier
 * prettierd
 * shellcheck
 * shfmt
 * staticcheck
 * stylua
 * astro
+* tree-sitter-cli
