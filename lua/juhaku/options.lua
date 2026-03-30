@@ -7,8 +7,6 @@ local options = vim.opt
 
 if vim.g.neovide then
 	require("neovide-config")
-else
-	options.guifont = "SauceCodePro Nerd Font:h14"
 end
 
 options.cmdheight = 1

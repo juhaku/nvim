@@ -15,13 +15,8 @@ vim.g.neovide_cursor_vfx_opacity = 50.0
 -- vim.g.neovide_cursor_vfx_particle_phase = 9
 -- vim.g.neovide_cursor_vfx_particle_curl = 20
 
-local font = "AdwaitaMono Nerd Font Mono"
-local font_size = 11
-if global.is_mac() then
-	font = "SauceCodePro Nerd Font"
-    font_size = 15
-end
-vim.opt.guifont = font .. ":h" .. font_size
+local gf = global.guifont()
+vim.opt.guifont = gf.family .. ":h" .. gf.size
 
 vim.g.neovide_scale_factor = 1.0
 local change_scale_factor = function(delta)

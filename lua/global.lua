@@ -27,7 +27,7 @@
 ---@field topdelete string top delete icon
 ---@field changedelete string change delete icon
 
-return {
+local M = {
 	---@type string global border style for neovim floating windows
 	border = "rounded",
 
@@ -92,16 +92,31 @@ return {
 	---@type boolean whether autosave files or not
 	autosave = true,
 
-	---Check whether system is MacOS or not
-	---@return boolean true when system is mac; false otherwise
-	is_mac = function()
-		local sysname = vim.uv.os_uname().sysname
-		return sysname == "Darwin"
-	end,
-
 	---@type boolean force eol for each opened file
 	force_eol = true,
 
-    ---@type boolean are AI tools such as copilot and code companion enabled
-    ai_enabled = true
+	---@type boolean are AI tools such as copilot and code companion enabled
+	ai_enabled = true,
 }
+
+---Check whether system is MacOS or not
+---@return boolean true when system is mac; false otherwise
+function M.is_mac()
+	return vim.uv.os_uname().sysname == "Darwin"
+end
+
+---@class GuiFont
+---@field family string font family name
+---@field size number font size in points
+
+---Returns the GUI font family and size for the current platform.
+---@return GuiFont
+function M.guifont()
+	if M.is_mac() then
+		return { family = "SauceCodePro Nerd Font", size = 15 }
+	else
+		return { family = "AdwaitaMono Nerd Font Mono", size = 11 }
+	end
+end
+
+return M
