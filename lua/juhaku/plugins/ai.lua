@@ -6,7 +6,7 @@ return {
 		"juhaku/aiwaku.nvim",
 		-- dir = "~/dev/repos/aiwaku.nvim",
 		dependencies = {
-			"nvim-lua/plenary.nvim",
+			-- "nvim-lua/plenary.nvim",
 			"stevearc/dressing.nvim",
 		},
 		enabled = is_ai_enabled,
@@ -25,6 +25,14 @@ return {
 				},
 			},
 			terminal_keymaps = {
+				["<Esc>"] = {
+					command = "<Esc>",
+					description = "Send real Esc to terminal",
+				},
+				["<A-\\>"] = {
+					command = "<Esc>",
+					description = "Send real Esc to terminal (alternative)",
+				},
 				["<A-o>"] = {
 					command = "<C-\\><C-n><CMD>tabprev<CR>",
 					description = "Prev tab",
