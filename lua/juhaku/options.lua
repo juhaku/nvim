@@ -2,6 +2,8 @@
 vim.g.mapleader = " "
 vim.g.netrw_banner = 0
 
+local global = require("global")
+
 -- options
 local options = vim.opt
 
@@ -13,6 +15,7 @@ options.cmdheight = 1
 options.showmode = false
 options.winblend = 20
 options.pumblend = 20
+options.winborder = global.border
 options.completeopt = "menu,menuone,preview,noinsert,noselect"
 options.syntax = "on"
 options.scrolloff = 8

@@ -1,4 +1,3 @@
-local utils = require("juhaku.utils")
 local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
 
@@ -12,16 +11,9 @@ keymap.set("n", "QQ", ":qa<CR>", opts)
 keymap.set("n", "<leader>qa", ":qa<CR>", opts)
 keymap.set("n", "<leader>qm", ":to<CR><CMD>Alpha<CR>", opts)
 keymap.set("n", "<leader>ut", function()
-	local undotree_open = utils.is_window_open_by_name_pattern("undotree")
-	if undotree_open then
-		vim.cmd(":UndotreeHide")
-	else
-		vim.cmd([[
-            UndotreeShow
-            UndotreeFocus
-        ]])
-	end
-end)
+	vim.cmd("packadd nvim.undotree")
+	vim.cmd("Undotree")
+end, opts)
 keymap.set({ "n", "v" }, "<leader>y", '"+y', opts)
 keymap.set({ "n", "v" }, "<leader>c", '"+c', opts)
 keymap.set({ "n", "v" }, "<leader>x", '"+x', opts)
@@ -72,6 +64,9 @@ end
 -- persistence
 vim.keymap.set("n", "<leader>os", function()
 	require("persistence").select()
+end)
+vim.keymap.set("n", "<leader>om", function()
+	require("persistence").open_manage()
 end)
 vim.keymap.set("n", "<leader>ol", function()
 	local path = vim.fn.expand("%:p:h")

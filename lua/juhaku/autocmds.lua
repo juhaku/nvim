@@ -106,13 +106,6 @@ if global.autosave == true then
 	})
 end
 
--- try refresh codelens
-vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-	pattern = { "*.java", "*.ts", "*.go", "*.rs" },
-	callback = function()
-		local _, _ = pcall(vim.lsp.codelens.refresh, { bufnr = 0 })
-	end,
-})
 
 if global.force_eol then
 	vim.api.nvim_create_autocmd({ "BufWrite" }, {

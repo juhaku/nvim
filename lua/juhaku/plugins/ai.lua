@@ -25,10 +25,10 @@ return {
 				},
 			},
 			terminal_keymaps = {
-				["<Esc>"] = {
-					command = "<Esc>",
-					description = "Send real Esc to terminal",
-				},
+				-- ["<Esc>"] = {
+				-- 	command = "<Esc>",
+				-- 	description = "Send real Esc to terminal",
+				-- },
 				["<A-\\>"] = {
 					command = "<Esc>",
 					description = "Send real Esc to terminal (alternative)",
@@ -50,7 +50,7 @@ return {
 	-- 	opts = {},
 	-- 	enabled = is_ai_enabled,
 	-- 	dependencies = {
-	-- 		"nvim-lua/plenary.nvim",
+	-- 		"nvim-lua/plenary.nvim"
 	-- 		"nvim-treesitter/nvim-treesitter",
 	-- 		"ravitemer/mcphub.nvim",
 	-- 	},

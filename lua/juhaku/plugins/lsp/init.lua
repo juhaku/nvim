@@ -105,6 +105,9 @@ function M.on_attach(client, bufnr)
 	if client:supports_method("textDocument/inlayHint") then
 		vim.lsp.inlay_hint.enable(true, { bufnr })
 	end
+	if client:supports_method("textDocument/codeLens") then
+		vim.lsp.codelens.enable(true, { bufnr = bufnr })
+	end
 	-- Enable completion triggered by <c-x><c-o>
 	vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
 
@@ -125,7 +128,6 @@ function M.on_attach(client, bufnr)
 	vim.keymap.set("n", "<leader>wl", function()
 		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 	end, attachopts)
-	vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, attachopts)
 	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, attachopts)
 	vim.keymap.set({ "n", "v" }, "<A-CR>", vim.lsp.buf.code_action, attachopts)
 	vim.keymap.set("n", "gs", vim.lsp.buf.document_symbol, attachopts)

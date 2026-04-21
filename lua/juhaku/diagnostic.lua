@@ -19,7 +19,6 @@ for type, icon in pairs(global.icons.diagnostic) do
 	signs.text = vim.tbl_deep_extend("force", signs.text or {}, { [name] = icon })
 	signs.numhl = vim.tbl_deep_extend("force", signs.numhl or {}, { [name] = hl })
 	signs.linehl = vim.tbl_deep_extend("force", signs.linehl or {}, { [name] = hl })
-	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
 local config = {
