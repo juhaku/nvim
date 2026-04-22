@@ -85,7 +85,7 @@ return {
 	},
 	{ "tpope/vim-fugitive" },
 	{
-		"sindrets/diffview.nvim",
+		"dlyongemallo/diffview.nvim",
 		opts = {
 			file_panel = {
 				win_config = {
