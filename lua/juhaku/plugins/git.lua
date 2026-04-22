@@ -84,5 +84,14 @@ return {
 		},
 	},
 	{ "tpope/vim-fugitive" },
-	{ "sindrets/diffview.nvim", cofig = true },
+	{
+		"sindrets/diffview.nvim",
+		opts = {
+			file_panel = {
+				win_config = {
+					width = 70,
+				},
+			},
+		},
+	},
 }
