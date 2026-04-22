@@ -32,8 +32,12 @@ return {
 					end,
 				},
 				window = {
+					completion = {
+						border = "",
+					},
 					documentation = {
 						max_width = 120,
+						border = "",
 					},
 				},
 				mapping = cmp.mapping.preset.insert({

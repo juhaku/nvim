@@ -86,12 +86,49 @@ return {
 	{ "tpope/vim-fugitive" },
 	{
 		"dlyongemallo/diffview.nvim",
-		opts = {
-			file_panel = {
-				win_config = {
-					width = 70,
+		config = function()
+			local ok, actions = pcall(require, "diffview.actions")
+			if not ok then
+				vim.notify("Failed not load diffview.actions", vim.log.levels.ERROR)
+				return
+			end
+			require("diffview").setup({
+				file_panel = {
+					win_config = {
+						width = 70,
+					},
 				},
-			},
-		},
+				keymaps = {
+					view = {
+						{
+							"n",
+							"<C-n>",
+							actions.select_next_entry,
+							{ desc = "Open the diff for the next file (alternative tab)" },
+						},
+						{
+							"n",
+							"<C-p>",
+							actions.select_prev_entry,
+							{ desc = "Open the diff for the previous file (alternative s-tab)" },
+						},
+					},
+					file_panel = {
+						{
+							"n",
+							"<C-n>",
+							actions.select_next_entry,
+							{ desc = "Open the diff for the next file (alternative tab)" },
+						},
+						{
+							"n",
+							"<C-p>",
+							actions.select_prev_entry,
+							{ desc = "Open the diff for the previous file (alternative s-tab)" },
+						},
+					},
+				},
+			})
+		end,
 	},
 }
