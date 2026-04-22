@@ -14,6 +14,7 @@ Install following plugins manually via `:Mason` if not installed.
 
 * codelldb
 * delve
+* revive
 * gofumpt
 * goimports
 * prettier
