@@ -67,7 +67,7 @@ if global.autosave == true then
 				return
 			end
 			local _timer = nil
-			local save_file = function(buf)
+			local function save_file(buf)
 				return function(id)
 					if id ~= nil then
 						---@diagnostic disable-next-line: missing-parameter
