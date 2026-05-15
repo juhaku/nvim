@@ -154,6 +154,32 @@ local M = {
 		require("jdtls").setup_dap({ hotcodereplace = "auto" })
 		require("jdtls.dap").setup_dap_main_class_configs()
 
+		local dap = require("dap")
+		if not dap.configurations.java then
+			dap.configurations.java = {}
+		end
+		-- Avoid duplicate entries on re-attach
+		local has_remote = false
+		for _, cfg in ipairs(dap.configurations.java) do
+			if cfg.name == "Remote Debug (Attach)" then
+				has_remote = true
+				break
+			end
+		end
+		if not has_remote then
+			table.insert(dap.configurations.java, {
+				type = "java",
+				request = "attach",
+				name = "Remote Debug (Attach)",
+				hostName = function()
+					return vim.fn.input("Remote host: ", "127.0.0.1")
+				end,
+				port = function()
+					return tonumber(vim.fn.input("Remote port: ", "5005"))
+				end,
+			})
+		end
+
 		vim.cmd([[
             command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_compile JdtCompile lua require('jdtls').compile(<f-args>)
             command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_set_runtime JdtSetRuntime lua require('jdtls').set_runtime(<f-args>)
