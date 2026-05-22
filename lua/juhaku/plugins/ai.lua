@@ -11,8 +11,9 @@ return {
 		},
 		enabled = is_ai_enabled,
 		opts = {
-			cmd = require("global").is_mac() and { "source", "~/.zshrc", "&&", "copilot", "--yolo" }
-				or { "~/.local/bin/copilot", "--yolo" },
+			cmd = require("global").is_mac()
+					and { name = "copilot", cmd = { "source", "~/.zshrc", "&&", "copilot", "--yolo" } }
+				or { name = "copilot", cmd = { "~/.local/bin/copilot", "--yolo" } },
 			-- width = 100,
 			keymaps = {
 				[{ "n" }] = {
